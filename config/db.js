@@ -1,10 +1,10 @@
 import { Pool } from "pg";
-import logger from "../utils/logger";
-import { query } from "winston";
+import logger from "../utils/logger.js";
+import 'dotenv/config'; 
 
-const { DB_USER, DB_PASSWORD, DB_PORT, DB_NAME } = process.env;
+const { DB_USER, DB_PASSWORD, DB_PORT, DB_NAME , DB_HOST} = process.env;
 
-if (!DB_USER || !DB_PASSWORD || !DB_PORT || !DB_NAME) {
+if (!DB_USER || !DB_PASSWORD || !DB_PORT || !DB_NAME || !DB_HOST) {
   logger.error(
     "Database environment variables are missing! Create or check your .env files"
   );
@@ -31,7 +31,7 @@ pool.on("error", (err, client) => {
   process.exit(-1);
 });
 
-async function intializeDbSchema() {
+async function initializeDbSchema() {
   const client = await pool.connect();
 
   try {
@@ -89,15 +89,15 @@ async function intializeDbSchema() {
     logger.info("Time slots table has been created successfully");
 
     await query(`
-            CREATE INDEX idx_time_slots_provider ON time_slots(provider_id);
+            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);
           `);
     await query(`
-            CREATE INDEX idx_time_slots_day_time ON time_slots(day, start_time, end_time);
+            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_time);
           `);
     logger.info("Optimization indexes added");
 
     await query(`
-            CREATE TABLE appointments (
+            CREATE TABLE IF NOT EXISTS appointments (
             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
             client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
             provider_id UUID NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
@@ -112,11 +112,11 @@ async function intializeDbSchema() {
     logger.info("Appointments table created successfully")
 
     await query(`
-                CREATE INDEX idx_appointments_provider_status ON appointments(provider_id, status);
-                CREATE INDEX idx_appointments_client_status ON appointments(client_id, status);
+                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provider_id, status);
+                CREATE INDEX IF NOT EXISTS idx_appointments_client_status ON appointments(client_id, status);
               `);
   } catch (err) {
-    logger.error(`Error while initializing the schema`, error)
+    logger.error(`Error while initializing the schema`, err)
     process.exit(1)
   }
   finally {
@@ -148,4 +148,4 @@ async function connectToDb() {
     }
   }
 
-  export {pool, connectToDb, intializeDbSchema, query}
+  export {pool, connectToDb, initializeDbSchema, query}

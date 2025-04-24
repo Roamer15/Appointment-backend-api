@@ -1,0 +1,54 @@
+{
+  code: 'ERR_SERVER_ALREADY_LISTEN',
+  level: 'error',
+  message: 'Failed during server startup process:  Listen method has been called more than once without closing.',
+  stack: 'Error [ERR_SERVER_ALREADY_LISTEN]: Listen method has been called more than once without closing.\n' +
+    '    at Server.listen (node:net:2041:11)\n' +
+    '    at startServer (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/bin/www:132:12)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-24 13:32:46'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '            CREATE INDEX idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '          ..., params: undefined, error: relation "idx_time_slots_provider" already exists}',
+  level: 'error',
+  timestamp: '2025-04-24 13:39:04'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '            CREATE INDEX idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '          ..., params: undefined, error: relation "idx_time_slots_provider" already exists}',
+  level: 'error',
+  timestamp: '2025-04-24 14:01:42'
+}
+{
+  level: 'error',
+  message: 'Failed during server startup process:  initializeDbSchema is not defined',
+  stack: 'ReferenceError: initializeDbSchema is not defined\n' +
+    '    at startSever (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/bin/www:279:5)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-24 14:13:04'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '            CREATE INDEX idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '          ..., params: undefined, error: relation "idx_time_slots_provider" already exists}',
+  level: 'error',
+  timestamp: '2025-04-24 14:14:20'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '            CREATE INDEX idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '          ..., params: undefined, error: relation "idx_time_slots_provider" already exists}',
+  level: 'error',
+  timestamp: '2025-04-24 14:15:07'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '            CREATE TABLE appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n' +
+    '..., params: undefined, error: relation "appointments" already exists}',
+  level: 'error',
+  timestamp: '2025-04-24 14:16:05'
+}
