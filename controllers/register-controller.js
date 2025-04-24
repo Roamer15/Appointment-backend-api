@@ -1,0 +1,49 @@
+import { query } from "../config/db.js"
+import logger from "../utils/logger.js"
+import bcrypt from "bcryptjs"
+
+const HASH_SALT = 10;
+
+export async function registrationHandler(req, res, next) {
+  const { firstName, lastName, email, password, profileImageUrl } = req.body;
+
+  try {
+    // 1. Check if client already exists
+    const clientCheckQuery = 'SELECT email FROM clients WHERE email = $1';
+    const clientCheckResult = await query(clientCheckQuery, [email]);
+
+    if (clientCheckResult.rows.length > 0) {
+      logger.warn(`Registration attempt failed: Email already exists - email: ${email}`);
+      return res.status(409).json({ message: "Email already in use" });
+    }
+
+    // 2. Hash password
+    const passwordHash = await bcrypt.hash(password, HASH_SALT);
+    logger.debug(`Password hashed: ${passwordHash}`);
+
+    // 3. Insert into clients
+    const insertClientSql = `
+      INSERT INTO clients (first_name, last_name, email, password, profile_image_url)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id, first_name, last_name
+    `;
+
+    const newClientResult = await query(insertClientSql, [firstName, lastName, email, passwordHash, profileImageUrl]);
+    const newUser = newClientResult.rows[0];
+
+    logger.info(`User registered successfully: ${newUser.id}`);
+
+    // 4. Send success response
+    res.status(201).json({
+      message: "User registered successfully",
+      user: {
+        id: newUser.id,
+        name: `${newUser.first_name} ${newUser.last_name}`
+      }
+    });
+
+  } catch (error) {
+    logger.error(`Error during user registration for ${email}: `, error);
+    next(error);
+  }
+}
