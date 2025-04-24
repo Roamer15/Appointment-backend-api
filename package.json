@@ -2,6 +2,7 @@
   "name": "appointment-backend-api",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "start": "node ./bin/www",
     "dev": "node ./bin/www"
@@ -12,6 +13,7 @@
     "debug": "~4.4.0",
     "express": "~5.1.0",
     "morgan": "~1.10.0",
+    "pg": "^8.15.5",
     "winston": "^3.17.0"
   }
 }
