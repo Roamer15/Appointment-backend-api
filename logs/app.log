@@ -1206,3 +1206,1374 @@
   level: 'info',
   timestamp: '2025-04-24 15:54:44'
 }
+{
+  level: 'info',
+  message: 'Received',
+  timestamp: '2025-04-24 17:59:38'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 12ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 9ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 0ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 0ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 1ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:41'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 17:59:42'
+}
+{
+  level: 'info',
+  message: 'Received',
+  timestamp: '2025-04-24 18:02:15'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 15ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 0ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 7ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 0ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:39'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:40'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 2ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:40'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:02:40'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:05:22'
+}
+{
+  message: 'Error executing query: { text: SELECT id, email, first_name, last_name, password FROM users WHERE email = $1..., params: ["brian@gmail.com"], error: relation "users" does not exist}',
+  level: 'error',
+  timestamp: '2025-04-24 18:05:22'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:05:22 +0000] "POST /auth/login HTTP/1.1" 500 418 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:05:22'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:07:08'
+}
+{
+  message: 'Error executing query: { text: SELECT id, email, first_name, last_name, password FROM users WHERE email = $1..., params: ["brian@gmail.com"], error: relation "users" does not exist}',
+  level: 'error',
+  timestamp: '2025-04-24 18:07:08'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:07:08 +0000] "POST /auth/login HTTP/1.1" 500 418 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:07:08'
+}
+{
+  level: 'info',
+  message: 'Received',
+  timestamp: '2025-04-24 18:09:17'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 14ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 0ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 10ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 2ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:19'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:31'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 64ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:31'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:09:31 +0000] "POST /auth/login HTTP/1.1" 500 418 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:09:31'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:10:17'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 46ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:10:17'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:10:17 +0000] "POST /auth/login HTTP/1.1" 500 418 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:10:17'
+}
+{
+  level: 'info',
+  message: 'Received',
+  timestamp: '2025-04-24 18:12:29'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 13ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 10ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 0ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 1ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:01'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:22'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:22'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 70ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:22'
+}
+{
+  level: 'error',
+  message: 'Error during login process for brian@gmail.com:  bcrypt is not defined',
+  stack: 'ReferenceError: bcrypt is not defined\n' +
+    '    at loginHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/login-controller.js:18:34)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-24 18:13:22'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:13:23 +0000] "POST /auth/login HTTP/1.1" 500 35 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:23'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 88ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:23'
+}
+{
+  level: 'error',
+  message: 'Error during login process for brian@gmail.com:  bcrypt is not defined',
+  stack: 'ReferenceError: bcrypt is not defined\n' +
+    '    at loginHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/login-controller.js:18:34)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-24 18:13:23'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:13:23 +0000] "POST /auth/login HTTP/1.1" 500 35 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:13:23'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:11'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 55ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:11'
+}
+{
+  level: 'error',
+  message: 'Error during login process for brian@gmail.com:  bcrypt is not defined',
+  stack: 'ReferenceError: bcrypt is not defined\n' +
+    '    at loginHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/login-controller.js:18:34)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-24 18:14:11'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:14:11 +0000] "POST /auth/login HTTP/1.1" 500 35 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:11'
+}
+{
+  level: 'info',
+  message: 'Received',
+  timestamp: '2025-04-24 18:14:16'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:18'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:18'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 21ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 2ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:19'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 19ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:27'
+}
+{
+  level: 'error',
+  message: 'Error during login process for brian@gmail.com:  user is not defined',
+  stack: 'ReferenceError: user is not defined\n' +
+    '    at loginHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/login-controller.js:28:19)',
+  timestamp: '2025-04-24 18:14:27'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:14:27 +0000] "POST /auth/login HTTP/1.1" 500 33 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:14:27'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:15:56'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 62ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:15:56'
+}
+{
+  level: 'error',
+  message: 'Error during login process for brian@gmail.com:  user is not defined',
+  stack: 'ReferenceError: user is not defined\n' +
+    '    at loginHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/login-controller.js:28:19)',
+  timestamp: '2025-04-24 18:15:57'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:15:57 +0000] "POST /auth/login HTTP/1.1" 500 33 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:15:57'
+}
+{
+  level: 'info',
+  message: 'Received',
+  timestamp: '2025-04-24 18:16:02'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 11ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 1ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:03'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 4ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:12'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 124ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:12'
+}
+{
+  level: 'error',
+  message: 'Error during login process for brian@gmail.com:  jwt is not defined',
+  stack: 'ReferenceError: jwt is not defined\n' +
+    '    at loginHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/login-controller.js:33:11)\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at process.processImmediate (node:internal/timers:479:9)',
+  timestamp: '2025-04-24 18:16:12'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:16:12 +0000] "POST /auth/login HTTP/1.1" 500 32 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:12'
+}
+{
+  level: 'error',
+  message: 'Error during login process for brian@gmail.com:  jwt is not defined',
+  stack: 'ReferenceError: jwt is not defined\n' +
+    '    at loginHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/login-controller.js:33:11)',
+  timestamp: '2025-04-24 18:16:12'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:16:12 +0000] "POST /auth/login HTTP/1.1" 500 32 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:12'
+}
+{
+  level: 'info',
+  message: 'Received',
+  timestamp: '2025-04-24 18:16:45'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 14ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 0ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 0ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 0ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:48'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 12ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 113ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: 'User logged in successfully: brian@gmail.com (ID: a9b58b58-e455-4dfe-88c8-16cd0878c210)',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:16:56 +0000] "POST /auth/login HTTP/1.1" 200 393 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: 'User logged in successfully: brian@gmail.com (ID: a9b58b58-e455-4dfe-88c8-16cd0878c210)',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:16:56 +0000] "POST /auth/login HTTP/1.1" 200 393 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: 'Client connected from Pool (Total count: 3',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["brian@gmail.com"], duration: 231ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: 'User logged in successfully: brian@gmail.com (ID: a9b58b58-e455-4dfe-88c8-16cd0878c210)',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:17:16:56 +0000] "POST /auth/login HTTP/1.1" 200 393 "-" "insomnia/11.0.2"',
+  level: 'info',
+  timestamp: '2025-04-24 18:16:56'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 20:47:34'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:19:47:34 +0000] "POST /api/auth/register HTTP/1.1" 404 157 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 20:47:34'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 20:47:34'
+}
+{
+  message: 'Executed query: { text: DELETE FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 71ms, rows: 0}',
+  level: 'info',
+  timestamp: '2025-04-24 20:47:34'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 20:48:45'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 20:48:45'
+}
+{
+  message: 'Executed query: { text: DELETE FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 79ms, rows: 0}',
+  level: 'info',
+  timestamp: '2025-04-24 20:48:45'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:46'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: 'Executed query: { text: SELECT email FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 44ms, rows: 0}',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '      INSERT INTO clients (first_name, last_name, email, password, profile_image_url)\n' +
+    '      VALUES ..., params: ["Brian","Testman","brian.testman@example.com","$2b$10$oO812uPRA/WECJaOZ1gfO.nOE1o0vkOXljE1MGy1RGMk0ETW1FtZi",""], duration: 10ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: 'User registered successfully: b486f2f2-e19f-4b00-b28b-b7aed76b6e81',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:19:52:47 +0000] "POST /auth/register HTTP/1.1" 201 118 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: 'Executed query: { text: SELECT email FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 3ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: 'Registration attempt failed: Email already exists - email: brian.testman@example.com',
+  level: 'warn',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:19:52:47 +0000] "POST /auth/register HTTP/1.1" 409 34 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: 'Executed query: { text: DELETE FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 11ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:52:47'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '    INSERT INTO clients (first_name, last_name, email, password, profile_image_url)\n' +
+    '    VALUES ($1,..., params: ["Logan","Testman","logan.test@example.com","123456789",""], duration: 115ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: SELECT email FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 49ms, rows: 0}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["logan.test@example.com"], duration: 4ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'User logged in successfully: logan.test@example.com (ID: 9895ef84-c61f-41a6-816f-96dd39944bca)',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:19:58:14 +0000] "POST /auth/login HTTP/1.1" 200 413 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["logan.test@example.com"], duration: 1ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Login attempt failed: Incorrect password - logan.test@example.com',
+  level: 'warn',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:19:58:14 +0000] "POST /auth/login HTTP/1.1" 401 30 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["fakeuser@example.com"], duration: 2ms, rows: 0}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  level: 'error',
+  message: "Error during login process for fakeuser@example.com:  Cannot read properties of undefined (reading 'password')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'password')\n" +
+    '    at loginHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/login-controller.js:20:72)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:19:58:14 +0000] "POST /auth/login HTTP/1.1" 500 70 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: DELETE FROM clients WHERE email = $1..., params: ["logan.test@example.com"], duration: 24ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '      INSERT INTO clients (first_name, last_name, email, password, profile_image_url)\n' +
+    '      VALUES ..., params: ["Brian","Testman","brian.testman@example.com","$2b$10$x/L5i3pLahkKvvgfhXUifuTOIjaIUmD5HSRuUTdZwZsBl6WvNrTEa",""], duration: 5ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'User registered successfully: 703e1d26-f7b7-4b76-ba7e-945536a088c4',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:19:58:14 +0000] "POST /auth/register HTTP/1.1" 201 118 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: SELECT email FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 1ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Registration attempt failed: Email already exists - email: brian.testman@example.com',
+  level: 'warn',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:19:58:14 +0000] "POST /auth/register HTTP/1.1" 409 34 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Executed query: { text: DELETE FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 6ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 20:58:14'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:36'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:36'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:36'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '    INSERT INTO clients (first_name, last_name, email, password, profile_image_url)\n' +
+    '    VALUES ($1,..., params: ["Logan","Testman","logan.test@example.com","123456789",""], duration: 78ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:36'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:36'
+}
+{
+  message: 'Executed query: { text: SELECT email FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 58ms, rows: 0}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:36'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["logan.test@example.com"], duration: 8ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:36'
+}
+{
+  message: 'User logged in successfully: logan.test@example.com (ID: 9d9d9578-6d23-4c89-b19d-eceed0ca063c)',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:20:03:37 +0000] "POST /auth/login HTTP/1.1" 200 413 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["logan.test@example.com"], duration: 2ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'Login attempt failed: Incorrect password - logan.test@example.com',
+  level: 'warn',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:20:03:37 +0000] "POST /auth/login HTTP/1.1" 401 30 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'Executed query: { text: SELECT id, email, first_name, last_name, password FROM clients WHERE email = $1..., params: ["fakeuser@example.com"], duration: 2ms, rows: 0}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: "Login Attempt failed: Account with email fakeuser@example.com doesn't exist",
+  level: 'warn',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:20:03:37 +0000] "POST /auth/login HTTP/1.1" 401 52 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'Executed query: { text: DELETE FROM clients WHERE email = $1..., params: ["logan.test@example.com"], duration: 8ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '      INSERT INTO clients (first_name, last_name, email, password, profile_image_url)\n' +
+    '      VALUES ..., params: ["Brian","Testman","brian.testman@example.com","$2b$10$/aL2gmrDdhmA0lPRGMkLNu2WyGLTo2oFluCXt1WlEcSXm589t6J8y",""], duration: 6ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'User registered successfully: 6f5a6cf0-db61-4708-a55f-d5b2f2345c4b',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:20:03:37 +0000] "POST /auth/register HTTP/1.1" 201 118 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'Executed query: { text: SELECT email FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 1ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'Registration attempt failed: Email already exists - email: brian.testman@example.com',
+  level: 'warn',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: '::ffff:127.0.0.1 - - [24/Apr/2025:20:03:37 +0000] "POST /auth/register HTTP/1.1" 409 34 "-" "-"',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  message: 'Executed query: { text: DELETE FROM clients WHERE email = $1..., params: ["brian.testman@example.com"], duration: 4ms, rows: 1}',
+  level: 'info',
+  timestamp: '2025-04-24 21:03:37'
+}
+{
+  level: 'info',
+  message: 'Received',
+  timestamp: '2025-04-24 21:18:48'
+}
