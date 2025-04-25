@@ -13,6 +13,7 @@ import indexRouter from './routes/index.js'
 import usersRouter from './routes/users.js'
 import authRouter from './routes/auth.js'
 import timeslotRouter from './routes/timeslots.js'
+import searchRouter from './routes/search.js'
 
 const app = express();
 
@@ -22,10 +23,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter)
 app.use('/timeslots', timeslotRouter)
+app.use('/search', searchRouter)
 
 export default app

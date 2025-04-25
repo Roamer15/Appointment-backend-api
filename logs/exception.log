@@ -270,3 +270,713 @@
   ],
   timestamp: '2025-04-25 13:11:15'
 }
+{
+  error: TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError
+      at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)
+      at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)
+      at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)
+      at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74
+      at Array.map (<anonymous>)
+      at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)
+      at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)
+      at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)
+      at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)
+      at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17),
+  level: 'error',
+  message: 'uncaughtException: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  stack: 'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  exception: true,
+  date: 'Fri Apr 25 2025 15:05:24 GMT+0100 (West Africa Standard Time)',
+  process: {
+    pid: 208096,
+    uid: 1000,
+    gid: 1000,
+    cwd: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api',
+    execPath: '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+    version: 'v23.4.0',
+    argv: [
+      '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+      '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/bin/www'
+    ],
+    memoryUsage: {
+      rss: 89018368,
+      heapTotal: 34062336,
+      heapUsed: 20870120,
+      external: 3564047,
+      arrayBuffers: 78460
+    }
+  },
+  os: { loadavg: [ 1.49, 1, 0.98 ], uptime: 333810.47 },
+  trace: [
+    {
+      column: 15,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Iter.consume',
+      line: 123,
+      method: 'consume',
+      native: false
+    },
+    {
+      column: 16,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'consume',
+      line: 179,
+      method: null,
+      native: false
+    },
+    {
+      column: 20,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'parse',
+      line: 183,
+      method: null,
+      native: false
+    },
+    {
+      column: 74,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: null,
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: null,
+      file: null,
+      function: 'Array.map',
+      line: null,
+      method: 'map',
+      native: false
+    },
+    {
+      column: 25,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'pathToRegexp',
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: 30,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Object.match',
+      line: 264,
+      method: 'match',
+      native: false
+    },
+    {
+      column: 23,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'matcher',
+      line: 86,
+      method: null,
+      native: false
+    },
+    {
+      column: 62,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'new Layer',
+      line: 93,
+      method: null,
+      native: false
+    },
+    {
+      column: 17,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js',
+      function: 'Function.route',
+      line: 428,
+      method: 'route',
+      native: false
+    }
+  ],
+  timestamp: '2025-04-25 15:05:24'
+}
+{
+  error: TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError
+      at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)
+      at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)
+      at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)
+      at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74
+      at Array.map (<anonymous>)
+      at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)
+      at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)
+      at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)
+      at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)
+      at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17),
+  level: 'error',
+  message: 'uncaughtException: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  stack: 'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  exception: true,
+  date: 'Fri Apr 25 2025 15:06:18 GMT+0100 (West Africa Standard Time)',
+  process: {
+    pid: 208231,
+    uid: 1000,
+    gid: 1000,
+    cwd: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api',
+    execPath: '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+    version: 'v23.4.0',
+    argv: [
+      '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+      '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/bin/www'
+    ],
+    memoryUsage: {
+      rss: 88420352,
+      heapTotal: 33538048,
+      heapUsed: 20782616,
+      external: 3564047,
+      arrayBuffers: 78460
+    }
+  },
+  os: { loadavg: [ 1.87, 1.17, 1.04 ], uptime: 333864.98 },
+  trace: [
+    {
+      column: 15,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Iter.consume',
+      line: 123,
+      method: 'consume',
+      native: false
+    },
+    {
+      column: 16,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'consume',
+      line: 179,
+      method: null,
+      native: false
+    },
+    {
+      column: 20,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'parse',
+      line: 183,
+      method: null,
+      native: false
+    },
+    {
+      column: 74,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: null,
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: null,
+      file: null,
+      function: 'Array.map',
+      line: null,
+      method: 'map',
+      native: false
+    },
+    {
+      column: 25,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'pathToRegexp',
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: 30,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Object.match',
+      line: 264,
+      method: 'match',
+      native: false
+    },
+    {
+      column: 23,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'matcher',
+      line: 86,
+      method: null,
+      native: false
+    },
+    {
+      column: 62,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'new Layer',
+      line: 93,
+      method: null,
+      native: false
+    },
+    {
+      column: 17,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js',
+      function: 'Function.route',
+      line: 428,
+      method: 'route',
+      native: false
+    }
+  ],
+  timestamp: '2025-04-25 15:06:18'
+}
+{
+  error: TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError
+      at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)
+      at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)
+      at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)
+      at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74
+      at Array.map (<anonymous>)
+      at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)
+      at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)
+      at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)
+      at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)
+      at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17),
+  level: 'error',
+  message: 'uncaughtException: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  stack: 'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  exception: true,
+  date: 'Fri Apr 25 2025 15:09:09 GMT+0100 (West Africa Standard Time)',
+  process: {
+    pid: 208581,
+    uid: 1000,
+    gid: 1000,
+    cwd: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api',
+    execPath: '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+    version: 'v23.4.0',
+    argv: [
+      '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+      '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/bin/www'
+    ],
+    memoryUsage: {
+      rss: 85954560,
+      heapTotal: 33742848,
+      heapUsed: 21242920,
+      external: 3564047,
+      arrayBuffers: 78460
+    }
+  },
+  os: { loadavg: [ 1.8, 1.38, 1.13 ], uptime: 334035.83 },
+  trace: [
+    {
+      column: 15,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Iter.consume',
+      line: 123,
+      method: 'consume',
+      native: false
+    },
+    {
+      column: 16,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'consume',
+      line: 179,
+      method: null,
+      native: false
+    },
+    {
+      column: 20,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'parse',
+      line: 183,
+      method: null,
+      native: false
+    },
+    {
+      column: 74,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: null,
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: null,
+      file: null,
+      function: 'Array.map',
+      line: null,
+      method: 'map',
+      native: false
+    },
+    {
+      column: 25,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'pathToRegexp',
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: 30,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Object.match',
+      line: 264,
+      method: 'match',
+      native: false
+    },
+    {
+      column: 23,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'matcher',
+      line: 86,
+      method: null,
+      native: false
+    },
+    {
+      column: 62,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'new Layer',
+      line: 93,
+      method: null,
+      native: false
+    },
+    {
+      column: 17,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js',
+      function: 'Function.route',
+      line: 428,
+      method: 'route',
+      native: false
+    }
+  ],
+  timestamp: '2025-04-25 15:09:09'
+}
+{
+  error: TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError
+      at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)
+      at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)
+      at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)
+      at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74
+      at Array.map (<anonymous>)
+      at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)
+      at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)
+      at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)
+      at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)
+      at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17),
+  level: 'error',
+  message: 'uncaughtException: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  stack: 'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  exception: true,
+  date: 'Fri Apr 25 2025 15:10:30 GMT+0100 (West Africa Standard Time)',
+  process: {
+    pid: 208902,
+    uid: 1000,
+    gid: 1000,
+    cwd: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api',
+    execPath: '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+    version: 'v23.4.0',
+    argv: [
+      '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+      '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/bin/www'
+    ],
+    memoryUsage: {
+      rss: 85233664,
+      heapTotal: 33800192,
+      heapUsed: 20798352,
+      external: 3564047,
+      arrayBuffers: 78460
+    }
+  },
+  os: { loadavg: [ 1.44, 1.39, 1.16 ], uptime: 334117 },
+  trace: [
+    {
+      column: 15,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Iter.consume',
+      line: 123,
+      method: 'consume',
+      native: false
+    },
+    {
+      column: 16,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'consume',
+      line: 179,
+      method: null,
+      native: false
+    },
+    {
+      column: 20,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'parse',
+      line: 183,
+      method: null,
+      native: false
+    },
+    {
+      column: 74,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: null,
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: null,
+      file: null,
+      function: 'Array.map',
+      line: null,
+      method: 'map',
+      native: false
+    },
+    {
+      column: 25,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'pathToRegexp',
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: 30,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Object.match',
+      line: 264,
+      method: 'match',
+      native: false
+    },
+    {
+      column: 23,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'matcher',
+      line: 86,
+      method: null,
+      native: false
+    },
+    {
+      column: 62,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'new Layer',
+      line: 93,
+      method: null,
+      native: false
+    },
+    {
+      column: 17,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js',
+      function: 'Function.route',
+      line: 428,
+      method: 'route',
+      native: false
+    }
+  ],
+  timestamp: '2025-04-25 15:10:30'
+}
+{
+  error: TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError
+      at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)
+      at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)
+      at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)
+      at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74
+      at Array.map (<anonymous>)
+      at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)
+      at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)
+      at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)
+      at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)
+      at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17),
+  level: 'error',
+  message: 'uncaughtException: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  stack: 'TypeError: Unexpected ? at 37, expected END: https://git.new/pathToRegexpError\n' +
+    '    at Iter.consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:123:15)\n' +
+    '    at consume (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:179:16)\n' +
+    '    at parse (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:183:20)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:74\n' +
+    '    at Array.map (<anonymous>)\n' +
+    '    at pathToRegexp (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:294:25)\n' +
+    '    at Object.match (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js:264:30)\n' +
+    '    at matcher (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:86:23)\n' +
+    '    at new Layer (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:93:62)\n' +
+    '    at Function.route (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:428:17)',
+  exception: true,
+  date: 'Fri Apr 25 2025 15:10:46 GMT+0100 (West Africa Standard Time)',
+  process: {
+    pid: 208952,
+    uid: 1000,
+    gid: 1000,
+    cwd: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api',
+    execPath: '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+    version: 'v23.4.0',
+    argv: [
+      '/home/com/.nvm/versions/node/v23.4.0/bin/node',
+      '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/bin/www'
+    ],
+    memoryUsage: {
+      rss: 86564864,
+      heapTotal: 34004992,
+      heapUsed: 21326136,
+      external: 3564047,
+      arrayBuffers: 78460
+    }
+  },
+  os: { loadavg: [ 1.19, 1.34, 1.14 ], uptime: 334133.18 },
+  trace: [
+    {
+      column: 15,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Iter.consume',
+      line: 123,
+      method: 'consume',
+      native: false
+    },
+    {
+      column: 16,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'consume',
+      line: 179,
+      method: null,
+      native: false
+    },
+    {
+      column: 20,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'parse',
+      line: 183,
+      method: null,
+      native: false
+    },
+    {
+      column: 74,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: null,
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: null,
+      file: null,
+      function: 'Array.map',
+      line: null,
+      method: 'map',
+      native: false
+    },
+    {
+      column: 25,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'pathToRegexp',
+      line: 294,
+      method: null,
+      native: false
+    },
+    {
+      column: 30,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/path-to-regexp/dist/index.js',
+      function: 'Object.match',
+      line: 264,
+      method: 'match',
+      native: false
+    },
+    {
+      column: 23,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'matcher',
+      line: 86,
+      method: null,
+      native: false
+    },
+    {
+      column: 62,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js',
+      function: 'new Layer',
+      line: 93,
+      method: null,
+      native: false
+    },
+    {
+      column: 17,
+      file: '/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js',
+      function: 'Function.route',
+      line: 428,
+      method: 'route',
+      native: false
+    }
+  ],
+  timestamp: '2025-04-25 15:10:46'
+}

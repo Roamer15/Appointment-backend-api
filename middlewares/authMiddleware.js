@@ -12,12 +12,12 @@ function authMiddleware(req, res, next){
   }
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET)
-    req.client = decoded.client
-    logger.debug(`Auth middleware: Token verified for user ID ${req.client.id}`)
+    req.user = decoded.user
+    logger.debug(`Auth middleware: Token verified for CLient ID ${req.user.id}`)
     next()
   } catch (error) {
-    logger.error('Auth middleware: token verification failed', err)
-    if (err.name === 'TokenExpiredError') {
+    logger.error('Auth middleware: token verification failed', error)
+    if (error.name === 'TokenExpiredError') {
       return res.status(401).json({ message: "Token is expired" })
     }
     if (error.name === 'JsonWebTokenError') {

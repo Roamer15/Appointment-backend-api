@@ -73,7 +73,7 @@ async function initializeDbSchema() {
             CREATE TABLE IF NOT EXISTS time_slots (
               id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
               provider_id UUID NOT NULL,
-              day VARCHAR(15) NOT NULL,
+              day DATE NOT NULL,
               start_time TIME(0) NOT NULL,
               end_time TIME(0) NOT NULL,
               is_booked BOOLEAN DEFAULT FALSE,

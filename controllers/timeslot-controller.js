@@ -14,6 +14,27 @@ function formatTimestamps(slot, zone = "Africa/Douala") {
   };
 }
 
+export async function getAvailableSlots(req, res) {
+    const providerId = req.params.id;
+    const { from, to } = req.query;
+  
+    try {
+      const result = await query(`
+        SELECT * FROM time_slots
+        WHERE provider_id = $1
+          AND is_booked = FALSE
+          AND day BETWEEN $2 AND $3
+        ORDER BY day, start_time
+      `, [providerId, from, to]);
+  
+      logger.info(`Slots found for interval`)
+      res.json({ availableSlots: result.rows });
+    } catch (error) {
+      res.status(500).json({ message: "Could not retrieve available slots", error: error.message });
+    }
+  }
+  
+
 export async function updateTimeSlot(req, res) {
   const { providerId, slotId } = req.params;
   try {
@@ -88,7 +109,7 @@ export async function deleteTimeSlot(req, res) {
     //                                   message: `Slot deleted`,
     //                                   slot: deleteSlotResult.rows[0]
     //                                 })
-    return res.status(201).json({
+    return res.json({
       message: `Slot deleted`,
       slot: deletedSlot,
     });
@@ -108,7 +129,7 @@ export async function viewTimeSlot(req, res) {
                                WHERE provider_id = $1
                                ORDER BY day, start_time
                               `;
-                              
+
     const getTimeSlotsResult = await query(getTimeSlotsQuery, [providerId]);
     if (getTimeSlotsResult.rows.length === 0) {
       logger.warn(`No timeslots available for ${providerId}`);
