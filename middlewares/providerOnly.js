@@ -3,7 +3,7 @@ import logger from "../utils/logger.js";
 
 export async function providerOnly(req, res, next) {
   try {
-    const providerId = req.params?.id;
+    const providerId = req.params?.id || req.params?.providerId;
     logger.info(providerId)
     const result = await query(
       `SELECT id FROM providers WHERE id = $1`,

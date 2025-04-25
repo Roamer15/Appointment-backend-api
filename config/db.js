@@ -1,8 +1,8 @@
 import { Pool } from "pg";
 import logger from "../utils/logger.js";
-import 'dotenv/config'; 
+import "dotenv/config";
 
-const { DB_USER, DB_PASSWORD, DB_PORT, DB_NAME , DB_HOST} = process.env;
+const { DB_USER, DB_PASSWORD, DB_PORT, DB_NAME, DB_HOST } = process.env;
 
 if (!DB_USER || !DB_PASSWORD || !DB_PORT || !DB_NAME || !DB_HOST) {
   logger.error(
@@ -109,43 +109,80 @@ async function initializeDbSchema() {
 );
 
             `);
-    logger.info("Appointments table created successfully")
+    logger.info("Appointments table created successfully");
+
+    await client.query(`
+      CREATE OR REPLACE FUNCTION update_updated_at_column()
+      RETURNS TRIGGER AS $$
+      BEGIN
+         NEW.updated_at = NOW();
+         RETURN NEW;
+      END;
+      $$ language 'plpgsql';
+  `);
+    logger.debug("update_updated_at_column function ensured.");
+
+    await client.query(`
+  DO $$ BEGIN
+    IF NOT EXISTS (
+    SELECT 1 FROM pg_trigger 
+    WHERE tgname = 'update_time_slots_updated_at'
+  ) THEN
+      CREATE TRIGGER update_time_slots_updated_at
+      BEFORE UPDATE ON time_slots 
+      FOR EACH ROW 
+      EXECUTE FUNCTION update_updated_at_column();
+    END IF;
+  END $$;
+`);
+    logger.debug("Time slots update_at Trigger is checked and created");
 
     await query(`
                 CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provider_id, status);
                 CREATE INDEX IF NOT EXISTS idx_appointments_client_status ON appointments(client_id, status);
               `);
   } catch (err) {
-    logger.error(`Error while initializing the schema`, err)
-    process.exit(1)
-  }
-  finally {
-    client.release()
+    logger.error(`Error while initializing the schema`, err);
+    process.exit(1);
+  } finally {
+    client.release();
   }
 }
 
 async function connectToDb() {
-    try {
-      const client = await pool.connect()
-      logger.info(`Database connection pool established successfully`)
-      client.release()
-    } catch (error) {
-      logger.error('Unable to establish database connection pool', error)
-      process.exit(1)
-    }
+  try {
+    const client = await pool.connect();
+    logger.info(`Database connection pool established successfully`);
+    client.release();
+  } catch (error) {
+    logger.error("Unable to establish database connection pool", error);
+    process.exit(1);
   }
-  
-  async function query(text, params){
-    const start = Date.now()
-    try {
-      const response = await pool.query(text, params)
-      const duration = Date.now() - start;
-      logger.info(`Executed query: { text: ${text.substring(0, 100)}..., params: ${JSON.stringify(params)}, duration: ${duration}ms, rows: ${response.rowCount}}`);
-      return response
-    } catch (error) {
-      logger.error(`Error executing query: { text: ${text.substring(0, 100)}..., params: ${JSON.stringify(params)}, error: ${error.message}}`);
-      throw error
-    }
-  }
+}
 
-  export {pool, connectToDb, initializeDbSchema, query}
+async function query(text, params) {
+  const start = Date.now();
+  try {
+    const response = await pool.query(text, params);
+    const duration = Date.now() - start;
+    logger.info(
+      `Executed query: { text: ${text.substring(
+        0,
+        100
+      )}..., params: ${JSON.stringify(
+        params
+      )}, duration: ${duration}ms, rows: ${response.rowCount}}`
+    );
+    return response;
+  } catch (error) {
+    logger.error(
+      `Error executing query: { text: ${text.substring(
+        0,
+        100
+      )}..., params: ${JSON.stringify(params)}, error: ${error.message}}`
+    );
+    throw error;
+  }
+}
+
+export { pool, connectToDb, initializeDbSchema, query };

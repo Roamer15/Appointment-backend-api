@@ -1,8 +1,64 @@
 import logger from "../utils/logger.js";
 import { query } from "../config/db.js";
 
+export async function updateTimeSlot(req, res) {
+    const {providerId, slotId} = req.params
+    try {
+        const {day, startTime, endTime} = req.body
+        const updateSlotQuery = `UPDATE time_slots SET
+                                 day = $1, start_time = $2, end_time = $3
+                                 WHERE id = $4 AND provider_id = $5
+                                 RETURNING *
+                                `
+        const updateSlotResult = await query(updateSlotQuery, [day, startTime, endTime, slotId, providerId])
+
+        if(updateSlotResult.rows.length === 0) {
+            logger.warn(`Update failed: Either no time slot with id ${slotId} exists or you do not have access to this slot`)
+            const checkTaskExistenceQuery = 'SELECT id FROM time_slots WHERE id = $1'
+            const checkResult = await query(checkTaskExistenceQuery, [slotId])
+            if (checkResult.rows.length === 0) {
+              return res.status(404).json({ message: "Task does not exist" })
+            } else {
+              return res.status(403).json({ message: "You do not have permission to delete this task" })
+            }
+        }
+
+        logger.info(`Slot ${slotId} updated Successfully by provider ${providerId}`)
+        return res.json(updateSlotResult.rows[0])
+    }
+    catch(error) {
+    logger.error(`Error Updating time slot ${slotId} for provider ${providerId} : `, error)
+    return res.status(error.status || 500).json({ message: error.message || "Server error while update the time slot" })
+    }
+}
+
+
 export async function deleteTimeSlot(req, res) {
-    
+    const {providerId, slotId} = req.params
+
+    try {
+        const deleteSlotQuery = `DELETE
+                                 FROM time_slots
+                                 WHERE id = $1 AND provider_id = $2
+                                 RETURNING *
+                                `
+       const deleteSlotResult = await query(deleteSlotQuery, [slotId, providerId])
+
+       if (deleteSlotResult.rows.length === 0){
+        logger.warn("Time slot not found or not owned by provider")
+        res.status(401).json({message: "Slot does not exist"})
+       }
+
+       logger.info(`Time slot with id: ${slotId} has been deleted successfully`)
+       return res.status(201).json({  
+                                      message: `Slot deleted`,
+                                      slot: deleteSlotResult.rows[0]
+                                    })
+
+    } catch(error) {
+        logger.error(`Error deleting time slots for user ${providerId} : `, error)
+        res.status(500).json({ message: "Failed to fetch time slots", error: error.message });
+    }
 }
 export async function viewTimeSlot(req, res){
     const providerId = req.params.id
