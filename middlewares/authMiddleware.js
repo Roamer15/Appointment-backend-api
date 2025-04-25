@@ -12,8 +12,8 @@ function authMiddleware(req, res, next){
   }
   try {
     const decoded = jwt.decode(token, process.env.JWT_SECRET)
-    req.user = decoded.user
-    logger.debug(`Auth middleware: Token verified for user ID ${req.user.id}`)
+    req.client = decoded.client
+    logger.debug(`Auth middleware: Token verified for user ID ${req.client.id}`)
     next()
   } catch (error) {
     logger.error('Auth middleware: token verification failed', err)

@@ -1,158 +1,11 @@
 #!/usr/bin/env node
 
-// /**
-//  * Module dependencies.
-//  */
-// import app from '../app.js';
-// import debugLib from 'debug';
-// import logger from '../utils/logger.js';
-// import { connectToDb, intializeDbSchema } from '../config/db.js';
-// import http from 'http';
-
-// /**
-//  * Setup debug namespace.
-//  */
-// const debug = debugLib('appointment-backend-api:server');
-
-// /**
-//  * Get port from environment and store in Express.
-//  */
-// const port = normalizePort(process.env.PORT || '3000');
-// app.set('port', port);
-
-// /**
-//  * Create HTTP server.
-//  */
-// const server = http.createServer(app);
-
-// /**
-//  * Listen on provided port, on all network interfaces.
-//  */
-// server.listen(port);
-// server.on('error', onError);
-// server.on('listening', onListening);
-
-// /**
-//  * Normalize a port into a number, string, or false.
-//  */
-// function normalizePort(val) {
-//   const port = parseInt(val, 10);
-
-//   if (isNaN(port)) {
-//     return val; // named pipe
-//   }
-
-//   if (port >= 0) {
-//     return port; // port number
-//   }
-
-//   return false;
-// }
-
-// const signals = {
-//   'SIGHUP': 1,
-//   'SIGINT': 2,
-//   'SIGTERM': 15
-// };
-
-// let shuttingDown = false;
-
-// const shutdown = (signal, value) => {
-//   if (shuttingDown) {
-//     logger.info(`Already shutting down. Received ${signal} again`);
-//     return;
-//   }
-//   shuttingDown = true
-//   logger.info(`Received ${signal}. Shutting down gracefully`)
-//   server.close((err) => {
-//     if (err) {
-//       logger.error("Error closing server", err)
-//       process.exit(1)
-//     } else {
-//       logger.info('server closed. Exiting the process.')
-//       process.exit(0)
-//     }
-//   })
-// }
-
-// Object.keys(signals).forEach((signal) => {
-//   process.on(signal, () => {
-//     logger.info(`Recieved ${signal}`)
-//     shutdown(signal, signals[signal])
-//   })
-// })
-
-
-// /**
-//  * Event listener for HTTP server "error" event.
-//  */
-// function onError(error) {
-//   if (error.syscall !== 'listen') throw error;
-
-//   const bind = typeof port === 'string'
-//     ? 'Pipe ' + port
-//     : 'Port ' + port;
-
-//    // handle specific listen errors with friendly messages
-//    switch (error.code) {
-//     case 'EACCES':
-//       logger.error(bind + ' requires elevated privileges');
-//       process.exit(1);
-//       case 'EADDRINUSE':
-//         logger.error(`${bind} is already in use`);
-//         if (typeof port === 'number') {
-//           const newPort = port + 1;
-//           logger.info(`Attempting to use next available port: ${newPort}`);
-//           port = newPort;
-//           server.listen(port); // Try again with new port
-//         } else {
-//           logger.error('Cannot auto-switch ports for pipe connections');
-//           process.exit(1);
-//         }
-//         break;
-  
-//       default:
-//         logger.error('Server error:', error);
-//         throw error;
-//     }
-// }
-
-// /**
-//  * Event listener for HTTP server "listening" event.
-//  */
-// function onListening() {
-//   const addr = server.address();
-//   const bind = typeof addr === 'string'
-//     ? 'pipe ' + addr
-//     : 'port ' + addr.port;
-//   debug('Listening on ' + bind);
-// }
-
-
-
-// async function startServer() {
-//   try {
-//     logger.info(`Attempting to Start server on port ${port}`)
-//     await connectToDb()
-//     await intializeDbSchema()
-//     logger.info(`Starting server on port ${port}`)
-//     server.listen(port);
-//     server.on('error', onError);
-//     server.on('listening', onListening);
-//   } catch (error) {
-//     logger.error('Failed during server startup process: ', error)
-//     process.exit(1)
-//   }
-// }
-
-// startServer()
-
-
 import http from 'http';
 import debugLib from 'debug';
 import app from '../app.js';
 import logger from '../utils/logger.js';
 import { connectToDb, initializeDbSchema } from '../config/db.js';
+import {seedSampleProvidersAndSlots} from '../config/sampleProviders.js'
 
 const debug = debugLib('appointment-backend-api:server');
 
@@ -277,6 +130,7 @@ const startSever = async () => {
     logger.info(`Attempting to start server on port ${port}`)
     await connectToDb()
     await initializeDbSchema()
+    // await seedSampleProvidersAndSlots()
     logger.info(`Starting server on port ${port}`)
     server.listen(port);
     server.on('error', onError);

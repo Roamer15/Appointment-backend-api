@@ -124,3 +124,74 @@
     '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
   timestamp: '2025-04-24 20:58:14'
 }
+{
+  message: 'Port 3000 is already in use',
+  level: 'error',
+  timestamp: '2025-04-25 08:43:29'
+}
+{
+  message: 'Error executing query: { text: SELECT day, start_time, end_time, is_booked, created_at, updated_at FROM time_slots..., params: ["89da2cd5-1c59-4f8d-b374-f95ee0d6f533"], error: bind message supplies 1 parameters, but prepared statement "" requires 0}',
+  level: 'error',
+  timestamp: '2025-04-25 09:08:28'
+}
+{
+  length: 137,
+  name: 'error',
+  severity: 'ERROR',
+  code: '08P01',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'postgres.c',
+  line: '1731',
+  routine: 'exec_bind_message',
+  level: 'error',
+  message: 'Error displaying time slots for user 89da2cd5-1c59-4f8d-b374-f95ee0d6f533 :  bind message supplies 1 parameters, but prepared statement "" requires 0',
+  stack: 'error: bind message supplies 1 parameters, but prepared statement "" requires 0\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/pg-pool/index.js:45:11\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async query (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/config/db.js:141:24)\n' +
+    '    at async viewTimeSlot (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/timeslot-controller.js:10:32)',
+  timestamp: '2025-04-25 09:08:28'
+}
+{
+  message: 'Error executing query: { text: SELECT day, start_time, end_time, is_booked, created_at, updated_at FROM time_slots..., params: ["89da2cd5-1c59-4f8d-b374-f95ee0d6f533"], error: bind message supplies 1 parameters, but prepared statement "" requires 0}',
+  level: 'error',
+  timestamp: '2025-04-25 09:09:13'
+}
+{
+  length: 137,
+  name: 'error',
+  severity: 'ERROR',
+  code: '08P01',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'postgres.c',
+  line: '1731',
+  routine: 'exec_bind_message',
+  level: 'error',
+  message: 'Error displaying time slots for user 89da2cd5-1c59-4f8d-b374-f95ee0d6f533 :  bind message supplies 1 parameters, but prepared statement "" requires 0',
+  stack: 'error: bind message supplies 1 parameters, but prepared statement "" requires 0\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/pg-pool/index.js:45:11\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async query (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/config/db.js:141:24)\n' +
+    '    at async viewTimeSlot (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/timeslot-controller.js:10:32)',
+  timestamp: '2025-04-25 09:09:13'
+}
