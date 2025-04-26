@@ -20,7 +20,7 @@ export async function getAvailableSlots(req, res) {
   
     try {
       const result = await query(`
-        SELECT * FROM time_slots
+        SELECT day, start_time, end_time FROM time_slots
         WHERE provider_id = $1
           AND is_booked = FALSE
           AND day BETWEEN $2 AND $3
