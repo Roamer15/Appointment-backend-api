@@ -14,6 +14,7 @@ import usersRouter from './routes/users.js'
 import authRouter from './routes/auth.js'
 import timeslotRouter from './routes/timeslots.js'
 import searchRouter from './routes/search.js'
+import appointmentRouter from './routes/appointment.js'
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter)
 app.use('/timeslots', timeslotRouter)
 app.use('/search', searchRouter)
+app.use('/appointment', appointmentRouter)
 
 export default app

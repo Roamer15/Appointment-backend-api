@@ -458,3 +458,108 @@
     '    at processParams (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:664:3)',
   timestamp: '2025-04-25 16:20:24'
 }
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO appointments (client_id, provider_id, time_slot_id, appointment_date, status)\n' +
+    '   ..., params: ["a9b58b58-e455-4dfe-88c8-16cd0878c210","89da2cd5-1c59-4f8d-b374-f95ee0d6f533","0960e2ec-5d18-4b37-b791-d6ab6c13bbc3","2025-04-26T23:00:00.000Z","booked"], error: column "time_slot_id" of relation "appointments" does not exist}',
+  level: 'error',
+  timestamp: '2025-04-26 12:49:41'
+}
+{
+  length: 137,
+  name: 'error',
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '58',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_target.c',
+  line: '1066',
+  routine: 'checkInsertTargets',
+  level: 'error',
+  message: 'Error booking appointment for client a9b58b58-e455-4dfe-88c8-16cd0878c210: column "time_slot_id" of relation "appointments" does not exist',
+  stack: 'error: column "time_slot_id" of relation "appointments" does not exist\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/pg-pool/index.js:45:11\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async query (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/config/db.js:166:22)\n' +
+    '    at async bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:38:31)',
+  timestamp: '2025-04-26 12:49:41'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO appointments (client_id, provider_id, timeslot_id, appointment_date, status)\n' +
+    '    ..., params: ["a9b58b58-e455-4dfe-88c8-16cd0878c210","89da2cd5-1c59-4f8d-b374-f95ee0d6f533","0960e2ec-5d18-4b37-b791-d6ab6c13bbc3","2025-04-26T23:00:00.000Z","booked"], error: column "appointment_date" of relation "appointments" does not exist}',
+  level: 'error',
+  timestamp: '2025-04-26 12:50:41'
+}
+{
+  length: 141,
+  name: 'error',
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '71',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_target.c',
+  line: '1066',
+  routine: 'checkInsertTargets',
+  level: 'error',
+  message: 'Error booking appointment for client a9b58b58-e455-4dfe-88c8-16cd0878c210: column "appointment_date" of relation "appointments" does not exist',
+  stack: 'error: column "appointment_date" of relation "appointments" does not exist\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/pg-pool/index.js:45:11\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async query (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/config/db.js:166:22)\n' +
+    '    at async bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:38:31)',
+  timestamp: '2025-04-26 12:50:41'
+}
+{
+  name: 'TokenExpiredError',
+  message: 'Auth middleware: token verification failed jwt expired',
+  expiredAt: 2025-04-24T19:16:56.000Z,
+  level: 'error',
+  stack: 'TokenExpiredError: jwt expired\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:190:21\n' +
+    '    at getSecret (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:97:14)\n' +
+    '    at module.exports [as verify] (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:101:10)\n' +
+    '    at authMiddleware (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/middlewares/authMiddleware.js:14:25)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at next (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:157:13)\n' +
+    '    at Route.dispatch (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:117:3)\n' +
+    '    at handle (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:435:11)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15',
+  timestamp: '2025-04-26 12:51:42'
+}
+{
+  name: 'JsonWebTokenError',
+  message: 'Auth middleware: token verification failed jwt malformed',
+  level: 'error',
+  stack: 'JsonWebTokenError: jwt malformed\n' +
+    '    at module.exports [as verify] (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:70:17)\n' +
+    '    at authMiddleware (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/middlewares/authMiddleware.js:14:25)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at next (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:157:13)\n' +
+    '    at Route.dispatch (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:117:3)\n' +
+    '    at handle (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:435:11)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15\n' +
+    '    at param (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:600:14)\n' +
+    '    at param (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:610:14)',
+  timestamp: '2025-04-26 12:51:53'
+}
