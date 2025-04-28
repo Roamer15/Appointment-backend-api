@@ -20318,3 +20318,1340 @@
   level: 'info',
   timestamp: '2025-04-28 09:14:40'
 }
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:40'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 46ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 10ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 3ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 11:26:41'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:26'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 33ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 4ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 3ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 11:28:27'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 47ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:00'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 5ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 4ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 11:30:01'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 31ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 5ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 3ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 11:38:22'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 35ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 12ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 3ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 12:35:32'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:56'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 38ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 7ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 4ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 12:56:57'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 43ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 5ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 1ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 3ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 12:57:43'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:29 +0000] "GET / HTTP/1.1" 200 176 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:29'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:29 +0000] "GET /stylesheets/style.css HTTP/1.1" 304 - "http://localhost:3000/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:29'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:36 +0000] "GET /api-docs HTTP/1.1" 301 158 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:36'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:36 +0000] "GET /api-docs/ HTTP/1.1" 200 3106 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:36'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:37 +0000] "GET /api-docs/swagger-ui.css HTTP/1.1" 200 154986 "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:37'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:37 +0000] "GET /api-docs/swagger-ui-init.js HTTP/1.1" 200 52392 "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:37'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:37 +0000] "GET /api-docs/swagger-ui-standalone-preset.js HTTP/1.1" 200 229223 "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:37'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:37 +0000] "GET /api-docs/swagger-ui-bundle.js HTTP/1.1" 200 1468326 "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:37'
+}
+{
+  message: '::1 - - [28/Apr/2025:11:58:38 +0000] "GET /api-docs/favicon-32x32.png HTTP/1.1" 200 628 "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 12:58:38'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 41ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 4ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 3ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:13'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:07:38 +0000] "GET /api-docs/ HTTP/1.1" 304 - "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:07:38 +0000] "GET /api-docs/swagger-ui.css HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:07:38 +0000] "GET /api-docs/swagger-ui-bundle.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:07:38 +0000] "GET /api-docs/swagger-ui-standalone-preset.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:07:38 +0000] "GET /api-docs/swagger-ui-init.js HTTP/1.1" 200 55622 "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:07:40 +0000] "GET /api-docs/favicon-32x32.png HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:07:40'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:04'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 41ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 3ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:05'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:08:20 +0000] "GET /api-docs/ HTTP/1.1" 304 - "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:20'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:08:20 +0000] "GET /api-docs/swagger-ui.css HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:20'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:08:20 +0000] "GET /api-docs/swagger-ui-bundle.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:20'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:08:20 +0000] "GET /api-docs/swagger-ui-standalone-preset.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:20'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:08:20 +0000] "GET /api-docs/swagger-ui-init.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:20'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:08:21 +0000] "GET /api-docs/favicon-32x32.png HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:21'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 40ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 9ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:57'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 2ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:58'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 13:08:58'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:06 +0000] "GET /api-docs/ HTTP/1.1" 304 - "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:06'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:06 +0000] "GET /api-docs/swagger-ui.css HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:06'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:06 +0000] "GET /api-docs/swagger-ui-bundle.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:06'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:06 +0000] "GET /api-docs/swagger-ui-standalone-preset.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:06'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:06 +0000] "GET /api-docs/swagger-ui-init.js HTTP/1.1" 200 55743 "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:06'
+}
+{
+  message: 'Database has been configured for bookingdb database',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:36'
+}
+{
+  message: 'Attempting to start server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Client connected from Pool (Total count: 1',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Database connection pool established successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Initializing database schema',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Client connected from Pool (Total count: 2',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS clients (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_random..., params: undefined, duration: 46ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS providers (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_rand..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Clients table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS time_slots (\n' +
+    '              id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 3ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Time slots table has been created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_provider ON time_slots(provider_id);\n' +
+    '        ..., params: undefined, duration: 4ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE INDEX IF NOT EXISTS idx_time_slots_day_time ON time_slots(day, start_time, end_t..., params: undefined, duration: 4ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Optimization indexes added',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '            CREATE TABLE IF NOT EXISTS appointments (\n' +
+    '            id UUID PRIMARY KEY DEFAULT gen_r..., params: undefined, duration: 2ms, rows: null}',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Appointments table created successfully',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Executed query: { text: \n' +
+    '                CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provide..., params: undefined, duration: 4ms, rows: undefined}',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: 'Starting server on port 3000',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:37'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:38 +0000] "GET /api-docs/ HTTP/1.1" 304 - "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:38 +0000] "GET /api-docs/swagger-ui.css HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:38 +0000] "GET /api-docs/swagger-ui-bundle.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:38 +0000] "GET /api-docs/swagger-ui-init.js HTTP/1.1" 200 55622 "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:38 +0000] "GET /api-docs/swagger-ui-standalone-preset.js HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:38'
+}
+{
+  message: '::1 - - [28/Apr/2025:12:09:39 +0000] "GET /api-docs/favicon-32x32.png HTTP/1.1" 304 - "http://localhost:3000/api-docs/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"',
+  level: 'info',
+  timestamp: '2025-04-28 13:09:39'
+}

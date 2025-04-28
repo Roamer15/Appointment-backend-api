@@ -3,6 +3,8 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import winstonLogger from './utils/logger.js'
 import morgan from 'morgan'
+import swaggerUi from "swagger-ui-express"
+import swaggerSpec from './swaggerConfig.js'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -30,5 +32,7 @@ app.use('/auth', authRouter)
 app.use('/timeslots', timeslotRouter)
 app.use('/search', searchRouter)
 app.use('/appointment', appointmentRouter)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
 export default app

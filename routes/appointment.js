@@ -13,16 +13,13 @@ const router = express.Router()
  *   name: Appointment
  *   description: Manipulation of appointments
  */
-
 /**
  * @swagger
- * /booking
- * post:
- * summary: Client books an appointment
- *     tags: [Appointment]
+ * /booking:
+ *   post:
+ *     summary: Client books an appointment
+ *     tags: [Appointments]
  *     description: Allows an authenticated client to book appointments with providers.
- *     parameters:
- *       - in: path
  *     requestBody:
  *       required: true
  *       content:
@@ -60,34 +57,23 @@ const router = express.Router()
  *                     updated_at: { type: string, format: date-time }
  *       400:
  *         description: Validation error (e.g., missing or invalid fields).
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
  *       409:
- *         description: Time slot has already been booked.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: appointment has already been made.
  *       401:
- *         description: Unauthorized - only authenticated clients can create time slots.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Unauthorized - only authenticated clients can book appointments.
  *       500:
  *         description: Server error while booking the appointment.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
  *     security:
  *       - bearerAuth: []
  */
+
 
 router.post('/booking', authMiddleware, slotIdValidator, bookAppointment)
 
 
 /**
  * @swagger
- * /booking:
+ * /view-bookings:
  *   get:
  *     summary: Client views their the booked appointments
  *     tags: [Appointments]
@@ -219,7 +205,7 @@ router.get('/provider/view-bookings/:id', providerOnly, viewProviderAppointments
 
 /**
  * @swagger
- * /{appointmentId}/cancel"
+ * /{appointmentId}/cancel:
  *   patch:
  *     summary: Client gets to cancel the appointments he/she has been booked
  *     tags: [Appointments]
