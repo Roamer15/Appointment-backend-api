@@ -3,6 +3,7 @@
 import http from 'http';
 import debugLib from 'debug';
 import app from '../app.js';
+import { Server } from 'socket.io';
 import logger from '../utils/logger.js';
 import { connectToDb, initializeDbSchema } from '../config/db.js';
 import {seedSampleProvidersAndSlots} from '../config/sampleProviders.js'
@@ -123,6 +124,35 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * Sockets with socket.io for real time notifications
+ */
+
+const io = new Server(server, {
+  cors: {
+    origin: "*", // Allow frontend to connect (adjust for production!)
+    methods: ["GET", "POST", "PATCH"]
+  }
+});
+
+app.set('io', io);
+
+// Listen to socket connections
+io.on("connection", (socket) => {
+  logger.info("User connected:", socket.id);
+
+  // Providers should join their own room (use providerId from frontend)
+  socket.on("join_provider_room", (providerId) => {
+    socket.join(providerId);
+    logger.info(`Provider ${providerId} joined room`);
+  });
+
+  socket.on("disconnect", () => {
+    logger.info("User disconnected:", socket.id);
+  });
+
+});
 
 
 const startSever = async () => {
