@@ -1,6 +1,6 @@
 {
   "name": "appointment-backend-api",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -29,5 +29,8 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "supertest": "^7.1.0"
-  }
+  },
+  "engines": {
+  "node": "23.4.0"
+}
 }

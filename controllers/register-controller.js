@@ -47,3 +47,49 @@ export async function registrationHandler(req, res, next) {
     next(error);
   }
 }
+
+
+export async function providerRegistrationHandler(req, res, next) {
+  const { firstName, lastName, email, password, specialty, bio } = req.body;
+
+  try {
+    // 1. Check if client already exists
+    const clientCheckQuery = 'SELECT email FROM providers WHERE email = $1';
+    const clientCheckResult = await query(clientCheckQuery, [email]);
+
+    if (clientCheckResult.rows.length > 0) {
+      logger.warn(`Registration attempt failed: Email already exists - email: ${email}`);
+      return res.status(409).json({ message: "Email already in use" });
+    }
+
+    // 2. Hash password
+    const passwordHash = await bcrypt.hash(password, HASH_SALT);
+    logger.debug(`Password hashed: ${passwordHash}`);
+
+    const rating = (Math.random() * 9 + 1).toFixed(1);
+    // 3. Insert into clients
+    const insertClientSql = `
+      INSERT INTO providers (first_name, last_name, email, password, specialty, bio, rating)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING id, first_name, last_name, specialty, bio
+    `;
+
+    const newProviderResult = await query(insertClientSql, [firstName, lastName, email, passwordHash, specialty, bio, rating]);
+    const newProvider = newProviderResult.rows[0];
+
+    logger.info(`Provider registered successfully: ${newProvider.id}`);
+
+    // 4. Send success response
+    res.status(201).json({
+      message: "Provider registered successfully",
+      user: {
+        id: newProvider.id,
+        name: `${newProvider.first_name} ${newProvider.last_name}`
+      }
+    });
+
+  } catch (error) {
+    logger.error(`Error during provider registration for ${email}: `, error);
+    next(error);
+  }
+}

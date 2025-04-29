@@ -160,7 +160,7 @@ const startSever = async () => {
     logger.info(`Attempting to start server on port ${port}`)
     await connectToDb()
     await initializeDbSchema()
-    await seedSampleProvidersAndSlots()
+    //await seedSampleProvidersAndSlots()
     logger.info(`Starting server on port ${port}`)
     server.listen(port);
     server.on('error', onError);

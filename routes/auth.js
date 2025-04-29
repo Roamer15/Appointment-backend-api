@@ -1,9 +1,9 @@
 import express from "express"
 import authMiddleware from "../middlewares/authMiddleware.js"
-import { registrationValidator } from "../validators/auth-validator.js"
-import { registrationHandler } from "../controllers/register-controller.js"
+import { providerRegistrationValidator, registrationValidator } from "../validators/auth-validator.js"
+import { providerRegistrationHandler, registrationHandler } from "../controllers/register-controller.js"
 import { loginValidator } from "../validators/auth-validator.js"
-import {loginHandler} from "../controllers/login-controller.js"
+import {loginHandler, providerLoginHandler} from "../controllers/login-controller.js"
 import { logoutUser } from "../controllers/logout-controller.js"
 
 const router = express.Router()
@@ -141,6 +141,133 @@ router.post('/login', loginValidator, loginHandler)
 
 
 /**
+ *
+ * @swagger
+ * /auth/provider/register:
+ *   post:
+ *     summary: Register a new provider
+ *     tags: [Authentication]
+ *     description: Creates a new provider account
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - firstName
+ *               - lastName
+ *               - email
+ *               - password
+ *               - specialty
+ *             optional:
+ *               -bio
+ *             properties:
+ *               firstName: { type: string, example: Ian }
+ *               lastName: { type: string, example: Roamer }
+ *               email: { type: string, format: email, example: ian@example.com }
+ *               password: { type: string, format: password, example: P@word123 }
+ *               specialty: {type: string, example: Barber }
+ *               bio: { type: string, example: Cut hair professionally}
+ *     responses:
+ *       201:
+ *         description: Provider registered successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: Provider registered successfuly! }
+ *                 userId:
+ *                   type: object
+ *                   properties:
+ *                     id: { type: string }
+ *       400:
+ *         description: Validation error (e.g., passwords don't match, invalid email).
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       409:
+ *         description: Email already in use.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       500:
+ *         description: Server error during registration.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *     security: [] # Override global security - this endpoint is public
+ */
+
+
+router.post('/provider/register', providerRegistrationValidator, providerRegistrationHandler)
+
+/**
+ * @swagger
+ * /auth/provider/login:
+ *   post:
+ *     summary: Login an existing provider
+ *     tags: [Authentication]
+ *     description: Logs in a registered provider and returns a JWT token.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: ian@example.com
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 example: P@word123
+ *     responses:
+ *       200:
+ *         description: Successful login.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: Login Successful! }
+ *                 token: { type: string }
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id: { type: string }
+ *                     firstName: { type: string }
+ *                     lastName: { type: string }
+ *                     email: { type: string, format: email }
+ *       400:
+ *         description: Validation error (missing email or password).
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       401:
+ *         description: Invalid credentials.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       500:
+ *         description: Server error during login.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *     security: [] # Public endpoint (no auth needed to login)
+ */
+
+router.post('/provider/login', loginValidator, providerLoginHandler)
+
+
+
+/**
  * @swagger
  * /auth/logout:
  *   post:
@@ -169,6 +296,7 @@ router.post('/login', loginValidator, loginHandler)
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
  */
+
 router.post(
     '/logout',
     authMiddleware,

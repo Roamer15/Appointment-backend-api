@@ -1124,3 +1124,38 @@
   level: 'error',
   timestamp: '2025-04-29 12:24:01'
 }
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO clients (first_name, last_name, email, password, specialty, bio, rating)\n' +
+    '      VA..., params: ["Worker","One","workone@yahoo.com","$2b$10$u446yBPIn0nmGByEdE9WkO78JSWZXdN1ZuG70/m77uhSM7GB0NGpK","Gardener","Gardening for 10 years","8.9"], error: column "specialty" of relation "clients" does not exist}',
+  level: 'error',
+  timestamp: '2025-04-29 15:51:07'
+}
+{
+  length: 129,
+  name: 'error',
+  severity: 'ERROR',
+  code: '42703',
+  detail: undefined,
+  hint: undefined,
+  position: '69',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'parse_target.c',
+  line: '1066',
+  routine: 'checkInsertTargets',
+  level: 'error',
+  message: 'Error during provider registration for workone@yahoo.com:  column "specialty" of relation "clients" does not exist',
+  stack: 'error: column "specialty" of relation "clients" does not exist\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/pg-pool/index.js:45:11\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async query (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/config/db.js:173:22)\n' +
+    '    at async providerRegistrationHandler (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/register-controller.js:77:31)',
+  timestamp: '2025-04-29 15:51:07'
+}

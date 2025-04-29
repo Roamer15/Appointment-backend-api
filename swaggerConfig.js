@@ -19,7 +19,7 @@ const swaggerOptions = {
     },
     servers: [ // Add server information
       {
-        url: `http://localhost:${process.env.PORT || 3000}/api`, // Adjust if your base path differs
+        url: `http://localhost:${process.env.PORT || 3000}/`, // Adjust if your base path differs
         description: 'Development server',
       },
       // Add other servers like staging or production if needed
