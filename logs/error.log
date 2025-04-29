@@ -1109,3 +1109,18 @@
     '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15',
   timestamp: '2025-04-29 11:44:51'
 }
+{
+  message: 'Port 3001 is already in use',
+  level: 'error',
+  timestamp: '2025-04-29 12:20:44'
+}
+{
+  message: 'Port 3001 is already in use',
+  level: 'error',
+  timestamp: '2025-04-29 12:21:05'
+}
+{
+  message: 'Port 3000 is already in use',
+  level: 'error',
+  timestamp: '2025-04-29 12:24:01'
+}

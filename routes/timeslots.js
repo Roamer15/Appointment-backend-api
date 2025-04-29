@@ -335,6 +335,113 @@ router.delete('/providers/:providerId/delete-timeslot/:slotId', providerOnly, de
 
 router.put('/providers/:providerId/update-timeslot/:slotId', providerOnly, updateTimeSlot)
 
+/**
+ * @swagger
+ * /search/providers/{id}/available-slots:
+ *   get:
+ *     summary: Get available time slots for a provider
+ *     tags: [Time Slots]
+ *     description: Retrieves all available (unbooked) time slots for a specific provider.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Provider's unique ID
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *       - in: query
+ *         name: date
+ *         description: Filter slots by specific date (YYYY-MM-DD format)
+ *         schema:
+ *           type: string
+ *           format: date
+ *           example: "2025-05-01"
+ *       - in: query
+ *         name: startDate
+ *         description: Start date for date range filter (inclusive)
+ *         schema:
+ *           type: string
+ *           format: date
+ *           example: "2025-05-01"
+ *       - in: query
+ *         name: endDate
+ *         description: End date for date range filter (inclusive)
+ *         schema:
+ *           type: string
+ *           format: date
+ *           example: "2025-05-07"
+ *     responses:
+ *       200:
+ *         description: List of available time slots retrieved successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 availableSlots:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         format: uuid
+ *                         example: "d1168cd1-497e-47d0-8028-88d558df0541"
+ *                       provider_id:
+ *                         type: string
+ *                         format: uuid
+ *                         example: "e1022995-d7f7-4ebc-98fd-cad361260475"
+ *                       day:
+ *                         type: string
+ *                         format: date
+ *                         example: "2025-05-01"
+ *                       start_time:
+ *                         type: string
+ *                         format: time
+ *                         example: "09:00:00"
+ *                       end_time:
+ *                         type: string
+ *                         format: time
+ *                         example: "10:00:00"
+ *                       is_booked:
+ *                         type: boolean
+ *                         example: false
+ *                       created_at:
+ *                         type: string
+ *                         format: date-time
+ *                       updated_at:
+ *                         type: string
+ *                         format: date-time
+ *       400:
+ *         description: Invalid date format or invalid query parameters
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       401:
+ *         description: Unauthorized - valid authentication token required
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       403:
+ *         description: Forbidden - only providers can access this endpoint
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       404:
+ *         description: Provider not found
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       500:
+ *         description: Server error while retrieving time slots
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *     security:
+ *       - bearerAuth: []
+ */
+
 router.get('/search/providers/:id/available-slots', providerOnly, getAvailableSlots)
 
 export default router
