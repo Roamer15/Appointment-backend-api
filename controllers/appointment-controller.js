@@ -64,19 +64,23 @@ export async function providerCancelAppointment(req, res) {
 
 
     const io = req.app.get("io");
-
-    await io.to(appointment.provider_id).emit("appointment_canceled", {
-      message: "An appointment was canceled",
-      appointmentId: appointmentId,
-    });
-    logger.info(`🔔 Notification sent to provider ${appointment.provider_id}`);
-
-    await io.to(appointment.client_id).emit("appointment_canceled", {
-      message: "Your appointment was canceled",
-      appointmentId: appointmentId,
-    });
-    logger.info(`🔔 Notification sent to provider ${appointment.client_id}`);
-
+    logger.info("Socket.IO instance in real app:", req.app.get("io"));
+    
+    if(io) {
+      await io.to(appointment.provider_id).emit("appointment_canceled", {
+        message: "An appointment was canceled",
+        appointmentId: appointmentId,
+      });
+      logger.info(`🔔 Notification sent to provider ${appointment.provider_id}`);
+  
+      await io.to(appointment.client_id).emit("appointment_canceled", {
+        message: "Your appointment was canceled",
+        appointmentId: appointmentId,
+      });
+      logger.info(`🔔 Notification sent to provider ${appointment.client_id}`);
+  
+    }
+    
 
     res.json({
       message: "Appointment canceled successfully",
@@ -155,22 +159,26 @@ export async function cancelAppointment(req, res) {
     logger.info(`Appointment ${appointmentId} canceled by user ${userId}`);
 
     const io = req.app.get("io");
+    logger.info("Socket.IO instance in real app:", req.app.get("io"));
 
-    await io.to(appointment.provider_id).emit("appointment_canceled", {
-      message: "An appointment was canceled",
-      appointmentId: appointmentId,
-    });
-    logger.info(`🔔 Notification sent to provider ${appointment.provider_id}`);
-
-    await io.to(appointment.client_id).emit("appointment_canceled", {
-      message: "Your appointment was canceled",
-      appointmentId: appointmentId,
-    });
-    logger.info(`🔔 Notification sent to provider ${appointment.client_id}`);
-
-    res.json({
+    if(io) {
+      await io.to(appointment.provider_id).emit("appointment_canceled", {
+        message: "An appointment was canceled",
+        appointmentId: appointmentId,
+      });
+      logger.info(`🔔 Notification sent to provider ${appointment.provider_id}`);
+  
+      await io.to(appointment.client_id).emit("appointment_canceled", {
+        message: "Your appointment was canceled",
+        appointmentId: appointmentId,
+      });
+      logger.info(`🔔 Notification sent to provider ${appointment.client_id}`);
+  
+    }
+    
+    res.status(200).json({
       message: "Appointment canceled successfully",
-      appointment: canceledResult.rows[0],
+      updatedAppointment: canceledResult.rows[0],
     });
   } catch (error) {
     logger.error(`Error canceling appointment ${appointmentId}:`, error);
@@ -291,23 +299,23 @@ export async function bookAppointment(req, res) {
       `Appointment successfully booked for client ${clientId} on slot ${timeslotId}`
     );
 
-    const io = req.app.get("io"); // Get io instance
+    const io = req.app.get("io");
+    logger.info("Socket.IO instance in real app:", req.app.get("io"));
 
-   await io.to(providerId).emit("new_appointment", {
-      message: "You have a new appointment booked!",
-      appointment: appointmentResult.rows[0],
-    });
-
-    logger.info(`🔔 Notification sent to provider ${providerId}`);
+    if (io) {
+      await io.to(providerId).emit("new_appointment", {
+        message: "You have a new appointment booked!",
+        appointment: appointmentResult.rows[0],
+      });
+      logger.info(`🔔 Notification sent to provider ${providerId}`);
+    }
+    
     res.status(201).json({
       message: "Appointment booked successfully",
       appointment: appointmentResult.rows[0],
     });
   } catch (error) {
-    logger.error(`Error booking appointment for client ${clientId}:`, error);
-    res.status(500).json({
-      message: "Server error while booking appointment",
-      error: error.message,
-    });
-  }
+    logger.error(`Error booking time slot for client ${clientId}:`, error);
+    res.status(500).json({ message: "Error booking time slot", error: error.message });
+  }  
 }

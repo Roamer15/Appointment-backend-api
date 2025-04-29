@@ -35,4 +35,5 @@ app.use('/appointment', appointmentRouter)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
+
 export default app

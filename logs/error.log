@@ -785,3 +785,327 @@
   level: 'error',
   timestamp: '2025-04-29 07:39:07'
 }
+{
+  name: 'TokenExpiredError',
+  message: 'Auth middleware: token verification failed jwt expired',
+  expiredAt: 2025-04-28T16:21:25.000Z,
+  level: 'error',
+  stack: 'TokenExpiredError: jwt expired\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:190:21\n' +
+    '    at getSecret (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:97:14)\n' +
+    '    at module.exports [as verify] (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:101:10)\n' +
+    '    at authMiddleware (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/middlewares/authMiddleware.js:14:25)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at next (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:157:13)\n' +
+    '    at Route.dispatch (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:117:3)\n' +
+    '    at handle (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:435:11)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15',
+  timestamp: '2025-04-29 09:09:07'
+}
+{
+  name: 'TokenExpiredError',
+  message: 'Auth middleware: token verification failed jwt expired',
+  expiredAt: 2025-04-28T16:21:25.000Z,
+  level: 'error',
+  stack: 'TokenExpiredError: jwt expired\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:190:21\n' +
+    '    at getSecret (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:97:14)\n' +
+    '    at module.exports [as verify] (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:101:10)\n' +
+    '    at authMiddleware (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/middlewares/authMiddleware.js:14:25)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at next (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:157:13)\n' +
+    '    at Route.dispatch (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:117:3)\n' +
+    '    at handle (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:435:11)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15',
+  timestamp: '2025-04-29 09:09:07'
+}
+{
+  name: 'TokenExpiredError',
+  message: 'Auth middleware: token verification failed jwt expired',
+  expiredAt: 2025-04-28T16:21:25.000Z,
+  level: 'error',
+  stack: 'TokenExpiredError: jwt expired\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:190:21\n' +
+    '    at getSecret (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:97:14)\n' +
+    '    at module.exports [as verify] (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:101:10)\n' +
+    '    at authMiddleware (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/middlewares/authMiddleware.js:14:25)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at next (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:157:13)\n' +
+    '    at Route.dispatch (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:117:3)\n' +
+    '    at handle (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:435:11)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15',
+  timestamp: '2025-04-29 09:09:07'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      SELECT provider_id, timeslot_id, status\n' +
+    '      FROM appointments\n' +
+    '      WHERE id = $1\n' +
+    '    ..., params: ["your-appointment-id"], error: invalid input syntax for type uuid: "your-appointment-id"}',
+  level: 'error',
+  timestamp: '2025-04-29 09:09:07'
+}
+{
+  length: 151,
+  name: 'error',
+  severity: 'ERROR',
+  code: '22P02',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: "unnamed portal parameter $1 = '...'",
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'uuid.c',
+  line: '133',
+  routine: 'string_to_uuid',
+  level: 'error',
+  message: 'Error canceling appointment your-appointment-id by provider e1022995-d7f7-4ebc-98fd-cad361260475: invalid input syntax for type uuid: "your-appointment-id"',
+  stack: 'error: invalid input syntax for type uuid: "your-appointment-id"\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/pg-pool/index.js:45:11\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n' +
+    '    at async query (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/config/db.js:173:22)\n' +
+    '    at async providerCancelAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:14:31)',
+  timestamp: '2025-04-29 09:09:07'
+}
+{
+  name: 'TokenExpiredError',
+  message: 'Auth middleware: token verification failed jwt expired',
+  expiredAt: 2025-04-28T16:21:25.000Z,
+  level: 'error',
+  stack: 'TokenExpiredError: jwt expired\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:190:21\n' +
+    '    at getSecret (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:97:14)\n' +
+    '    at module.exports [as verify] (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:101:10)\n' +
+    '    at authMiddleware (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/middlewares/authMiddleware.js:14:25)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at next (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:157:13)\n' +
+    '    at Route.dispatch (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:117:3)\n' +
+    '    at handle (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:435:11)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15',
+  timestamp: '2025-04-29 09:09:36'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client 8f32f16c-5f9f-4648-96cc-3022f6d51375: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:16:47'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client f82e1351-e2a7-47e7-9604-20ac05651182: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:17:22'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client ec54cfe0-4995-49db-ad9a-9de5e0acb9f7: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:20:45'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client 1849b231-b437-4f8f-b8d4-e98cdc266c8c: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:21:39'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client 3798e704-9948-4e8d-837a-dbaf45c4d3e7: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:22:59'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client e4f4ebc0-012c-41f7-871a-a852785cf405: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:23:46'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client d4cdf61e-1e91-487f-9423-16838ae7453c: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:24:30'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client 25c3861d-0c1c-4662-b384-d388af58b066: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:25:50'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client 74cdd26d-4a74-4874-beef-26bcad046164: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:28:55'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client 602fcab3-c137-4173-a188-50c8a1146f7e: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 09:30:48'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO providers (first_name, last_name, email, password, specialty)\n' +
+    `      VALUES ('Test..., params: undefined, error: duplicate key value violates unique constraint "providers_email_key"}`,
+  level: 'error',
+  timestamp: '2025-04-29 09:49:37'
+}
+{
+  message: 'Error executing query: { text: DELETE FROM appointments WHERE time_slot_id = $1..., params: [null], error: column "time_slot_id" does not exist}',
+  level: 'error',
+  timestamp: '2025-04-29 09:49:37'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO providers (first_name, last_name, email, password, specialty)\n' +
+    `      VALUES ('Test..., params: undefined, error: duplicate key value violates unique constraint "providers_email_key"}`,
+  level: 'error',
+  timestamp: '2025-04-29 09:51:15'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO providers (first_name, last_name, email, password, specialty)\n' +
+    `      VALUES ('Test..., params: undefined, error: duplicate key value violates unique constraint "providers_email_key"}`,
+  level: 'error',
+  timestamp: '2025-04-29 09:51:41'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO providers (first_name, last_name, email, password, specialty)\n' +
+    `      VALUES ('Test..., params: undefined, error: duplicate key value violates unique constraint "providers_email_key"}`,
+  level: 'error',
+  timestamp: '2025-04-29 09:52:02'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO providers (first_name, last_name, email, password, specialty)\n' +
+    `      VALUES ('Test..., params: undefined, error: duplicate key value violates unique constraint "providers_email_key"}`,
+  level: 'error',
+  timestamp: '2025-04-29 09:55:55'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO time_slots (provider_id, day, start_time, end_time, status)\n' +
+    `      VALUES ($1, '20..., params: ["a0f5b071-1a0d-4c79-b676-477b821c79e7"], error: column "status" of relation "time_slots" does not exist}`,
+  level: 'error',
+  timestamp: '2025-04-29 09:59:11'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client 57ce1c1a-a8e3-49bb-8684-582d88754ff7: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 10:02:40'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO providers (first_name, last_name, email, password, specialty)\n' +
+    `      VALUES ('Test..., params: undefined, error: duplicate key value violates unique constraint "providers_email_key"}`,
+  level: 'error',
+  timestamp: '2025-04-29 10:04:41'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO time_slots (provider_id, day, start_time, end_time, status)\n' +
+    `      VALUES ($1, '20..., params: ["7ba08a84-207a-4852-a5e9-0f35061b3140"], error: column "status" of relation "time_slots" does not exist}`,
+  level: 'error',
+  timestamp: '2025-04-29 10:06:25'
+}
+{
+  level: 'error',
+  message: "Error booking appointment for client 812ec83b-012d-4d2b-88fb-2c7e5ab3727e: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 10:07:00'
+}
+{
+  level: 'error',
+  message: "Error booking time slot for client 42559204-248c-4599-9847-b243c08d36ff: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at bookAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:296:13)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 10:17:54'
+}
+{
+  level: 'error',
+  message: "Error canceling appointment a97538a7-3f1a-491b-ac7e-1a8391e23aca: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at cancelAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:159:14)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 11:05:07'
+}
+{
+  level: 'error',
+  message: "Error canceling appointment edb0d7d9-8b35-44fa-8cec-38c7b76a58b7: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at cancelAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:159:14)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 11:08:07'
+}
+{
+  level: 'error',
+  message: "Error canceling appointment 1a62919b-0e28-4249-9f01-a31075bf6d7a by provider 85a64920-fcbd-4818-a3ca-8166ce8a7bdb: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at providerCancelAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:68:14)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 11:20:01'
+}
+{
+  level: 'error',
+  message: "Error canceling appointment fd857419-cc44-4d54-9570-a6e5c2764cc4 by provider 14546375-2433-4bff-882c-fdb4fc4c542b: Cannot read properties of undefined (reading 'to')",
+  stack: "TypeError: Cannot read properties of undefined (reading 'to')\n" +
+    '    at providerCancelAppointment (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/controllers/appointment-controller.js:68:14)\n' +
+    '    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)',
+  timestamp: '2025-04-29 11:24:30'
+}
+{
+  name: 'TokenExpiredError',
+  message: 'Auth middleware: token verification failed jwt expired',
+  expiredAt: 2025-04-28T02:05:11.000Z,
+  level: 'error',
+  stack: 'TokenExpiredError: jwt expired\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:190:21\n' +
+    '    at getSecret (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:97:14)\n' +
+    '    at module.exports [as verify] (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/jsonwebtoken/verify.js:101:10)\n' +
+    '    at authMiddleware (file:///home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/middlewares/authMiddleware.js:14:25)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at next (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:157:13)\n' +
+    '    at Route.dispatch (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/route.js:117:3)\n' +
+    '    at handle (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:435:11)\n' +
+    '    at Layer.handleRequest (/home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/lib/layer.js:152:17)\n' +
+    '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15',
+  timestamp: '2025-04-29 11:44:51'
+}
