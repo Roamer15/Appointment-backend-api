@@ -757,3 +757,17 @@
     '    at /home/com/Desktop/RebaseCodeCamp/month_7/node_projects/appointment-backend-api/node_modules/router/index.js:295:15',
   timestamp: '2025-04-28 01:04:59'
 }
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO providers (first_name, last_name, email)\n' +
+    `      VALUES ('Test', 'Provider', 'provi..., params: undefined, error: null value in column "password" of relation "providers" violates not-null constraint}`,
+  level: 'error',
+  timestamp: '2025-04-28 13:46:30'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO providers (first_name, last_name, email, password, specialty)\n' +
+    `      VALUES ('Test..., params: undefined, error: duplicate key value violates unique constraint "providers_email_key"}`,
+  level: 'error',
+  timestamp: '2025-04-28 14:55:30'
+}

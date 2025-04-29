@@ -1,6 +1,13 @@
 import { Pool } from "pg";
 import logger from "../utils/logger.js";
 import "dotenv/config";
+import dotenv from 'dotenv';
+
+if (process.env.NODE_ENV === 'test') {
+  dotenv.config({ path: '.env.test' });
+} else {
+  dotenv.config(); // default to .env
+}
 
 const { DB_USER, DB_PASSWORD, DB_PORT, DB_NAME, DB_HOST } = process.env;
 
