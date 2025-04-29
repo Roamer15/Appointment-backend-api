@@ -5,7 +5,8 @@ import bcrypt from "bcryptjs"
 const HASH_SALT = 10;
 
 export async function registrationHandler(req, res, next) {
-  const { firstName, lastName, email, password, profileImageUrl } = req.body;
+  const { firstName, lastName, email, password } = req.body;
+  let {profileImageUrl} = req.body | `https://png.pngtree.com/thumb_back/fh260/background/20211107/pngtree-abstract-crystal-background-low-poly-textured-triangle-shapes-in-random-pattern-image_915268.png`
 
   try {
     // 1. Check if client already exists
