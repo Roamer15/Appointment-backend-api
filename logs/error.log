@@ -771,3 +771,17 @@
   level: 'error',
   timestamp: '2025-04-28 14:55:30'
 }
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO time_slots (provider_id, day, start_time, end_time, status)\n' +
+    `      VALUES ($1, '20..., params: ["69ee8d5f-924b-4f3c-b64f-3caef54dbfb8"], error: column "status" of relation "time_slots" does not exist}`,
+  level: 'error',
+  timestamp: '2025-04-29 07:37:41'
+}
+{
+  message: 'Error executing query: { text: \n' +
+    '      INSERT INTO time_slots (provider_id, day, start_time, end_time)\n' +
+    `      VALUES ($1, '2025-05-01..., params: ["f3092252-c98e-4e0e-9181-4865e448a807"], error: INSERT has more expressions than target columns}`,
+  level: 'error',
+  timestamp: '2025-04-29 07:39:07'
+}

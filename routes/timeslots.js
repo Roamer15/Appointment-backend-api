@@ -335,6 +335,6 @@ router.delete('/providers/:providerId/delete-timeslot/:slotId', providerOnly, de
 
 router.put('/providers/:providerId/update-timeslot/:slotId', providerOnly, updateTimeSlot)
 
-router.get('/search/providers/:id/available-slots', authMiddleware, getAvailableSlots)
+router.get('/search/providers/:id/available-slots', providerOnly, getAvailableSlots)
 
 export default router

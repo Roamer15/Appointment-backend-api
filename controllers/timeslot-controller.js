@@ -15,25 +15,32 @@ function formatTimestamps(slot, zone = "Africa/Douala") {
 }
 
 export async function getAvailableSlots(req, res) {
-    const providerId = req.params.id;
-    const { from, to } = req.query;
-  
-    try {
-      const result = await query(`
+  const providerId = req.params.id;
+  const { from, to } = req.query;
+
+  try {
+    const result = await query(
+      `
         SELECT day, start_time, end_time FROM time_slots
         WHERE provider_id = $1
           AND is_booked = FALSE
           AND day BETWEEN $2 AND $3
         ORDER BY day, start_time
-      `, [providerId, from, to]);
-  
-      logger.info(`Slots found for interval`)
-      res.json({ availableSlots: result.rows });
-    } catch (error) {
-      res.status(500).json({ message: "Could not retrieve available slots", error: error.message });
-    }
+      `,
+      [providerId, from, to]
+    );
+
+    logger.info(`Slots found for interval`);
+    res.json({ availableSlots: result.rows });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        message: "Could not retrieve available slots",
+        error: error.message,
+      });
   }
-  
+}
 
 export async function updateTimeSlot(req, res) {
   const { providerId, slotId } = req.params;
@@ -42,7 +49,14 @@ export async function updateTimeSlot(req, res) {
     const updateSlotQuery = `UPDATE time_slots SET
                                  day = $1, start_time = $2, end_time = $3
                                  WHERE id = $4 AND provider_id = $5
-                                 RETURNING *
+                                 RETURNING id, 
+  provider_id, 
+  TO_CHAR(day, 'YYYY-MM-DD') AS day, -- Format as YYYY-MM-DD
+  start_time, 
+  end_time, 
+  is_booked, 
+  created_at, 
+  updated_at 
                                 `;
     const updateSlotResult = await query(updateSlotQuery, [
       day,
@@ -72,17 +86,18 @@ export async function updateTimeSlot(req, res) {
       `Slot ${slotId} updated Successfully by provider ${providerId}`
     );
     // return res.json(updateSlotResult.rows[0])
-    return res.json(updatedSlot);
+    return res.json({
+      message: "Time slot updated successfully",
+      updatedSlot: updatedSlot,
+    });
   } catch (error) {
     logger.error(
       `Error Updating time slot ${slotId} for provider ${providerId} : `,
       error
     );
-    return res
-      .status(error.status || 500)
-      .json({
-        message: error.message || "Server error while update the time slot",
-      });
+    return res.status(error.status || 500).json({
+      message: error.message || "Server error while update the time slot",
+    });
   }
 }
 
@@ -110,7 +125,7 @@ export async function deleteTimeSlot(req, res) {
     //                                   slot: deleteSlotResult.rows[0]
     //                                 })
     return res.json({
-      message: `Slot deleted`,
+      message: `Time slot deleted successfully`,
       slot: deletedSlot,
     });
   } catch (error) {
