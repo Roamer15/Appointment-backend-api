@@ -5,6 +5,7 @@ import { providerRegistrationHandler, registrationHandler } from "../controllers
 import { loginValidator } from "../validators/auth-validator.js"
 import {loginHandler, providerLoginHandler} from "../controllers/login-controller.js"
 import { logoutUser } from "../controllers/logout-controller.js"
+import upload from "../middlewares/upload.js"
 
 const router = express.Router()
 
@@ -75,7 +76,7 @@ const router = express.Router()
 
 
 
-router.post('/register', registrationValidator, registrationHandler)
+router.post('/register', registrationValidator, upload.single('profilePic'),registrationHandler)
 
 /**
  * @swagger

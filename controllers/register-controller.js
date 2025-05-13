@@ -1,12 +1,14 @@
 import { query } from "../config/db.js";
 import logger from "../utils/logger.js";
 import bcrypt from "bcryptjs";
+import cloudinary from "../utils/cloudinary.js";
+import streamifier from "streamifier";
 
 const HASH_SALT = 10;
 
 export async function registrationHandler(req, res, next) {
   const { firstName, lastName, email, password, role, specialty, bio } = req.body;
-  let profileImageUrl = req.body.profileImageUrl || 
+  let profileImageUrl = 
     "https://png.pngtree.com/thumb_back/fh260/background/20211107/pngtree-abstract-crystal-background-low-poly-textured-triangle-shapes-in-random-pattern-image_915268.png";
 
   try {
@@ -17,6 +19,34 @@ export async function registrationHandler(req, res, next) {
     if (userCheckResult.rows.length > 0) {
       logger.warn(`Registration attempt failed: Email already exists - ${email}`);
       return res.status(409).json({ message: "Email already in use" });
+    }
+
+    if (req.file) {
+      const streamUpload = (buffer) => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "appointment-backend-api/profiles" },
+            (error, result) => {
+              if (result) {
+                resolve(result);
+              } else {
+                reject(error);
+              }
+            }
+          );
+          streamifier.createReadStream(buffer).pipe(stream);
+        });
+      };
+
+      try {
+        const uploadResult = await streamUpload(req.file.buffer);
+        profileImageUrl = uploadResult.secure_url; // ✅ Overwrite fallback if uploaded
+      } catch (uploadErr) {
+        logger.error(
+          "Cloudinary upload failed, using default profile picture",
+          uploadErr
+        );
+      }
     }
 
     // 2. Hash password

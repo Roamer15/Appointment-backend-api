@@ -37,7 +37,7 @@ const registerValidator = Joi.object({
       'any.required': 'Confirm password is required',
     }),
 
-  profileImageUrl: Joi.string()
+  profilePic: Joi.string()
     .uri()
     .pattern(/\.(jpeg|jpg|gif|png)$/i)
     .optional()
