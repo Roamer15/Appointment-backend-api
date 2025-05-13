@@ -290,7 +290,6 @@ export async function bookAppointment(req, res) {
       appointmentDate,
       status,
     ]);
-
     // 4. Mark the time slot as booked
     const updateSlotQuery = `UPDATE time_slots SET is_booked = TRUE WHERE id = $1`;
     await query(updateSlotQuery, [timeslotId]);
