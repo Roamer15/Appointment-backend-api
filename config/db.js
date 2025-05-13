@@ -47,34 +47,34 @@ async function initializeDbSchema() {
 
     // creatioin of all the tables needed for the database
     await query(`
-            CREATE TABLE IF NOT EXISTS clients (
+            CREATE TABLE IF NOT EXISTS users (
             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
             first_name VARCHAR(100) NOT NULL,
             last_name VARCHAR(100) NOT NULL,
             email VARCHAR(150) UNIQUE NOT NULL,
             password TEXT NOT NULL,
+            role VARCHAR(10) CHECK (role IN ('client', 'provider')) NOT NULL,
             profile_image_url VARCHAR(255),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                 );
+            );
 
             `);
-    logger.info("Clients table has been created successfully");
+    logger.info("Users table has been created successfully");
 
     await query(`
             CREATE TABLE IF NOT EXISTS providers (
             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-            first_name VARCHAR(100) NOT NULL,
-            last_name VARCHAR(100) NOT NULL,
-            email VARCHAR(150) UNIQUE NOT NULL,
-            password TEXT NOT NULL,
+            user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             specialty VARCHAR(100),
             bio TEXT,
             rating DECIMAL(3, 1),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-                  );`);
-    logger.info("Clients table has been created successfully");
+                  
+            );`
+          );
+    logger.info("Providers table has been created successfully");
 
     await query(`
             CREATE TABLE IF NOT EXISTS time_slots (
