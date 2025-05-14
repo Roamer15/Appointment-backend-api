@@ -14,93 +14,147 @@ function formatTimestamps(slot, zone = "Africa/Douala") {
   };
 }
 
-export async function getAvailableSlots(req, res, next) {
-  const providerId = req.params.id;
+export async function getAvailableSlots(req, res) {
+  const providerId = req.user.providerId;
   const { from, to } = req.query;
 
   try {
+    // Case 1: No date filter - return all available slots
+    if (!from && !to) {
+      const result = await query(
+        `SELECT day, start_time, end_time 
+         FROM time_slots
+         WHERE provider_id = $1 AND is_booked = FALSE
+         ORDER BY day, start_time`,
+        [providerId]
+      );
+      
+      logger.info(`Fetched ALL available slots for provider ${providerId}`);
+      return res.json({ availableSlots: result.rows });
+    }
+
+    // Case 2: Date range filter
+    // Validate both dates are provided
+    if (!from || !to) {
+      return res.status(400).json({ 
+        message: "Both 'from' and 'to' dates are required for filtering" 
+      });
+    }
+
+    // Validate date formats
+    const fromDate = new Date(from);
+    const toDate = new Date(to);
+    
+    if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
+      return res.status(400).json({ message: "Invalid date format" });
+    }
+
+    // Validate logical date range
+    if (fromDate > toDate) {
+      return res.status(400).json({ 
+        message: "'from' date must be before 'to' date" 
+      });
+    }
+
     const result = await query(
-      `
-        SELECT day, start_time, end_time FROM time_slots
-        WHERE provider_id = $1
-          AND is_booked = FALSE
-          AND day BETWEEN $2 AND $3
-        ORDER BY day, start_time
-      `,
+      `SELECT day, start_time, end_time 
+       FROM time_slots
+       WHERE provider_id = $1 
+         AND is_booked = FALSE
+         AND day BETWEEN $2 AND $3
+       ORDER BY day, start_time`,
       [providerId, from, to]
     );
 
-    logger.info(`Slots found for interval`);
+    logger.info(`Fetched slots for provider ${providerId} between ${from} and ${to}`);
     res.json({ availableSlots: result.rows });
+
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        message: "Could not retrieve available slots",
-        error: error.message,
-      });
+    logger.error(`Error fetching slots for provider ${providerId}:`, error);
+    res.status(500).json({ 
+      message: "Failed to retrieve available slots" 
+    });
   }
 }
-
 export async function updateTimeSlot(req, res) {
-  const { providerId, slotId } = req.params;
+  const { slotId } = req.params;
+  const providerId = req.user.providerId;
+  
   try {
-    const { day, startTime, endTime } = req.body;
-    const updateSlotQuery = `UPDATE time_slots SET
-                                 day = $1, start_time = $2, end_time = $3
-                                 WHERE id = $4 AND provider_id = $5
-                                 RETURNING id, 
-  provider_id, 
-  TO_CHAR(day, 'YYYY-MM-DD') AS day, -- Format as YYYY-MM-DD
-  start_time, 
-  end_time, 
-  is_booked, 
-  created_at, 
-  updated_at 
-                                `;
+    // First get the existing slot data
+
+    const {day, startTime, endTime} = req.body
+    const getExistingSlotQuery = `
+      SELECT id, provider_id, day, start_time, end_time, is_booked
+      FROM time_slots
+      WHERE id = $1 AND provider_id = $2
+    `;
+    const existingSlotResult = await query(getExistingSlotQuery, [slotId, providerId]);
+
+    if (existingSlotResult.rows.length === 0) {
+      logger.warn(
+        `Update failed: Either no time slot with id ${slotId} exists or you do not have access to this slot`
+      );
+      const checkSlotExistenceQuery = "SELECT id FROM time_slots WHERE id = $1";
+      const checkResult = await query(checkSlotExistenceQuery, [slotId]);
+      if (checkResult.rows.length === 0) {
+        return res.status(404).json({ message: "Time slot does not exist" });
+      } else {
+        return res
+          .status(403)
+          .json({ message: "You do not have permission to update this time slot" });
+      }
+    }
+
+    const existingSlot = existingSlotResult.rows[0];
+    const { day: existingDay, start_time: existingStartTime, end_time: existingEndTime } = existingSlot;
+
+    // Use new values if provided, otherwise keep existing ones
+    const updatedDay = day || existingDay;
+    const updatedStartTime = startTime || existingStartTime;
+    const updatedEndTime = endTime || existingEndTime;
+
+    // Update the slot
+    const updateSlotQuery = `
+      UPDATE time_slots 
+      SET day = $1, start_time = $2, end_time = $3, updated_at = NOW()
+      WHERE id = $4 AND provider_id = $5
+      RETURNING 
+        id, 
+        provider_id, 
+        TO_CHAR(day, 'YYYY-MM-DD') AS day,
+        start_time, 
+        end_time, 
+        is_booked, 
+        created_at, 
+        updated_at
+    `;
+    
     const updateSlotResult = await query(updateSlotQuery, [
-      day,
-      startTime,
-      endTime,
+      updatedDay,
+      updatedStartTime,
+      updatedEndTime,
       slotId,
       providerId,
     ]);
 
-    if (updateSlotResult.rows.length === 0) {
-      logger.warn(
-        `Update failed: Either no time slot with id ${slotId} exists or you do not have access to this slot`
-      );
-      const checkTaskExistenceQuery = "SELECT id FROM time_slots WHERE id = $1";
-      const checkResult = await query(checkTaskExistenceQuery, [slotId]);
-      if (checkResult.rows.length === 0) {
-        return res.status(404).json({ message: "Task does not exist" });
-      } else {
-        return res
-          .status(403)
-          .json({ message: "You do not have permission to delete this task" });
-      }
-    }
     const updatedSlot = formatTimestamps(updateSlotResult.rows[0]);
 
-    logger.info(
-      `Slot ${slotId} updated Successfully by provider ${providerId}`
-    );
-    // return res.json(updateSlotResult.rows[0])
+    logger.info(`Slot ${slotId} updated successfully by provider ${providerId}`);
     return res.json({
       message: "Time slot updated successfully",
       updatedSlot: updatedSlot,
     });
   } catch (error) {
     logger.error(
-      `Error Updating time slot ${slotId} for provider ${providerId} : `,
+      `Error updating time slot ${slotId} for provider ${providerId}: `,
       error
     );
     return res.status(error.status || 500).json({
-      message: error.message || "Server error while update the time slot",
+      message: error.message || "Server error while updating the time slot",
     });
   }
 }
-
 export async function deleteTimeSlot(req, res) {
   const { slotId } = req.params;
   const providerId = req.user.providerId

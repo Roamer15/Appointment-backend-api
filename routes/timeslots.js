@@ -1,6 +1,6 @@
 import express from "express"
 import authMiddleware from "../middlewares/authMiddleware.js"
-import { createTimeSlotValidator } from "../validators/create-time-slot-validator.js"
+import { createTimeSlotValidator, updateTimeSlotValidator } from "../validators/create-time-slot-validator.js"
 import { providerOnly } from "../middlewares/providerOnly.js"
 import { createTimeSlot, deleteTimeSlot, getAvailableSlots, updateTimeSlot, viewTimeSlot } from "../controllers/timeslot-controller.js"
 
@@ -333,7 +333,7 @@ router.delete('/delete/:slotId', authMiddleware, providerOnly, deleteTimeSlot)
  */
 
 
-router.put('/providers/:providerId/update-timeslot/:slotId', providerOnly, updateTimeSlot)
+router.put('/update/:slotId', authMiddleware, providerOnly, updateTimeSlotValidator, updateTimeSlot)
 
 /**
  * @swagger
@@ -442,6 +442,6 @@ router.put('/providers/:providerId/update-timeslot/:slotId', providerOnly, updat
  *       - bearerAuth: []
  */
 
-router.get('/search/providers/:id/available-slots', providerOnly, getAvailableSlots)
+router.get('/available-slots', authMiddleware, providerOnly, getAvailableSlots)
 
 export default router

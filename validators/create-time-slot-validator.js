@@ -53,4 +53,57 @@ export function createTimeSlotValidator(req, res, next) {
     return res.status(400).json({ message: error.details[0].message });
   }
   next();
+}const updateSlotSchema = Joi.object({
+  day: Joi.date().iso().min('now').optional().messages({
+    'date.base': `"day" must be a valid ISO date`,
+    'date.min': 'The date must be today or a future date.'
+  }),
+  startTime: Joi.string().pattern(timeRegex).optional().messages({
+    'string.pattern.base': `"startTime" must be in HH:mm:ss format`
+  }),
+  endTime: Joi.string().pattern(timeRegex).optional().messages({
+    'string.pattern.base': `"endTime" must be in HH:mm:ss format`
+  })
+}).custom((obj, helpers) => {
+  const { day, startTime, endTime } = obj;
+  const now = moment();
+
+  // If day is being updated and is today, validate startTime
+  if (day && moment(day).isSame(now, 'day')) {
+    if (startTime) {
+      const startDateTime = moment(`${moment(day).format('YYYY-MM-DD')}T${startTime}`);
+      if (startDateTime.isBefore(now)) {
+        return helpers.error('startTime.invalid');
+      }
+    }
+  }
+
+  // If both startTime and endTime are provided, validate order
+  if (startTime && endTime) {
+    const compareDay = day ? day : helpers.state.ancestors[0]?.day;
+    if (!compareDay) {
+      return helpers.error('day.missing');
+    }
+
+    const startDateTime = moment(`${moment(compareDay).format('YYYY-MM-DD')}T${startTime}`);
+    const endDateTime = moment(`${moment(compareDay).format('YYYY-MM-DD')}T${endTime}`);
+
+    if (endDateTime.isSameOrBefore(startDateTime)) {
+      return helpers.error('endTime.invalid');
+    }
+  }
+
+  return obj;
+}).messages({
+  'startTime.invalid': 'Start time must be later than the current time for today.',
+  'endTime.invalid': 'End time must be later than the start time.',
+  'day.missing': 'Day is required when validating time relationships'
+})
+
+export function updateTimeSlotValidator(req, res, next) {
+  const { error } = updateSlotSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+  next();
 }
