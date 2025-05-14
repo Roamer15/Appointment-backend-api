@@ -6,7 +6,7 @@ import app from '../app.js';
 import { Server } from 'socket.io';
 import logger from '../utils/logger.js';
 import { connectToDb, initializeDbSchema } from '../config/db.js';
-import {seedSampleProvidersAndSlots} from '../config/sampleProviders.js'
+//import {seedSampleProvidersAndSlots} from '../config/sampleProviders.js'
 
 const debug = debugLib('appointment-backend-api:server');
 
@@ -126,33 +126,78 @@ function onListening() {
 }
 
 /**
- * Sockets with socket.io for real time notifications
+ * Socket.IO Server with enhanced configuration
  */
-
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow frontend to connect (adjust for production!)
-    methods: ["GET", "POST", "PATCH"]
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  connectionStateRecovery: {
+    maxDisconnectionDuration: 2 * 60 * 1000, // 2 minutes
+    skipMiddlewares: true
   }
+});
+
+// Track active connections
+const activeConnections = new Map();
+app.set('activeConnections', activeConnections);
+
+// Socket.IO Middlewares
+io.use((socket, next) => {
+  // Rate limiting
+  rateLimiter.consume(socket.handshake.address)
+    .then(() => next())
+    .catch(() => next(new Error("Too many connection attempts")));
+});
+
+io.use((socket, next) => {
+  // Authentication validation
+  const { userId, providerId } = socket.handshake.auth;
+  
+  if (!userId && !providerId) {
+    return next(new Error("Unauthorized: Missing credentials"));
+  }
+  
+  // In production, verify tokens or session here
+  next();
+});
+
+// Connection handling
+io.on("connection", (socket) => {
+  const { userId, providerId } = socket.handshake.auth;
+  const connectionKey = userId ? `user_${userId}` : `provider_${providerId}`;
+
+  logger.info(`New connection: ${socket.id}`, { userId, providerId });
+
+  // Store connection
+  activeConnections.set(connectionKey, socket);
+
+  // Join appropriate rooms
+  if (providerId) {
+    socket.join(`provider_${providerId}`);
+    logger.info(`Provider ${providerId} joined room`);
+  }
+  
+  if (userId) {
+    socket.join(`user_${userId}`);
+    logger.info(`User ${userId} joined room`);
+  }
+
+  socket.on("disconnect", (reason) => {
+    activeConnections.delete(connectionKey);
+    logger.info(`Disconnected: ${socket.id}`, { reason, userId, providerId });
+  });
+
+  socket.on("error", (err) => {
+    logger.error(`Socket error: ${socket.id}`, { error: err.message });
+  });
 });
 
 app.set('io', io);
 
-// Listen to socket connections
-io.on("connection", (socket) => {
-  logger.info("User connected:", socket.id);
 
-  // Providers should join their own room (use providerId from frontend)
-  socket.on("join_provider_room", (providerId) => {
-    socket.join(providerId);
-    logger.info(`Provider ${providerId} joined room`);
-  });
-
-  socket.on("disconnect", () => {
-    logger.info("User disconnected:", socket.id);
-  });
-
-});
 
 
 const startSever = async () => {

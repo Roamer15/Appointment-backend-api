@@ -1,9 +1,10 @@
 import { query } from "../config/db.js";
 import logger from "../utils/logger.js";
+import { emitSocketEvent } from "../utils/socket.js";
 
 export async function providerCancelAppointment(req, res) {
   const { appointmentId } = req.params;
-  const providerId = req.user.providerId
+  const providerId = req.user.providerId;
 
   try {
     // 1. Fetch the appointment
@@ -63,26 +64,32 @@ export async function providerCancelAppointment(req, res) {
       `Appointment ${appointmentId} canceled successfully by provider ${providerId}`
     );
 
-
     const io = req.app.get("io");
-    logger.info("Socket.IO instance in real app:", req.app.get("io"));
-    
-    if(io) {
-      await io.to(appointment.provider_id).emit("appointment_canceled", {
-        message: "An appointment was canceled",
-        appointmentId: appointmentId,
-      });
-      logger.info(`🔔 Notification sent to provider ${appointment.provider_id}`);
-  
-      await io.to(appointment.user_id).emit("appointment_canceled", {
-        message: "Your appointment was canceled",
-        appointmentId: appointmentId,
-      });
-      logger.info(`🔔 Notification sent to provider ${appointment.user_id}`);
-  
+    if (io) {
+      await Promise.all([
+        emitSocketEvent(
+          io,
+          `provider_${appointment.provider_id}`,
+          "appointment_canceled",
+          {
+            message: "Appointment canceled",
+            appointmentId,
+            by: "provider",
+            timestamp: new Date().toISOString(),
+          }
+        ),
+        emitSocketEvent(
+          io,
+          `user_${appointment.user_id}`,
+          "appointment_canceled",
+          {
+            message: "Your appointment was canceled by provider",
+            appointmentId,
+            timestamp: new Date().toISOString(),
+          }
+        ),
+      ]);
     }
-    
-
     res.json({
       message: "Appointment canceled successfully",
       appointment: canceledResult.rows[0],
@@ -99,7 +106,7 @@ export async function providerCancelAppointment(req, res) {
 }
 
 export async function cancelAppointment(req, res) {
-  const userId = req.user.id;
+  const clientId = req.user.id;
   const { appointmentId } = req.params;
 
   try {
@@ -121,8 +128,8 @@ export async function cancelAppointment(req, res) {
     const appointment = appointmentResult.rows[0];
 
     // 2. Check if user is authorized
-    if (appointment.user_id !== userId) {
-      logger.warn(`Cancel failed: Unauthorized user ${userId}`);
+    if (appointment.user_id !== clientId) {
+      logger.warn(`Cancel failed: Unauthorized user ${clientId}`);
       return res
         .status(403)
         .json({ message: "You are not allowed to cancel this appointment" });
@@ -152,28 +159,30 @@ export async function cancelAppointment(req, res) {
         SET is_booked = FALSE
         WHERE id = $1
       `;
-    await query(freeSlotQuery, [appointment.time_slot_id]);
+    await query(freeSlotQuery, [appointment.timeslot_id]);
 
-    logger.info(`Appointment ${appointmentId} canceled by user ${userId}`);
+    logger.info(`Appointment ${appointmentId} canceled by user ${clientId}`);
 
-    const io = req.app.get("io");
-    logger.info("Socket.IO instance in real app:", req.app.get("io"));
-
-    if(io) {
-      await io.to(appointment.provider_id).emit("appointment_canceled", {
-        message: "An appointment was canceled",
-        appointmentId: appointmentId,
-      });
-      logger.info(`🔔 Notification sent to provider ${appointment.provider_id}`);
-  
-      await io.to(appointment.user_id).emit("appointment_canceled", {
-        message: "Your appointment was canceled",
-        appointmentId: appointmentId,
-      });
-      logger.info(`🔔 Notification sent to provider ${appointment.user_id}`);
-  
+    const io = req.app.get('io');
+    if (io) {
+      await Promise.all([
+        emitSocketEvent(
+          io,
+          `provider_${appointment.provider_id}`,
+          "appointment_canceled",
+          {
+            message: "Appointment canceled by client",
+            appointmentId,
+            timestamp: new Date().toISOString(),
+          }
+        ),
+        emitSocketEvent(io, `user_${userId}`, "appointment_canceled", {
+          message: "You canceled an appointment",
+          appointmentId,
+          timestamp: new Date().toISOString(),
+        }),
+      ]);
     }
-    
     res.status(200).json({
       message: "Appointment canceled successfully",
       updatedAppointment: canceledResult.rows[0],
@@ -248,7 +257,6 @@ export async function viewMyAppointments(req, res) {
   }
 }
 
-
 export async function bookAppointment(req, res) {
   const clientId = req.user.id;
   const { timeslotId } = req.body;
@@ -287,11 +295,13 @@ export async function bookAppointment(req, res) {
     const updateSlotQuery = `UPDATE time_slots SET is_booked = TRUE WHERE id = $1`;
     await query(updateSlotQuery, [timeslotId]);
 
-    const io = req.app.get("io");
+    // Improved version with error handling
+    const io = req.app.get('io');
     if (io) {
-      io.to(providerId).emit("new_appointment", {
-        message: "You have a new appointment booked!",
+      await emitSocketEvent(io, `provider_${providerId}`, "new_appointment", {
+        message: "New appointment booked",
         appointment: appointmentResult.rows[0],
+        timestamp: new Date().toISOString(),
       });
     }
 
@@ -299,13 +309,11 @@ export async function bookAppointment(req, res) {
       message: "Appointment booked successfully",
       appointment: appointmentResult.rows[0],
     });
-
   } catch (error) {
     logger.error("Transaction error:", error);
     res.status(500).json({ message: "Booking failed", error: error.message });
   }
 }
-
 
 // // PATCH /appointments/:appointmentId/reschedule
 // export async function rescheduleAppointment(req, res) {

@@ -272,7 +272,7 @@ router.get('/provider/view', authMiddleware, providerOnly, viewProviderAppointme
  *       - bearerAuth: []
  */
 
-router.patch("/:appointmentId/cancel", authMiddleware, cancelAppointment);
+router.patch("/cancel/:appointmentId", authMiddleware, clientOnly, cancelAppointment);
 
 /**
  * @swagger
@@ -348,6 +348,6 @@ router.patch("/:appointmentId/cancel", authMiddleware, cancelAppointment);
  */
 
 
-router.patch("/provider/:providerId/:appointmentId/cancel", providerOnly, providerCancelAppointment);
+router.patch("/provider/cancel/:appointmentId", authMiddleware, providerOnly, providerCancelAppointment);
 
 export default router
