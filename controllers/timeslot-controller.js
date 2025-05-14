@@ -102,7 +102,8 @@ export async function updateTimeSlot(req, res) {
 }
 
 export async function deleteTimeSlot(req, res) {
-  const { providerId, slotId } = req.params;
+  const { slotId } = req.params;
+  const providerId = req.user.providerId
 
   try {
     const deleteSlotQuery = `DELETE
@@ -136,7 +137,7 @@ export async function deleteTimeSlot(req, res) {
   }
 }
 export async function viewTimeSlot(req, res) {
-  const providerId = req.params.id;
+  const providerId = req.user.providerId;
 
   try {
     const getTimeSlotsQuery = `SELECT day, start_time, end_time, is_booked, created_at, updated_at

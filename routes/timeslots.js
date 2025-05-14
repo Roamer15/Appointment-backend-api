@@ -169,7 +169,7 @@ router.post('/create', authMiddleware, providerOnly, createTimeSlotValidator, cr
  */
 
 
-router.get('/providers/:id/view-timeslots', providerOnly, viewTimeSlot)
+router.get('/view', authMiddleware, providerOnly, viewTimeSlot)
 
 /**
  * @swagger
@@ -240,7 +240,7 @@ router.get('/providers/:id/view-timeslots', providerOnly, viewTimeSlot)
  */
 
 
-router.delete('/providers/:providerId/delete-timeslot/:slotId', providerOnly, deleteTimeSlot)
+router.delete('/delete/:slotId', authMiddleware, providerOnly, deleteTimeSlot)
 
 /**
  * @swagger
