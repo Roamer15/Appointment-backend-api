@@ -27,6 +27,7 @@ export default async function authMiddleware(req, res, next) {
     req.user = {
       id: user.id,
       role: user.role,
+      providerId: user.providerId
     };
     logger.debug(`Auth middleware: Token verified for User ID ${req.user.id}`);
 
