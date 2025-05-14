@@ -1,4 +1,4 @@
-import { query } from "../config/db.js";
+import { query, pool } from "../config/db.js";
 import logger from "../utils/logger.js";
 import { emitSocketEvent } from "../utils/socket.js";
 
@@ -260,140 +260,208 @@ export async function viewMyAppointments(req, res) {
 export async function bookAppointment(req, res) {
   const clientId = req.user.id;
   const { timeslotId } = req.body;
+  const client = await pool.connect(); // Get a dedicated connection
 
   try {
-    // 1. Lock the timeslot row
+    await client.query('BEGIN'); // Start transaction
+
+    // 1. Lock the timeslot row (now in transaction)
     const timeSlotQuery = `SELECT * FROM time_slots WHERE id = $1 FOR UPDATE`;
-    const timeSlotResult = await query(timeSlotQuery, [timeslotId]);
+    const timeSlotResult = await client.query(timeSlotQuery, [timeslotId]);
 
     if (timeSlotResult.rows.length === 0) {
+      await client.query('ROLLBACK');
       return res.status(404).json({ message: "Time slot not found" });
     }
 
     const slot = timeSlotResult.rows[0];
     if (slot.is_booked === true) {
+      await client.query('ROLLBACK');
       return res.status(409).json({ message: "Time slot already booked" });
     }
 
-    // 2. Proceed to book
-    const appointmentDate = slot.day;
-    const providerId = slot.provider_id;
-    const status = "booked";
-
+    // 2. Create appointment (in same transaction)
     const insertAppointmentQuery = `
-      INSERT INTO appointments (user_id, provider_id, timeslot_id, appointment_date, status)
+      INSERT INTO appointments 
+        (user_id, provider_id, timeslot_id, appointment_date, status)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *`;
-    const appointmentResult = await query(insertAppointmentQuery, [
+    const appointmentResult = await client.query(insertAppointmentQuery, [
       clientId,
-      providerId,
+      slot.provider_id,
       timeslotId,
-      appointmentDate,
-      status,
+      slot.day,
+      "booked"
     ]);
 
-    const updateSlotQuery = `UPDATE time_slots SET is_booked = TRUE WHERE id = $1`;
-    await query(updateSlotQuery, [timeslotId]);
+    // 3. Update timeslot status (in same transaction)
+    await client.query(
+      `UPDATE time_slots SET is_booked = TRUE WHERE id = $1`,
+      [timeslotId]
+    );
 
-    // Improved version with error handling
+    await client.query('COMMIT'); // All changes succeed or none do
+
+    // 4. Notify (outside transaction)
     const io = req.app.get('io');
     if (io) {
-      await emitSocketEvent(io, `provider_${providerId}`, "new_appointment", {
-        message: "New appointment booked",
-        appointment: appointmentResult.rows[0],
-        timestamp: new Date().toISOString(),
-      });
+      try {
+        await emitSocketEvent(io, `provider_${slot.provider_id}`, "new_appointment", {
+        });
+      } catch (socketError) {
+        logger.error("Notification failed but booking succeeded:", socketError);
+      }
     }
 
     return res.status(201).json({
       message: "Appointment booked successfully",
       appointment: appointmentResult.rows[0],
     });
+
   } catch (error) {
-    logger.error("Transaction error:", error);
-    res.status(500).json({ message: "Booking failed", error: error.message });
+    await client.query('ROLLBACK');
+    logger.error("Booking transaction failed:", error);
+    res.status(500).json({ 
+      message: "Booking failed",
+      error: error.message 
+    });
+  } finally {
+    client.release(); // Always release connection
   }
 }
 
-// // PATCH /appointments/:appointmentId/reschedule
-// export async function rescheduleAppointment(req, res) {
-//   const { appointmentId } = req.params;
-//   const { newTimeslotId } = req.body;
-//   const clientId = req.user.id;
 
-//   const client = await pool.connect();
+// controllers/appointment-controller.js
+export async function rescheduleAppointment(req, res) {
+  const { appointmentId } = req.params;
+  const { newTimeslotId } = req.body;
+  const userId = req.user.id;
+  const client = await pool.connect();
 
-//   try {
-//     await client.query('BEGIN');
+  try {
+    await client.query('BEGIN');
 
-//     // 1. Fetch the appointment
-//     const appointmentRes = await client.query(
-//       `SELECT timeslot_id, provider_id, status, client_id FROM appointments WHERE id = $1 FOR UPDATE`,
-//       [appointmentId]
-//     );
+    // 1. Verify existing appointment
+    const appointmentRes = await client.query(
+      `SELECT id, user_id, provider_id, timeslot_id, status 
+       FROM appointments 
+       WHERE id = $1 FOR UPDATE`,
+      [appointmentId]
+    );
 
-//     if (appointmentRes.rows.length === 0) {
-//       await client.query('ROLLBACK');
-//       return res.status(404).json({ message: "Appointment not found" });
-//     }
+    if (appointmentRes.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ message: "Appointment not found" });
+    }
 
-//     const appointment = appointmentRes.rows[0];
+    const appointment = appointmentRes.rows[0];
 
-//     if (appointment.client_id !== clientId) {
-//       await client.query('ROLLBACK');
-//       return res.status(403).json({ message: "You are not allowed to reschedule this appointment" });
-//     }
+    // 2. Authorization check
+    if (appointment.user_id !== userId) {
+      await client.query('ROLLBACK');
+      return res.status(403).json({ 
+        message: "Not authorized to reschedule this appointment" 
+      });
+    }
 
-//     if (appointment.status === 'canceled') {
-//       await client.query('ROLLBACK');
-//       return res.status(400).json({ message: "Cannot reschedule a canceled appointment" });
-//     }
+    // 3. Validate current status
+    if (appointment.status === 'canceled') {
+      await client.query('ROLLBACK');
+      return res.status(400).json({ 
+        message: "Cannot reschedule a canceled appointment" 
+      });
+    }
 
-//     // 2. Check if new time slot is available
-//     const slotRes = await client.query(
-//       `SELECT * FROM time_slots WHERE id = $1 FOR UPDATE`,
-//       [newTimeslotId]
-//     );
+    // 4. Verify new timeslot
+    const newSlotRes = await client.query(
+      `SELECT id, provider_id, day, is_booked 
+       FROM time_slots 
+       WHERE id = $1 FOR UPDATE`,
+      [newTimeslotId]
+    );
 
-//     if (slotRes.rows.length === 0) {
-//       await client.query('ROLLBACK');
-//       return res.status(404).json({ message: "New time slot not found" });
-//     }
+    if (newSlotRes.rows.length === 0) {
+      await client.query('ROLLBACK');
+      return res.status(404).json({ message: "New timeslot not found" });
+    }
 
-//     const newSlot = slotRes.rows[0];
-//     if (newSlot.is_booked) {
-//       await client.query('ROLLBACK');
-//       return res.status(409).json({ message: "New time slot already booked" });
-//     }
+    const newSlot = newSlotRes.rows[0];
 
-//     // 3. Update appointment to new slot
-//     await client.query(
-//       `UPDATE appointments SET timeslot_id = $1, appointment_date = $2, updated_at = CURRENT_TIMESTAMP WHERE id = $3`,
-//       [newTimeslotId, newSlot.day, appointmentId]
-//     );
+    // 5. Validate new timeslot
+    if (newSlot.is_booked) {
+      await client.query('ROLLBACK');
+      return res.status(409).json({ 
+        message: "New timeslot is already booked" 
+      });
+    }
 
-//     // 4. Update time slots
-//     await client.query(`UPDATE time_slots SET is_booked = TRUE WHERE id = $1`, [newTimeslotId]);
-//     await client.query(`UPDATE time_slots SET is_booked = FALSE WHERE id = $1`, [appointment.timeslot_id]);
+    if (newSlot.provider_id !== appointment.provider_id) {
+      await client.query('ROLLBACK');
+      return res.status(400).json({ 
+        message: "Cannot reschedule to different provider" 
+      });
+    }
 
-//     await client.query('COMMIT');
+    // 6. Perform the reschedule
+    await client.query(
+      `UPDATE appointments 
+       SET timeslot_id = $1, appointment_date = $2, updated_at = NOW() 
+       WHERE id = $3`,
+      [newTimeslotId, newSlot.day, appointmentId]
+    );
 
-//     const io = req.app.get("io");
-//     if (io) {
-//       io.to(appointment.provider_id).emit("appointment_rescheduled", {
-//         message: "An appointment has been rescheduled",
-//         appointmentId,
-//         newTimeslotId,
-//       });
-//     }
+    // 7. Update timeslot statuses
+    await client.query(
+      `UPDATE time_slots SET is_booked = TRUE WHERE id = $1`,
+      [newTimeslotId]
+    );
+    
+    await client.query(
+      `UPDATE time_slots SET is_booked = FALSE WHERE id = $1`,
+      [appointment.timeslot_id]
+    );
 
-//     return res.status(200).json({ message: "Appointment rescheduled successfully" });
+    await client.query('COMMIT');
 
-//   } catch (error) {
-//     await client.query('ROLLBACK');
-//     logger.error("Reschedule error:", error);
-//     return res.status(500).json({ message: "Failed to reschedule", error: error.message });
-//   } finally {
-//     client.release();
-//   }
-// }
+    // 8. Notify via Socket.IO
+    const io = req.app.get('io');
+    if (io) {
+      io.to(`provider_${appointment.provider_id}`).emit('appointment_rescheduled', {
+        appointmentId,
+        oldTimeslotId: appointment.timeslot_id,
+        newTimeslotId,
+        updatedAt: new Date().toISOString()
+      });
+      
+      io.to(`user_${userId}`).emit('appointment_rescheduled', {
+        appointmentId,
+        newTime: newSlot.start_time,
+        newDate: newSlot.day,
+        updatedAt: new Date().toISOString()
+      });
+    }
+
+    res.status(200).json({ 
+      message: "Appointment rescheduled successfully",
+      newTimeslot: {
+        id: newTimeslotId,
+        day: newSlot.day,
+        startTime: newSlot.start_time,
+        endTime: newSlot.end_time
+      }
+    });
+  } catch (error) {
+    await client.query('ROLLBACK');
+    logger.error(`Reschedule failed: ${error.message}`, {
+      appointmentId,
+      userId,
+      error
+    });
+    res.status(500).json({ 
+      message: "Failed to reschedule appointment",
+      error: error.message 
+    });
+  } finally {
+    client.release();
+  }
+}
