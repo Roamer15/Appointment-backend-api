@@ -111,7 +111,7 @@ async function initializeDbSchema() {
             user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             provider_id UUID NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
             timeslot_id UUID NOT NULL REFERENCES time_slots(id) ON DELETE CASCADE,
-            ppointment_date DATE NOT NULL,
+            appointment_date DATE NOT NULL,
             status VARCHAR(20) CHECK (status IN ('booked', 'canceled', 'completed', 'no-show')) DEFAULT 'booked',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

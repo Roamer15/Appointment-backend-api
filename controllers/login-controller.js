@@ -43,6 +43,19 @@ export async function loginHandler(req, res, next) {
       },
     };
 
+    if (user.role === 'provider') {
+      const providerResult = await query(
+        `SELECT id FROM providers WHERE user_id = $1`,
+        [user.id]
+      );
+    
+      if (providerResult.rows.length === 0) {
+        return res.status(400).json({ message: "Provider profile not found" });
+      }
+    
+      payload.providerId = providerResult.rows[0].id;
+    }
+
     jwt.sign(
       payload,
       process.env.JWT_SECRET,
@@ -55,8 +68,8 @@ export async function loginHandler(req, res, next) {
           throw new Error("Error generating authentication token");
         }
         logger.info(`User logged in successfully: ${email} (ID: ${user.id})`);
-        res.json({
-          message: "Login Successfull!",
+        res.status(200).json({
+          message: "Login Successful!",
           token: token,
           user: {
             id: user.id,
@@ -65,6 +78,7 @@ export async function loginHandler(req, res, next) {
             email: user.email,
             role: user.role,
             profileImageUrl: user.profile_image_url,
+            providerId: payload.providerId || null
           },
         });
       }
