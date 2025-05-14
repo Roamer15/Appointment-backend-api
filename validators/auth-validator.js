@@ -49,18 +49,15 @@ const registerValidator = Joi.object({
     .messages({
       'any.only': 'Role must be either "client" or "provider"',
       'string.empty': 'Role is required',
-    }),
-
-  // These fields only make sense for providers
-  specialty: Joi.string()
-    .max(100)
-    .when('role', { is: 'provider', then: Joi.required() }),
-
-  bio: Joi.string()
-    .max(500)
-    .when('role', { is: 'provider', then: Joi.optional() }),
+    })
 });
 
+const registerProviderValidator = Joi.object({
+  // These fields only make sense for providers
+  userId: Joi.string().uuid().required(),
+  specialty: Joi.string().min(2).required(),
+  bio: Joi.string().max(500).optional()
+})
 
 export const registrationValidator = (req, res, next) => {
   const { error } = registerValidator.validate(req.body);
@@ -69,6 +66,15 @@ export const registrationValidator = (req, res, next) => {
   }
   next();
 };
+
+export const registrationProviderValidator = (req, res, next) => {
+  const { error } = registerProviderValidator.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+  next();
+};
+
 
 const loginSchema = Joi.object({
   email: Joi.string().email().required(),

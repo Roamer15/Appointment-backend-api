@@ -55,6 +55,8 @@ async function initializeDbSchema() {
             password TEXT NOT NULL,
             role VARCHAR(10) CHECK (role IN ('client', 'provider')) NOT NULL,
             profile_image_url VARCHAR(255),
+            is_verified BOOLEAN DEFAULT false,
+            verification_token TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
@@ -106,7 +108,7 @@ async function initializeDbSchema() {
     await query(`
             CREATE TABLE IF NOT EXISTS appointments (
             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-            client_id UUID NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
+            user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             provider_id UUID NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
             timeslot_id UUID NOT NULL REFERENCES time_slots(id) ON DELETE CASCADE,
             ppointment_date DATE NOT NULL,
@@ -146,7 +148,7 @@ async function initializeDbSchema() {
 
     await query(`
                 CREATE INDEX IF NOT EXISTS idx_appointments_provider_status ON appointments(provider_id, status);
-                CREATE INDEX IF NOT EXISTS idx_appointments_client_status ON appointments(client_id, status);
+                CREATE INDEX IF NOT EXISTS idx_appointments_user_status ON appointments(user_id, status);
               `);
   } catch (err) {
     logger.error(`Error while initializing the schema`, err);
