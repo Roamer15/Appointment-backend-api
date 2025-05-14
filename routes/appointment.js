@@ -1,12 +1,18 @@
-import express from "express"
-import authMiddleware from "../middlewares/authMiddleware.js"
-import { bookAppointment, cancelAppointment, providerCancelAppointment, viewMyAppointments, viewProviderAppointments } from "../controllers/appointment-controller.js"
-import slotIdValidator from "../validators/booking-validator.js"
-import { providerOnly } from "../middlewares/providerOnly.js"
-import { clientOnly } from "../middlewares/clientOnly.js"
+import express from "express";
+import authMiddleware from "../middlewares/authMiddleware.js";
+import {
+  bookAppointment,
+  cancelAppointment,
+  providerCancelAppointment,
+  rescheduleAppointment,
+  viewMyAppointments,
+  viewProviderAppointments,
+} from "../controllers/appointment-controller.js";
+import slotIdValidator, { rescheduleAppointmentValidator } from "../validators/booking-validator.js";
+import { providerOnly } from "../middlewares/providerOnly.js";
+import { clientOnly } from "../middlewares/clientOnly.js";
 
-const router = express.Router()
-
+const router = express.Router();
 
 /**
  * @swagger
@@ -68,9 +74,13 @@ const router = express.Router()
  *       - bearerAuth: []
  */
 
-
-router.post('/booking', authMiddleware, clientOnly, slotIdValidator,bookAppointment)
-
+router.post(
+  "/booking",
+  authMiddleware,
+  clientOnly,
+  slotIdValidator,
+  bookAppointment
+);
 
 /**
  * @swagger
@@ -132,8 +142,7 @@ router.post('/booking', authMiddleware, clientOnly, slotIdValidator,bookAppointm
  *     security:
  *       - bearerAuth: []
  */
-router.get('/view', authMiddleware, clientOnly, viewMyAppointments)
-
+router.get("/view", authMiddleware, clientOnly, viewMyAppointments);
 
 /**
  * @swagger
@@ -187,7 +196,7 @@ router.get('/view', authMiddleware, clientOnly, viewMyAppointments)
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
- * 
+ *
  *       401:
  *         description: Unauthorized - Token has expired.
  *         content:
@@ -202,7 +211,12 @@ router.get('/view', authMiddleware, clientOnly, viewMyAppointments)
  *       - bearerAuth: []
  */
 
-router.get('/provider/view', authMiddleware, providerOnly, viewProviderAppointments)
+router.get(
+  "/provider/view",
+  authMiddleware,
+  providerOnly,
+  viewProviderAppointments
+);
 
 /**
  * @swagger
@@ -257,7 +271,7 @@ router.get('/provider/view', authMiddleware, providerOnly, viewProviderAppointme
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
- * 
+ *
  *       401:
  *         description: Unauthorized - Token has expired.
  *         content:
@@ -272,7 +286,12 @@ router.get('/provider/view', authMiddleware, providerOnly, viewProviderAppointme
  *       - bearerAuth: []
  */
 
-router.patch("/cancel/:appointmentId", authMiddleware, clientOnly, cancelAppointment);
+router.patch(
+  "/cancel/:appointmentId",
+  authMiddleware,
+  clientOnly,
+  cancelAppointment
+);
 
 /**
  * @swagger
@@ -326,13 +345,13 @@ router.patch("/cancel/:appointmentId", authMiddleware, clientOnly, cancelAppoint
  *                         type: string
  *                         format: date-time
  *                         example: "2025-04-26T11:50:54.374Z"
- *                      
+ *
  *       400:
  *         description: Invalid provider ID.
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
- * 
+ *
  *       401:
  *         description: Unauthorized - only providers can view their time slots.
  *         content:
@@ -347,7 +366,18 @@ router.patch("/cancel/:appointmentId", authMiddleware, clientOnly, cancelAppoint
  *       - bearerAuth: []
  */
 
+router.patch(
+  "/provider/cancel/:appointmentId",
+  authMiddleware,
+  providerOnly,
+  providerCancelAppointment
+);
 
-router.patch("/provider/cancel/:appointmentId", authMiddleware, providerOnly, providerCancelAppointment);
-
-export default router
+router.patch(
+  "/reschedule/:appointmentId",
+  authMiddleware,
+  clientOnly,
+  rescheduleAppointmentValidator,
+  rescheduleAppointment
+);
+export default router;
