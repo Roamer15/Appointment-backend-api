@@ -3,6 +3,7 @@ import authMiddleware from "../middlewares/authMiddleware.js"
 import { bookAppointment, cancelAppointment, providerCancelAppointment, viewMyAppointments, viewProviderAppointments } from "../controllers/appointment-controller.js"
 import slotIdValidator from "../validators/booking-validator.js"
 import { providerOnly } from "../middlewares/providerOnly.js"
+import { clientOnly } from "../middlewares/clientOnly.js"
 
 const router = express.Router()
 
@@ -68,7 +69,7 @@ const router = express.Router()
  */
 
 
-router.post('/booking', authMiddleware, slotIdValidator, bookAppointment)
+router.post('/booking', authMiddleware, clientOnly, slotIdValidator,bookAppointment)
 
 
 /**
@@ -131,7 +132,7 @@ router.post('/booking', authMiddleware, slotIdValidator, bookAppointment)
  *     security:
  *       - bearerAuth: []
  */
-router.get('/view-bookings', authMiddleware, viewMyAppointments)
+router.get('/view', authMiddleware, clientOnly, viewMyAppointments)
 
 
 /**
@@ -201,7 +202,7 @@ router.get('/view-bookings', authMiddleware, viewMyAppointments)
  *       - bearerAuth: []
  */
 
-router.get('/provider/view-bookings/:id', providerOnly, viewProviderAppointments)
+router.get('/provider/view', authMiddleware, providerOnly, viewProviderAppointments)
 
 /**
  * @swagger
