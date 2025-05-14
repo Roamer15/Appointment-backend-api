@@ -98,7 +98,7 @@ const router = express.Router()
  */
 
 
-router.post('/providers/:id/create-timeslots' , providerOnly, createTimeSlotValidator, createTimeSlot)
+router.post('/create', authMiddleware, providerOnly, createTimeSlotValidator, createTimeSlot)
 
 /**
  * @swagger

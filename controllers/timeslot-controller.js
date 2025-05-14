@@ -170,7 +170,7 @@ export async function viewTimeSlot(req, res) {
 
 export async function createTimeSlot(req, res) {
   const { day, startTime, endTime } = req.body;
-  const providerId = req.params.id;
+  const providerId = req.user.providerId;
 
   try {
     const checkQuery = `

@@ -7,7 +7,7 @@ export async function loginHandler(req, res, next) {
   const { email, password } = req.body;
   try {
     const findUserQuery =
-      "SELECT id, email, first_name, last_name, password, role, is_verified FROM users WHERE email = $1";
+      "SELECT id, email, first_name, last_name, password, role, is_verified, profile_image_url FROM users WHERE email = $1";
     const userResult = await query(findUserQuery, [email]);
 
     if (userResult.rows.length === 0) {
@@ -67,7 +67,7 @@ export async function loginHandler(req, res, next) {
           logger.error(`Error generating JWT for ${email}: `, err);
           throw new Error("Error generating authentication token");
         }
-        logger.info(`User logged in successfully: ${email} (ID: ${user.id})`);
+        logger.info(`User logged in successfully: ${email} (ID: ${user.id}) `);
         res.status(200).json({
           message: "Login Successful!",
           token: token,

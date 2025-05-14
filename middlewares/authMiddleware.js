@@ -1,52 +1,64 @@
 import jwt from "jsonwebtoken";
 import { query } from "../config/db.js";
+import logger from "../utils/logger.js";
 
 export default async function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Authorization token missing or malformed" });
+    return res
+      .status(401)
+      .json({ message: "Authorization token missing or malformed" });
   }
 
   const token = authHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!token) {
+      logger.warn(`Auth middleware: no token provided`);
+      return res
+        .status(401)
+        .json({ message: "No token, authorization has been denied" });
+    }
 
-    const userResult = await query("SELECT id, role, is_verified FROM users WHERE id = $1", [decoded.userId]);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userResult = await query(
+      "SELECT id, role, is_verified FROM users WHERE id = $1",
+      [decoded.user.id]
+    );
     if (userResult.rows.length === 0) {
       return res.status(401).json({ message: "User no longer exists" });
     }
 
     const user = userResult.rows[0];
+    console.log(decoded.providerId);
     if (!user.is_verified) {
       return res.status(403).json({ message: "User not verified" });
     }
 
-    
     req.user = {
       id: user.id,
       role: user.role,
-      providerId: user.providerId
+      providerId: decoded.providerId,
     };
     logger.debug(`Auth middleware: Token verified for User ID ${req.user.id}`);
 
     next();
-  } catch (err) {
-    return res.status(401).json({ message: "Invalid or expired token" });
+  } catch (error) {
+    logger.error("Auth middleware: token verification failed", error);
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token is expired" });
+    }
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Token is not valid" });
+    }
+    return res
+      .status(error.status || 500)
+      .json({
+        message: error.message || "Server error during token verification",
+      });
   }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
