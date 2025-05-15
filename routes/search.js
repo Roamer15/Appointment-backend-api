@@ -1,6 +1,8 @@
 import express from "express"
 import authMiddleware from "../middlewares/authMiddleware.js"
 import { getAvailableSlots } from "../controllers/timeslot-controller.js"
+import { clientOnly } from "../middlewares/clientOnly.js"
+import { searchProviders } from "../controllers/search-controller.js"
 
 const router = express.Router()
 
@@ -74,4 +76,5 @@ const router = express.Router()
 
 router.get('/providers/:id/available-slots', authMiddleware, getAvailableSlots)
 
+router.get('/providers', authMiddleware, clientOnly, searchProviders)
 export default router
