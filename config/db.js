@@ -5,8 +5,10 @@ import dotenv from 'dotenv';
 
 if (process.env.NODE_ENV === 'test') {
   dotenv.config({ path: '.env.test' });
+  logger.info('🧪 Test environment variables loaded from .env.test');
 } else {
-  dotenv.config(); // default to .env
+  dotenv.config(); // defaults to .env
+  logger.info('🌱 Default environment variables loaded from .env');
 }
 
 const { DB_USER, DB_PASSWORD, DB_PORT, DB_NAME, DB_HOST } = process.env;
