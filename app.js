@@ -17,6 +17,7 @@ import authRouter from './routes/auth.js'
 import timeslotRouter from './routes/timeslots.js'
 import searchRouter from './routes/search.js'
 import appointmentRouter from './routes/appointment.js'
+import profileRouter from './routes/account.js'
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/auth', authRouter)
 app.use('/timeslots', timeslotRouter)
 app.use('/search', searchRouter)
 app.use('/appointment', appointmentRouter)
+app.use('/profile', profileRouter)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
