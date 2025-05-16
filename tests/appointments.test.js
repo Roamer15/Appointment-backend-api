@@ -1,319 +1,319 @@
-import { test, describe, before, after } from 'node:test';
-import assert from 'node:assert/strict';
-import request from 'supertest';
-import app from '../app.js';
-import { query } from '../config/db.js';
-import logger from '../utils/logger.js';
-
-let clientToken, providerToken;
-let clientId, providerId;
-let slotId, appointmentId;
-
-describe('Appointment Endpoints', () => {
-  before(async () => {
-    // Register client
-    const clientEmail = `client${Date.now()}@test.com`;
-    const clientRes = await request(app)
-      .post('/auth/register')
-      .field('firstName', 'Test')
-      .field('lastName', 'Client')
-      .field('email', clientEmail)
-      .field('password', 'Test@123')
-      .field('role', 'client');
-
-    clientId = clientRes.body.user.id;
-    await query(`UPDATE users SET is_verified = true WHERE id = $1`, [clientId]);
-
-    const clientLogin = await request(app)
-      .post('/auth/login')
-      .send({ email: clientEmail, password: 'Test@123' });
-    clientToken = clientLogin.body.token;
-
-    // Register provider
-    const providerEmail = `provider${Date.now()}@test.com`;
-    const providerRes = await request(app)
-      .post('/auth/register')
-      .field('firstName', 'Doc')
-      .field('lastName', 'Provider')
-      .field('email', providerEmail)
-      .field('password', 'Test@123')
-      .field('role', 'provider');
-
-    providerId = providerRes.body.userId;
-    await query(`UPDATE users SET is_verified = true WHERE id = $1`, [providerId]);
-
-    await request(app).post('/auth/register/provider').send({
-      userId: providerId,
-      specialty: 'Dermatology',
-      bio: 'Skincare expert'
-    });
-
-    const providerLogin = await request(app)
-      .post('/auth/login')
-      .send({ email: providerEmail, password: 'Test@123' });
-    providerToken = providerLogin.body.token;
-
-    // Create a timeslot
-    const slotRes = await request(app)
-      .post('/timeslots/create')
-      .set('Authorization', `Bearer ${providerToken}`)
-      .send({
-        day: '2025-06-01',
-        startTime: '10:00:00',
-        endTime: '10:30:00'
-      });
-
-    slotId = slotRes.body.slot.id;
-    logger.info(`${slotId} found`)
-  });
-
-  test('POST /appointments/booking - should book an appointment', async () => {
-    const res = await request(app)
-      .post('/appointment/booking')
-      .set('Authorization', `Bearer ${clientToken}`)
-      .send({ timeslotId: slotId });
-
-    assert.equal(res.statusCode, 201);
-    assert.equal(res.body.message, 'Appointment booked successfully');
-    appointmentId = res.body.appointment.id;
-  });
-
-  test('GET /appointment/view - should return client appointments', async () => {
-    const res = await request(app)
-      .get('/appointment/view')
-      .set('Authorization', `Bearer ${clientToken}`);
-
-    assert.equal(res.statusCode, 200);
-    assert.ok(Array.isArray(res.body.appointments));
-  });
-
-  test('GET /appointment/provider/view - should return provider appointments', async () => {
-    const res = await request(app)
-      .get('/appointment/provider/view')
-      .set('Authorization', `Bearer ${providerToken}`);
-
-    assert.equal(res.statusCode, 200);
-    assert.ok(Array.isArray(res.body.appointments));
-  });
-
-  test('PATCH /appointment/reschedule/:id - should reschedule the appointment', async () => {
-    // Create a new timeslot
-    const newSlotRes = await request(app)
-      .post('/timeslots/create')
-      .set('Authorization', `Bearer ${providerToken}`)
-      .send({
-        day: '2025-06-02',
-        startTime: '11:00:00',
-        endTime: '11:30:00'
-      });
-
-    const newSlotId = newSlotRes.body.slot.id;
-
-    const res = await request(app)
-      .patch(`/appointment/reschedule/${appointmentId}`)
-      .set('Authorization', `Bearer ${clientToken}`)
-      .send({ newTimeslotId: newSlotId });
-
-    assert.equal(res.statusCode, 200);
-    assert.equal(res.body.message, 'Appointment rescheduled successfully');
-  });
-
-  test('PATCH /appointment/cancel/:id - should cancel the appointment', async () => {
-    const res = await request(app)
-      .patch(`/appointment/cancel/${appointmentId}`)
-      .set('Authorization', `Bearer ${clientToken}`);
-
-    assert.equal(res.statusCode, 200);
-    assert.equal(res.body.message, 'Appointment canceled successfully');
-  });
-
-  after(async () => {
-    await query(`DELETE FROM appointments WHERE user_id = $1 OR provider_id = $1`, [clientId]);
-    await query(`DELETE FROM time_slots WHERE provider_id = $1`, [providerId]);
-    await query(`DELETE FROM providers WHERE user_id = $1`, [providerId]);
-    await query(`DELETE FROM users WHERE id = $1 OR id = $2`, [clientId, providerId]);
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { test, describe } from 'node:test';
+// import { test, describe, before, after } from 'node:test';
 // import assert from 'node:assert/strict';
 // import request from 'supertest';
 // import app from '../app.js';
 // import { query } from '../config/db.js';
+// import logger from '../utils/logger.js';
 
-// let clientToken, providerId, timeslotId;
+// let clientToken, providerToken;
+// let clientId, providerId;
+// let slotId, appointmentId;
 
-// describe('Appointment Booking', () => {
-//   // Setup test client and provider
-//   test('Setup: Create client, provider and time slot', async () => {
-//     // Create client
+// describe('Appointment Endpoints', () => {
+//   before(async () => {
+//     // Register client
+//     const clientEmail = `client${Date.now()}@test.com`;
 //     const clientRes = await request(app)
 //       .post('/auth/register')
-//       .send({
-//         firstName: 'Test',
-//         lastName: 'Client',
-//         email: 'client@example.com',
-//         password: 'password'
-//       });
-    
-//     const loginRes = await request(app)
+//       .field('firstName', 'Test')
+//       .field('lastName', 'Client')
+//       .field('email', clientEmail)
+//       .field('password', 'Test@123')
+//       .field('role', 'client');
+
+//     clientId = clientRes.body.user.id;
+//     await query(`UPDATE users SET is_verified = true WHERE id = $1`, [clientId]);
+
+//     const clientLogin = await request(app)
 //       .post('/auth/login')
-//       .send({ email: 'client@example.com', password: 'password' });
+//       .send({ email: clientEmail, password: 'Test@123' });
+//     clientToken = clientLogin.body.token;
 
-//     clientToken = loginRes.body.token;
-//     const providerEmail = `provider${Date.now()}@gmail.com0`
-//     // Create provider
-//     const providerRes = await query(`
-//       INSERT INTO providers (first_name, last_name, email, password, specialty)
-//       VALUES ('Test', 'Provider', $1, 'password', 'therapist')
-//       RETURNING id
-//     `, [providerEmail]);
-//     providerId = providerRes.rows[0].id;
+//     // Register provider
+//     const providerEmail = `provider${Date.now()}@test.com`;
+//     const providerRes = await request(app)
+//       .post('/auth/register')
+//       .field('firstName', 'Doc')
+//       .field('lastName', 'Provider')
+//       .field('email', providerEmail)
+//       .field('password', 'Test@123')
+//       .field('role', 'provider');
 
-//     // Create time slot
-//     const slotRes = await query(`
-//       INSERT INTO time_slots (provider_id, day, start_time, end_time)
-//       VALUES ($1, '2025-05-01', '10:00:00', '10:30:00')
-//       RETURNING id
-//     `, [providerId]);
-//     timeslotId = slotRes.rows[0].id;
+//     providerId = providerRes.body.userId;
+//     await query(`UPDATE users SET is_verified = true WHERE id = $1`, [providerId]);
+
+//     await request(app).post('/auth/register/provider').send({
+//       userId: providerId,
+//       specialty: 'Dermatology',
+//       bio: 'Skincare expert'
+//     });
+
+//     const providerLogin = await request(app)
+//       .post('/auth/login')
+//       .send({ email: providerEmail, password: 'Test@123' });
+//     providerToken = providerLogin.body.token;
+
+//     // Create a timeslot
+//     const slotRes = await request(app)
+//       .post('/timeslots/create')
+//       .set('Authorization', `Bearer ${providerToken}`)
+//       .send({
+//         day: '2025-06-01',
+//         startTime: '10:00:00',
+//         endTime: '10:30:00'
+//       });
+
+//     slotId = slotRes.body.slot.id;
+//     logger.info(`${slotId} found`)
 //   });
 
-//   // Booking test
-//   test('POST /booking - should successfully book an appointment', async () => {
+//   test('POST /appointments/booking - should book an appointment', async () => {
 //     const res = await request(app)
 //       .post('/appointment/booking')
 //       .set('Authorization', `Bearer ${clientToken}`)
-//       .send({ timeslotId });
+//       .send({ timeslotId: slotId });
 
-//     assert.equal(res.status, 201);
+//     assert.equal(res.statusCode, 201);
 //     assert.equal(res.body.message, 'Appointment booked successfully');
-//     assert.equal(res.body.appointment.timeslot_id, timeslotId);
+//     appointmentId = res.body.appointment.id;
 //   });
 
-//   test('GET /view-bookings - should return the client\'s booked appointments', async () => {
+//   test('GET /appointment/view - should return client appointments', async () => {
 //     const res = await request(app)
-//       .get('/appointment/view-bookings')
+//       .get('/appointment/view')
 //       .set('Authorization', `Bearer ${clientToken}`);
-  
-//     assert.equal(res.status, 200);
-//     assert.ok(Array.isArray(res.body.appointments), 'appointments should be an array');
-//     assert.ok(res.body.appointments.length > 0, 'should return at least one appointment');
-    
-//     const appointment = res.body.appointments[0];
-//     assert.ok(appointment.appointment_id, 'appointment should have an id');
-//     assert.ok(appointment.day, 'appointment should have a day');
-//     assert.ok(appointment.start_time, 'appointment should have a start time');
-//     assert.ok(appointment.end_time, 'appointment should have an end time');
-//     assert.ok(appointment.provider_first_name, 'should include provider\'s first name');
-//     assert.ok(appointment.provider_last_name, 'should include provider\'s last name');
-//   });  
 
-//   test('GET /provider/view-bookings/:id - should return the provider\'s booked appointments', async () => {
+//     assert.equal(res.statusCode, 200);
+//     assert.ok(Array.isArray(res.body.appointments));
+//   });
+
+//   test('GET /appointment/provider/view - should return provider appointments', async () => {
 //     const res = await request(app)
-//       .get(`/appointment/provider/view-bookings/${providerId}`);
-  
-//     assert.equal(res.status, 200);
-//     assert.ok(Array.isArray(res.body.appointments), 'appointments should be an array');
-//     assert.ok(res.body.appointments.length > 0, 'should return at least one appointment');
-  
-//     const appointment = res.body.appointments[0];
-//     assert.ok(appointment.appointment_id, 'appointment should have an id');
-//     assert.ok(appointment.day, 'appointment should have a day');
-//     assert.ok(appointment.start_time, 'appointment should have a start time');
-//     assert.ok(appointment.end_time, 'appointment should have an end time');
-//     assert.ok(appointment.status, 'appointment should have a status');
+//       .get('/appointment/provider/view')
+//       .set('Authorization', `Bearer ${providerToken}`);
+
+//     assert.equal(res.statusCode, 200);
+//     assert.ok(Array.isArray(res.body.appointments));
 //   });
 
-//   test('PATCH /:appointmentId/cancel - should cancel the appointment', async () => {
-//     // First fetch appointmentId from client's bookings
-//     const fetchRes = await request(app)
-//       .get('/appointment/view-bookings')
-//       .set('Authorization', `Bearer ${clientToken}`);
+//   test('PATCH /appointment/reschedule/:id - should reschedule the appointment', async () => {
+//     // Create a new timeslot
+//     const newSlotRes = await request(app)
+//       .post('/timeslots/create')
+//       .set('Authorization', `Bearer ${providerToken}`)
+//       .send({
+//         day: '2025-06-02',
+//         startTime: '11:00:00',
+//         endTime: '11:30:00'
+//       });
 
-//     const appointmentId = fetchRes.body.appointments?.[0]?.appointment_id;
-//     assert.ok(appointmentId, 'appointment_id should be defined');
+//     const newSlotId = newSlotRes.body.slot.id;
 
-//     // Perform cancellation
-//     const cancelRes = await request(app)
-//       .patch(`/appointment/${appointmentId}/cancel`)
-//       .set('Authorization', `Bearer ${clientToken}`);
-
-//     // DEBUG response
-//     console.log('Cancel Appointment Response:', cancelRes.body);
-
-//     assert.equal(cancelRes.status, 200);
-//     assert.equal(cancelRes.body.message, 'Appointment canceled successfully');
-//     assert.ok(cancelRes.body.updatedAppointment, 'updatedAppointment should be present');
-//     assert.equal(cancelRes.body.updatedAppointment.status, 'canceled');
-//   });
-
-//   test('PATCH /provider/:providerId/:appointmentId/cancel - should allow provider to cancel appointment', async () => {
-//     // First, book a new appointment to cancel as provider
-//     const newSlotRes = await query(`
-//       INSERT INTO time_slots (provider_id, day, start_time, end_time)
-//       VALUES ($1, '2025-05-03', '14:00:00', '14:30:00')
-//       RETURNING id
-//     `, [providerId]);
-
-//     const newSlotId = newSlotRes.rows[0].id;
-
-//     // Book the appointment
-//     const bookingRes = await request(app)
-//       .post('/appointment/booking')
+//     const res = await request(app)
+//       .patch(`/appointment/reschedule/${appointmentId}`)
 //       .set('Authorization', `Bearer ${clientToken}`)
-//       .send({ timeslotId: newSlotId });
+//       .send({ newTimeslotId: newSlotId });
 
-//     const appointmentId = bookingRes.body.appointment.id;
-//     assert.ok(appointmentId, 'appointment ID should exist');
-
-//     // Provider cancels the appointment
-//     const cancelRes = await request(app)
-//       .patch(`/appointment/provider/${providerId}/${appointmentId}/cancel`);
-
-//     // DEBUG
-//     console.log('Provider cancel response:', cancelRes.body);
-
-//     assert.equal(cancelRes.status, 200);
-//     assert.ok(cancelRes.body.appointment, 'appointments should be present');
-//     assert.equal(cancelRes.body.appointment.status, 'canceled');
+//     assert.equal(res.statusCode, 200);
+//     assert.equal(res.body.message, 'Appointment rescheduled successfully');
 //   });
 
+//   test('PATCH /appointment/cancel/:id - should cancel the appointment', async () => {
+//     const res = await request(app)
+//       .patch(`/appointment/cancel/${appointmentId}`)
+//       .set('Authorization', `Bearer ${clientToken}`);
 
-//   // Cleanup
-//   test('Cleanup: delete client, provider, time slot, and appointment', async () => {
-//     await query(`DELETE FROM appointments WHERE timeslot_id = $1`, [timeslotId]);
-//     await query(`DELETE FROM time_slots WHERE id = $1`, [timeslotId]);
-//     await query(`DELETE FROM providers WHERE id = $1`, [providerId]);
-//     await query(`DELETE FROM clients WHERE email = $1`, ['client@example.com']);
+//     assert.equal(res.statusCode, 200);
+//     assert.equal(res.body.message, 'Appointment canceled successfully');
+//   });
+
+//   after(async () => {
+//     await query(`DELETE FROM appointments WHERE user_id = $1 OR provider_id = $1`, [clientId]);
+//     await query(`DELETE FROM time_slots WHERE provider_id = $1`, [providerId]);
+//     await query(`DELETE FROM providers WHERE user_id = $1`, [providerId]);
+//     await query(`DELETE FROM users WHERE id = $1 OR id = $2`, [clientId, providerId]);
 //   });
 // });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // import { test, describe } from 'node:test';
+// // import assert from 'node:assert/strict';
+// // import request from 'supertest';
+// // import app from '../app.js';
+// // import { query } from '../config/db.js';
+
+// // let clientToken, providerId, timeslotId;
+
+// // describe('Appointment Booking', () => {
+// //   // Setup test client and provider
+// //   test('Setup: Create client, provider and time slot', async () => {
+// //     // Create client
+// //     const clientRes = await request(app)
+// //       .post('/auth/register')
+// //       .send({
+// //         firstName: 'Test',
+// //         lastName: 'Client',
+// //         email: 'client@example.com',
+// //         password: 'password'
+// //       });
+    
+// //     const loginRes = await request(app)
+// //       .post('/auth/login')
+// //       .send({ email: 'client@example.com', password: 'password' });
+
+// //     clientToken = loginRes.body.token;
+// //     const providerEmail = `provider${Date.now()}@gmail.com0`
+// //     // Create provider
+// //     const providerRes = await query(`
+// //       INSERT INTO providers (first_name, last_name, email, password, specialty)
+// //       VALUES ('Test', 'Provider', $1, 'password', 'therapist')
+// //       RETURNING id
+// //     `, [providerEmail]);
+// //     providerId = providerRes.rows[0].id;
+
+// //     // Create time slot
+// //     const slotRes = await query(`
+// //       INSERT INTO time_slots (provider_id, day, start_time, end_time)
+// //       VALUES ($1, '2025-05-01', '10:00:00', '10:30:00')
+// //       RETURNING id
+// //     `, [providerId]);
+// //     timeslotId = slotRes.rows[0].id;
+// //   });
+
+// //   // Booking test
+// //   test('POST /booking - should successfully book an appointment', async () => {
+// //     const res = await request(app)
+// //       .post('/appointment/booking')
+// //       .set('Authorization', `Bearer ${clientToken}`)
+// //       .send({ timeslotId });
+
+// //     assert.equal(res.status, 201);
+// //     assert.equal(res.body.message, 'Appointment booked successfully');
+// //     assert.equal(res.body.appointment.timeslot_id, timeslotId);
+// //   });
+
+// //   test('GET /view-bookings - should return the client\'s booked appointments', async () => {
+// //     const res = await request(app)
+// //       .get('/appointment/view-bookings')
+// //       .set('Authorization', `Bearer ${clientToken}`);
+  
+// //     assert.equal(res.status, 200);
+// //     assert.ok(Array.isArray(res.body.appointments), 'appointments should be an array');
+// //     assert.ok(res.body.appointments.length > 0, 'should return at least one appointment');
+    
+// //     const appointment = res.body.appointments[0];
+// //     assert.ok(appointment.appointment_id, 'appointment should have an id');
+// //     assert.ok(appointment.day, 'appointment should have a day');
+// //     assert.ok(appointment.start_time, 'appointment should have a start time');
+// //     assert.ok(appointment.end_time, 'appointment should have an end time');
+// //     assert.ok(appointment.provider_first_name, 'should include provider\'s first name');
+// //     assert.ok(appointment.provider_last_name, 'should include provider\'s last name');
+// //   });  
+
+// //   test('GET /provider/view-bookings/:id - should return the provider\'s booked appointments', async () => {
+// //     const res = await request(app)
+// //       .get(`/appointment/provider/view-bookings/${providerId}`);
+  
+// //     assert.equal(res.status, 200);
+// //     assert.ok(Array.isArray(res.body.appointments), 'appointments should be an array');
+// //     assert.ok(res.body.appointments.length > 0, 'should return at least one appointment');
+  
+// //     const appointment = res.body.appointments[0];
+// //     assert.ok(appointment.appointment_id, 'appointment should have an id');
+// //     assert.ok(appointment.day, 'appointment should have a day');
+// //     assert.ok(appointment.start_time, 'appointment should have a start time');
+// //     assert.ok(appointment.end_time, 'appointment should have an end time');
+// //     assert.ok(appointment.status, 'appointment should have a status');
+// //   });
+
+// //   test('PATCH /:appointmentId/cancel - should cancel the appointment', async () => {
+// //     // First fetch appointmentId from client's bookings
+// //     const fetchRes = await request(app)
+// //       .get('/appointment/view-bookings')
+// //       .set('Authorization', `Bearer ${clientToken}`);
+
+// //     const appointmentId = fetchRes.body.appointments?.[0]?.appointment_id;
+// //     assert.ok(appointmentId, 'appointment_id should be defined');
+
+// //     // Perform cancellation
+// //     const cancelRes = await request(app)
+// //       .patch(`/appointment/${appointmentId}/cancel`)
+// //       .set('Authorization', `Bearer ${clientToken}`);
+
+// //     // DEBUG response
+// //     console.log('Cancel Appointment Response:', cancelRes.body);
+
+// //     assert.equal(cancelRes.status, 200);
+// //     assert.equal(cancelRes.body.message, 'Appointment canceled successfully');
+// //     assert.ok(cancelRes.body.updatedAppointment, 'updatedAppointment should be present');
+// //     assert.equal(cancelRes.body.updatedAppointment.status, 'canceled');
+// //   });
+
+// //   test('PATCH /provider/:providerId/:appointmentId/cancel - should allow provider to cancel appointment', async () => {
+// //     // First, book a new appointment to cancel as provider
+// //     const newSlotRes = await query(`
+// //       INSERT INTO time_slots (provider_id, day, start_time, end_time)
+// //       VALUES ($1, '2025-05-03', '14:00:00', '14:30:00')
+// //       RETURNING id
+// //     `, [providerId]);
+
+// //     const newSlotId = newSlotRes.rows[0].id;
+
+// //     // Book the appointment
+// //     const bookingRes = await request(app)
+// //       .post('/appointment/booking')
+// //       .set('Authorization', `Bearer ${clientToken}`)
+// //       .send({ timeslotId: newSlotId });
+
+// //     const appointmentId = bookingRes.body.appointment.id;
+// //     assert.ok(appointmentId, 'appointment ID should exist');
+
+// //     // Provider cancels the appointment
+// //     const cancelRes = await request(app)
+// //       .patch(`/appointment/provider/${providerId}/${appointmentId}/cancel`);
+
+// //     // DEBUG
+// //     console.log('Provider cancel response:', cancelRes.body);
+
+// //     assert.equal(cancelRes.status, 200);
+// //     assert.ok(cancelRes.body.appointment, 'appointments should be present');
+// //     assert.equal(cancelRes.body.appointment.status, 'canceled');
+// //   });
+
+
+// //   // Cleanup
+// //   test('Cleanup: delete client, provider, time slot, and appointment', async () => {
+// //     await query(`DELETE FROM appointments WHERE timeslot_id = $1`, [timeslotId]);
+// //     await query(`DELETE FROM time_slots WHERE id = $1`, [timeslotId]);
+// //     await query(`DELETE FROM providers WHERE id = $1`, [providerId]);
+// //     await query(`DELETE FROM clients WHERE email = $1`, ['client@example.com']);
+// //   });
+// // });
