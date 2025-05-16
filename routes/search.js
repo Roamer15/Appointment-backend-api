@@ -9,17 +9,19 @@ const router = express.Router()
 /**
  * @swagger
  * tags:
- *   name: Time Slots
- *   description: Managing time slots for service providers
+ *   name: Search Providers
+ *   description: Viewing available time slots and searching providers
  */
 
 /**
  * @swagger
  * /providers/{id}/available-slots:
  *   get:
- *     summary: Client views available slots for a provider
+ *     summary: View available slots for a provider
  *     tags: [Time Slots]
  *     description: Allows an authenticated client to view all available (not booked) time slots for a specific provider.
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -31,7 +33,7 @@ const router = express.Router()
  *       - in: query
  *         name: startDate
  *         required: false
- *         description: Start date to filter available slots (optional)
+ *         description: Start date to filter slots (optional)
  *         schema:
  *           type: string
  *           format: date
@@ -39,14 +41,14 @@ const router = express.Router()
  *       - in: query
  *         name: endDate
  *         required: false
- *         description: End date to filter available slots (optional)
+ *         description: End date to filter slots (optional)
  *         schema:
  *           type: string
  *           format: date
  *           example: "2025-04-30"
  *     responses:
  *       200:
- *         description: List of available time slots for the provider.
+ *         description: Available time slots retrieved successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -58,23 +60,87 @@ const router = express.Router()
  *                     type: object
  *                     properties:
  *                       slot_id: { type: string, format: uuid }
- *                       day: { type: string, format: date }
- *                       start_time: { type: string, format: time }
- *                       end_time: { type: string, format: time }
+ *                       day: { type: string, format: date, example: "2025-05-01" }
+ *                       start_time: { type: string, format: time, example: "09:00:00" }
+ *                       end_time: { type: string, format: time, example: "09:30:00" }
  *       400:
  *         description: Invalid provider ID or bad query parameters.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
  *       401:
- *         description: Unauthorized - client must be authenticated.
+ *         description: Unauthorized - authentication required.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
  *       404:
- *         description: No available slots found.
+ *         description: No available slots found for provider.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
  *       500:
  *         description: Server error while fetching available slots.
- *     security:
- *       - bearerAuth: []
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
  */
 
 
 router.get('/providers/:id/available-slots', authMiddleware, getAvailableSlots)
+
+/**
+ * @swagger
+ * /providers:
+ *   get:
+ *     summary: Search for providers by name or specialty
+ *     tags: [Time Slots]
+ *     description: Allows authenticated clients to search for providers based on name or specialty.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         required: false
+ *         description: Name of the provider to search (first or last name)
+ *         schema:
+ *           type: string
+ *           example: Sarah
+ *       - in: query
+ *         name: specialty
+ *         required: false
+ *         description: Specialty of the provider to search
+ *         schema:
+ *           type: string
+ *           example: Mechanic
+ *     responses:
+ *       200:
+ *         description: Matching providers found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 providers:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/PublicProviderProfile'
+ *       400:
+ *         description: Bad query parameters.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       401:
+ *         description: Unauthorized - client access only.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       500:
+ *         description: Server error while searching providers.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ */
+
 
 router.get('/providers', authMiddleware, clientOnly, searchProviders)
 export default router
