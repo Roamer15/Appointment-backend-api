@@ -1,7 +1,7 @@
 // import { test, before, after } from 'node:test';
 // import assert from 'node:assert';
 // import request from 'supertest';
-// import app from '../app.js'; // update to your actual Express app
+// import app from '../app.js';
 // import { query } from '../config/db.js';
 
 // const testUser = {
@@ -9,26 +9,27 @@
 //   lastName: 'Testman',
 //   email: 'logan.test@example.com',
 //   password: '123456789',
-//   profileImageUrl: ''
+//   role: 'client',
+//   isVerified: 'TRUE'
 // };
 
 // before(async () => {
-//   // Ensure test user exists before login test
 //   await query(`
-//     INSERT INTO clients (first_name, last_name, email, password, profile_image_url)
-//     VALUES ($1, $2, $3, crypt($4, gen_salt('bf')), $5)
+//     INSERT INTO users (first_name, last_name, email, password, role, is_verified)
+//     VALUES ($1, $2, $3, crypt($4, gen_salt('bf')), $5, $6)
 //     ON CONFLICT (email) DO NOTHING
 //   `, [
 //     testUser.firstName,
 //     testUser.lastName,
 //     testUser.email,
 //     testUser.password,
-//     testUser.profileImageUrl
+//     testUser.role,
+//     testUser.isVerified
 //   ]);
 // });
 
 // after(async () => {
-//   await query('DELETE FROM clients WHERE email = $1', [testUser.email]);
+//   await query(`DELETE FROM users WHERE email = $1`, [testUser.email]);
 // });
 
 // test('POST /auth/login - should log in successfully with correct credentials', async () => {

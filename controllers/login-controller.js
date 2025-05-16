@@ -69,7 +69,7 @@ export async function loginHandler(req, res, next) {
         }
         logger.info(`User logged in successfully: ${email} (ID: ${user.id}) `);
         res.status(200).json({
-          message: "Login Successful!",
+          message: "Login Successfull!",
           token: token,
           user: {
             id: user.id,
