@@ -20,7 +20,9 @@ export async function registrationHandler(req, res, next) {
 
     if (userCheckResult.rows.length > 0) {
       logger.warn(`Registration attempt failed: Email already exists - ${email}`);
-      return res.status(409).json({ message: "Email already in use" });
+      const err = new Error("Email already in use")
+      err.status = 409
+      return next(err)
     }
 
     if (req.file) {
@@ -48,7 +50,9 @@ export async function registrationHandler(req, res, next) {
     const passwordHash = await bcrypt.hash(password, HASH_SALT);
 
     if (!["client", "provider"].includes(role)) {
-      return res.status(400).json({ message: 'Invalid role. Must be "client" or "provider".' });
+      const err = new Error('Invalid role. Must be "client" or "provider".')
+      err.status = 400
+      return next(err)
     }
 
     const insertUserSql = `
@@ -117,12 +121,16 @@ export async function registerProviderDetails(req, res, next) {
   try {
     const userResult = await query(`SELECT * FROM users WHERE id = $1`, [userId]);
     if (!userResult.rows.length) {
-      return res.status(404).json({ message: "User not found" });
+      const err = new Error("User not found")
+      err.status = 404
+      return next(err)
     }
 
     const user = userResult.rows[0];
     if (user.role !== "provider") {
-      return res.status(400).json({ message: "User is not registered as provider" });
+      const err = new Error("User is not registered as provider")
+      err.status = 400
+      return next(err)
     }
 
     await query(
@@ -239,13 +247,15 @@ export async function verifyEmailHandler(req, res, next) {
       [userId]
     );
     if (userResult.rows.length === 0) {
-      return res.status(404).json({ message: "User not found" });
+      const err = new Error("User not found")
+      err.status = 404
+      return next(err)
     }
 
     if (userResult.rows[0].is_verified) {
-      return res.status(400).json({
-        message: "Email already verified, check your spam to be sure",
-      });
+      const err = new Error("Email already verified, check your spam to be sure")
+      err.status = 400
+      return next(err)
     }
 
     await query(

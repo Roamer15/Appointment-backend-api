@@ -46,14 +46,17 @@ export async function getAvailableSlots(req, res) {
     const toDate = new Date(to);
     
     if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
-      return res.status(400).json({ message: "Invalid date format" });
+      const err = new Error("Invalid date format")
+      err.status = 400
+      return next(err)
     }
 
     // Validate logical date range
     if (fromDate > toDate) {
-      return res.status(400).json({ 
-        message: "'from' date must be before 'to' date" 
-      });
+     
+      const err = new Error("'from' date must be before 'to' date")
+      err.status = 400
+      return next(err)
     }
 
     const result = await query(
@@ -98,11 +101,14 @@ export async function updateTimeSlot(req, res) {
       const checkSlotExistenceQuery = "SELECT id FROM time_slots WHERE id = $1";
       const checkResult = await query(checkSlotExistenceQuery, [slotId]);
       if (checkResult.rows.length === 0) {
-        return res.status(404).json({ message: "Time slot does not exist" });
+        const err = new Error("Time slot does not exist")
+      err.status = 404
+      return next(err)
       } else {
-        return res
-          .status(403)
-          .json({ message: "You do not have permission to update this time slot" });
+        
+          const err = new Error("You do not have permission to update this time slot")
+      err.status = 403
+      return next(err)
       }
     }
 
@@ -168,17 +174,15 @@ export async function deleteTimeSlot(req, res) {
     const deleteSlotResult = await query(deleteSlotQuery, [slotId, providerId]);
 
     if (deleteSlotResult.rows.length === 0) {
-      logger.warn("Time slot not found or not owned by provider");
-      res.status(401).json({ message: "Slot does not exist" });
+      logger.warn("Slot does not exist");
+      const err = new Error("Time slot not found or not owned by provider")
+      err.status = 401
+      return next(err)
     }
 
     const deletedSlot = formatTimestamps(deleteSlotResult.rows[0]);
 
     logger.info(`Time slot with id: ${slotId} has been deleted successfully`);
-    //    return res.status(201).json({
-    //                                   message: `Slot deleted`,
-    //                                   slot: deleteSlotResult.rows[0]
-    //                                 })
     return res.json({
       message: `Time slot deleted successfully`,
       slot: deletedSlot,
@@ -203,7 +207,9 @@ export async function viewTimeSlot(req, res) {
     const getTimeSlotsResult = await query(getTimeSlotsQuery, [providerId]);
     if (getTimeSlotsResult.rows.length === 0) {
       logger.warn(`No timeslots available for ${providerId}`);
-      return res.status(404).json({ message: "No time slots found" });
+      const err = new Error("No time slots available yet")
+      err.status = 404
+      return next(err)
     }
 
     const formattedSlots = getTimeSlotsResult.rows.map((slot) =>
@@ -242,7 +248,9 @@ export async function createTimeSlot(req, res) {
 
     if (existing.rows.length > 0) {
       logger.warn(`Duplicate time slot attempt by provider ${providerId}`);
-      return res.status(409).json({ message: "Time slot already exists" });
+      const err = new Error("Time slot already exists")
+      err.status = 409
+      return next(err)
     }
 
     const insertQuery = `

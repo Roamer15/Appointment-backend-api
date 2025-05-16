@@ -2,7 +2,7 @@ import { query, pool } from "../config/db.js";
 import logger from "../utils/logger.js";
 import { emitSocketEvent } from "../utils/socket.js";
 
-export async function providerCancelAppointment(req, res) {
+export async function providerCancelAppointment(req, res, next) {
   const { appointmentId } = req.params;
   const providerId = req.user.providerId;
 
@@ -19,7 +19,9 @@ export async function providerCancelAppointment(req, res) {
 
     if (appointmentResult.rows.length === 0) {
       logger.warn(`Cancel failed: Appointment ${appointmentId} not found`);
-      return res.status(404).json({ message: "Appointment not found" });
+      const err = new Error("Appointment not found")
+      err.status = 404
+      return next(err)
     }
 
     const appointment = appointmentResult.rows[0];
@@ -29,18 +31,18 @@ export async function providerCancelAppointment(req, res) {
       logger.warn(
         `Unauthorized cancel attempt: Provider ${providerId} tried to cancel appointment ${appointmentId}`
       );
-      return res
-        .status(403)
-        .json({ message: "You are not allowed to cancel this appointment" });
+        const err = new Error("You are not allowed to cancel this appointment")
+        err.status = 403
+        return next(err)
     }
 
     if (appointment.status === "canceled") {
       logger.warn(
         `Cancel failed: Appointment ${appointmentId} already canceled`
       );
-      return res
-        .status(409)
-        .json({ message: "Appointment is already canceled" });
+        const err = new Error("Appointment has already been canceled")
+        err.status = 409
+        return next(err)
     }
 
     // 3. Cancel the appointment
@@ -105,7 +107,7 @@ export async function providerCancelAppointment(req, res) {
   }
 }
 
-export async function cancelAppointment(req, res) {
+export async function cancelAppointment(req, res, next) {
   const clientId = req.user.id;
   const { appointmentId } = req.params;
 
@@ -122,7 +124,9 @@ export async function cancelAppointment(req, res) {
 
     if (appointmentResult.rows.length === 0) {
       logger.warn(`Cancel failed: Appointment ${appointmentId} not found`);
-      return res.status(404).json({ message: "Appointment not found" });
+      const err = new Error("Appointment not found")
+      err.status = 404
+      return next(err)
     }
 
     const appointment = appointmentResult.rows[0];
@@ -130,18 +134,18 @@ export async function cancelAppointment(req, res) {
     // 2. Check if user is authorized
     if (appointment.user_id !== clientId) {
       logger.warn(`Cancel failed: Unauthorized user ${clientId}`);
-      return res
-        .status(403)
-        .json({ message: "You are not allowed to cancel this appointment" });
+      const err = new Error("You are not allowed to cancel this appointment")
+      err.status = 401
+      return next(err)
     }
 
     if (appointment.status === "canceled") {
       logger.warn(
         `Cancel failed: Appointment ${appointmentId} already canceled`
       );
-      return res
-        .status(409)
-        .json({ message: "Appointment is already canceled" });
+        const err = new Error("Appointment has already been canceled")
+      err.status = 409
+      return next(err)
     }
 
     // 3. Cancel the appointment
@@ -195,7 +199,7 @@ export async function cancelAppointment(req, res) {
   }
 }
 
-export async function viewProviderAppointments(req, res) {
+export async function viewProviderAppointments(req, res, next) {
   const providerId = req.user.providerId;
 
   try {
@@ -214,7 +218,7 @@ export async function viewProviderAppointments(req, res) {
     const appointmentsResult = await query(providerAppointmentsQuery, [
       providerId,
     ]);
-
+    logger.info("Appointments successfully fetched")
     res.json({ appointments: appointmentsResult.rows });
   } catch (error) {
     logger.error(
@@ -228,7 +232,7 @@ export async function viewProviderAppointments(req, res) {
   }
 }
 
-export async function viewMyAppointments(req, res) {
+export async function viewMyAppointments(req, res, next) {
   const clientId = req.user.id;
 
   try {
@@ -257,7 +261,7 @@ export async function viewMyAppointments(req, res) {
   }
 }
 
-export async function bookAppointment(req, res) {
+export async function bookAppointment(req, res, next) {
   const clientId = req.user.id;
   const { timeslotId } = req.body;
   const client = await pool.connect(); // Get a dedicated connection
@@ -271,13 +275,17 @@ export async function bookAppointment(req, res) {
 
     if (timeSlotResult.rows.length === 0) {
       await client.query('ROLLBACK');
-      return res.status(404).json({ message: "Time slot not found" });
+      const err = new Error("Time slot not found")
+      err.status = 404
+      return next(err)
     }
 
     const slot = timeSlotResult.rows[0];
     if (slot.is_booked === true) {
       await client.query('ROLLBACK');
-      return res.status(409).json({ message: "Time slot already booked" });
+      const err = new Error("Time slot already booked")
+      err.status = 409
+      return next(err)
     }
 
     // 2. Create appointment (in same transaction)
@@ -351,7 +359,9 @@ export async function rescheduleAppointment(req, res) {
 
     if (appointmentRes.rows.length === 0) {
       await client.query('ROLLBACK');
-      return res.status(404).json({ message: "Appointment not found" });
+      const err = new Error("Appointment not found")
+      err.status = 404
+      return next(err)
     }
 
     const appointment = appointmentRes.rows[0];
@@ -359,17 +369,18 @@ export async function rescheduleAppointment(req, res) {
     // 2. Authorization check
     if (appointment.user_id !== userId) {
       await client.query('ROLLBACK');
-      return res.status(403).json({ 
-        message: "Not authorized to reschedule this appointment" 
-      });
+      logger.error("Unauthorized: You can't reschedule this appointment")
+      const err = new Error("Not authorized to reschedule this appointment")
+      err.status = 403
+      return next(err)
     }
 
     // 3. Validate current status
     if (appointment.status === 'canceled') {
       await client.query('ROLLBACK');
-      return res.status(400).json({ 
-        message: "Cannot reschedule a canceled appointment" 
-      });
+      const err = new Error("Cannot rescedule a canceled appointment")
+      err.status = 400
+      return next(err)
     }
 
     // 4. Verify new timeslot
@@ -382,7 +393,9 @@ export async function rescheduleAppointment(req, res) {
 
     if (newSlotRes.rows.length === 0) {
       await client.query('ROLLBACK');
-      return res.status(404).json({ message: "New timeslot not found" });
+      const err = new Error("New timeslot not found")
+      err.status = 404
+      return next(err)
     }
 
     const newSlot = newSlotRes.rows[0];
@@ -390,16 +403,16 @@ export async function rescheduleAppointment(req, res) {
     // 5. Validate new timeslot
     if (newSlot.is_booked) {
       await client.query('ROLLBACK');
-      return res.status(409).json({ 
-        message: "New timeslot is already booked" 
-      });
+      const err = new Error("New timeslot is already booked")
+      err.status = 409
+      return next(err)
     }
 
     if (newSlot.provider_id !== appointment.provider_id) {
       await client.query('ROLLBACK');
-      return res.status(400).json({ 
-        message: "Cannot reschedule to different provider" 
-      });
+      const err = new Error("Cannot reschedule to a different provider")
+      err.status = 400
+      return next(err)
     }
 
     // 6. Perform the reschedule

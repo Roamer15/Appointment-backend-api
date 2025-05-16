@@ -24,7 +24,9 @@ export async function getMyProfile(req, res) {
 
     if (result.rows.length === 0) {
       logger.error(`User with id ${userId} doesn't exist`);
-      return res.status(404).json({ message: "User not found" });
+      const err = new Error("User not found")
+      err.status = 404
+      return next(err)
     }
 
     const profile = result.rows[0];
@@ -189,7 +191,9 @@ export async function getProviderPublicProfile(req, res) {
     );
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ message: "Provider not found" });
+      const err = new Error("Provider not found")
+      err.status = 404
+      return next(err)
     }
 
     const provider = result.rows[0];

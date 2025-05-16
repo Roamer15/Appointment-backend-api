@@ -37,4 +37,13 @@ app.use('/profile', profileRouter)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
+
+app.use((err, req, res, next) => {
+    logger.error(err.stack);
+    res.status(err.status || 500).json({
+      success: false,
+      message: err.message || "Internal Server Error",
+    });
+  });
+  
 export default app
