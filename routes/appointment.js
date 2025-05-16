@@ -13,33 +13,32 @@ import { providerOnly } from "../middlewares/providerOnly.js";
 import { clientOnly } from "../middlewares/clientOnly.js";
 
 const router = express.Router();
-
 /**
  * @swagger
  * tags:
- *   name: Appointment
- *   description: Manipulation of appointments
+ *   name: Appointments
+ *   description: Appointment booking, viewing, cancellation, and rescheduling
  */
+
 /**
  * @swagger
  * /booking:
  *   post:
  *     summary: Client books an appointment
  *     tags: [Appointments]
- *     description: Allows an authenticated client to book appointments with providers.
+ *     security: [ { bearerAuth: [] } ]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - timeslotId
+ *             required: [ timeslotId ]
  *             properties:
  *               timeslotId:
  *                 type: string
  *                 format: uuid
- *                 example: "618b47c2-ac87-41b0-a88c-1a039fe85a1d"
+ *                 example: 618b47c2-ac87-41b0-a88c-1a039fe85a1d
  *     responses:
  *       201:
  *         description: Appointment booked successfully.
@@ -48,30 +47,29 @@ const router = express.Router();
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   example: Appointment booked successfully.
+ *                 message: { type: string, example: Appointment booked successfully }
  *                 appointment:
- *                   type: object
- *                   properties:
- *                     id: { type: string, format: uuid }
- *                     provider_id: { type: string, format: uuid }
- *                     client_id: { type: string, format: uuid }
- *                     timeslot_id: { type: string, format: uuid }
- *                     appointment_date: { type: string, format: date }
- *                     status: { type: string }
- *                     created_at: { type: string, format: date-time }
- *                     updated_at: { type: string, format: date-time }
+ *                   $ref: '#/components/schemas/Appointment'
  *       400:
- *         description: Validation error (e.g., missing or invalid fields).
+ *         description: Validation error.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
  *       409:
- *         description: appointment has already been made.
+ *         description: Time slot already booked.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
  *       401:
- *         description: Unauthorized - only authenticated clients can book appointments.
+ *         description: Unauthorized - client only.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
  *       500:
- *         description: Server error while booking the appointment.
- *     security:
- *       - bearerAuth: []
+ *         description: Server error.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
  */
 
 router.post(
@@ -84,14 +82,14 @@ router.post(
 
 /**
  * @swagger
- * /view-bookings:
+ * /view:
  *   get:
- *     summary: Client views their the booked appointments
+ *     summary: View all client appointments
  *     tags: [Appointments]
- *     description: Allows an authenticated client to view all their booked appointments.
+ *     security: [ { bearerAuth: [] } ]
  *     responses:
  *       200:
- *         description: List of booked appointments.
+ *         description: Appointments retrieved successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -100,60 +98,32 @@ router.post(
  *                 appointments:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       appointment_id:
- *                         type: string
- *                         format: uuid
- *                         example: "4e50b113-db0e-48ba-b2be-76039fca95a0"
- *                       status:
- *                         type: string
- *                         format: option
- *                         example: "booked"
- *                       created_at:
- *                         type: string
- *                         format: date-time
- *                         example: "2025-04-26T11:50:54.374Z"
- *                       day:
- *                         type: string
- *                         example: "2025-04-23"
- *                       start_time:
- *                         type: string
- *                         format: time
- *                       end_time:
- *                         type: string
- *                         format: time
- *                       provider_first_name::
- *                         type: string
- *                         example: "Roger"
- *                       provider_last_name::
- *                         type: string
- *                         example: "Example"
+ *                     $ref: '#/components/schemas/ClientAppointment'
  *       401:
- *         description: Unauthorized - Token has expired.
+ *         description: Unauthorized.
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
  *       500:
- *         description: Server error while fetching time slots.
+ *         description: Server error.
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
- *     security:
- *       - bearerAuth: []
  */
+
+
 router.get("/view", authMiddleware, clientOnly, viewMyAppointments);
 
 /**
  * @swagger
- * /provider/view-bookings/{providerId}:
+ * /provider/view:
  *   get:
- *     summary: Provider views the appointments for which he/she has been booked
+ *     summary: View appointments booked with provider
  *     tags: [Appointments]
- *     description: Allows a provider to view all their rendez-vous.
+ *     security: [ { bearerAuth: [] } ]
  *     responses:
  *       200:
- *         description: List of booked appointments.
+ *         description: Appointments retrieved successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -162,53 +132,17 @@ router.get("/view", authMiddleware, clientOnly, viewMyAppointments);
  *                 appointments:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       appointment_id:
- *                         type: string
- *                         format: uuid
- *                         example: "4e50b113-db0e-48ba-b2be-76039fca95a0"
- *                       status:
- *                         type: string
- *                         format: option
- *                         example: "booked"
- *                       created_at:
- *                         type: string
- *                         format: date-time
- *                         example: "2025-04-26T11:50:54.374Z"
- *                       day:
- *                         type: string
- *                         example: "2025-04-23"
- *                       start_time:
- *                         type: string
- *                         format: time
- *                       end_time:
- *                         type: string
- *                         format: time
- *                       provider_first_name::
- *                         type: string
- *                         example: "Roger"
- *                       provider_last_name::
- *                         type: string
- *                         example: "Example"
- *       400:
- *         description: Invalid provider ID.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
- *
+ *                     $ref: '#/components/schemas/ProviderAppointment'
  *       401:
- *         description: Unauthorized - Token has expired.
+ *         description: Unauthorized.
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
  *       500:
- *         description: Server error while fetching time slots.
+ *         description: Server error.
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
- *     security:
- *       - bearerAuth: []
  */
 
 router.get(
@@ -220,70 +154,47 @@ router.get(
 
 /**
  * @swagger
- * /{appointmentId}/cancel:
+ * /cancel/{appointmentId}:
  *   patch:
- *     summary: Client gets to cancel the appointments he/she has been booked
+ *     summary: Cancel an appointment (client)
  *     tags: [Appointments]
- *     description: Allows a client to cancel their rendez-vous.
+ *     security: [ { bearerAuth: [] } ]
+ *     parameters:
+ *       - in: path
+ *         name: appointmentId
+ *         required: true
+ *         schema: { type: string, format: uuid }
  *     responses:
  *       200:
- *         description: Canceled appointment.
+ *         description: Appointment canceled successfully.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 message: {type: string, example: "Appointment canceled successfully"}
- *                 appointments:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       appointment_id:
- *                         type: string
- *                         format: uuid
- *                         example: "4e50b113-db0e-48ba-b2be-76039fca95a0"
- *                       status:
- *                         type: string
- *                         format: option
- *                         example: "canceled"
- *                       created_at:
- *                         type: string
- *                         format: date-time
- *                         example: "2025-04-26T11:50:54.374Z"
- *                       day:
- *                         type: string
- *                         example: "2025-04-23"
- *                       start_time:
- *                         type: string
- *                         format: time
- *                       end_time:
- *                         type: string
- *                         format: time
- *                       provider_first_name::
- *                         type: string
- *                         example: "Roger"
- *                       provider_last_name::
- *                         type: string
- *                         example: "Example"
- *       400:
- *         description: Invalid provider ID.
+ *                 message: { type: string, example: Appointment canceled successfully }
+ *                 updatedAppointment:
+ *                   $ref: '#/components/schemas/Appointment'
+ *       403:
+ *         description: Unauthorized to cancel this appointment.
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
- *
- *       401:
- *         description: Unauthorized - Token has expired.
+ *       404:
+ *         description: Appointment not found.
+ *         content:
+ *           application/json:
+ *             schema: { $ref: '#/components/schemas/Error' }
+ *       409:
+ *         description: Already canceled.
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
  *       500:
- *         description: Server error while fetching time slots.
+ *         description: Server error.
  *         content:
  *           application/json:
  *             schema: { $ref: '#/components/schemas/Error' }
- *     security:
- *       - bearerAuth: []
  */
 
 router.patch(
@@ -295,75 +206,35 @@ router.patch(
 
 /**
  * @swagger
- * /provider/{providerId}/{appointmentId}/cancel:
+ * /provider/cancel/{appointmentId}:
  *   patch:
- *     summary: Provider can cancel apointments which he/she has been booked for
+ *     summary: Cancel appointment as provider
  *     tags: [Appointments]
- *     description: Allows a provider to cancel their rendez-vous.
+ *     security: [ { bearerAuth: [] } ]
+ *     parameters:
+ *       - in: path
+ *         name: appointmentId
+ *         required: true
+ *         schema: { type: string, format: uuid }
  *     responses:
  *       200:
- *         description: Cancel booked appointments.
+ *         description: Appointment canceled successfully.
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 appointments:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         format: uuid
- *                         example: "4e50b113-db0e-48ba-b2be-76039fca95a0"
- *                       client_id:
- *                         type: string
- *                         format: uuid
- *                         example: "4e50b113-db0e-48ba-b2be-76039fca95a0"
- *                       provider_id:
- *                         type: string
- *                         format: uuid
- *                         example: "4e50b113-db0e-48ba-b2be-76039fca95a0"
- *                       timeslot_id:
- *                         type: string
- *                         format: uuid
- *                         example: "4e50b113-db0e-48ba-b2be-76039fca95a0"
- *                       status:
- *                         type: string
- *                         format: option
- *                         example: "canceled"
- *                       appointment_date:
- *                         type: string
- *                         format: date-time
- *                         example: "2025-04-26T11:50:54.374Z"
- *                       created_at:
- *                         type: string
- *                         format: date-time
- *                         example: "2025-04-26T11:50:54.374Z"
- *                       updated_at:
- *                         type: string
- *                         format: date-time
- *                         example: "2025-04-26T11:50:54.374Z"
- *
- *       400:
- *         description: Invalid provider ID.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
- *
- *       401:
- *         description: Unauthorized - only providers can view their time slots.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *                 message: { type: string, example: Appointment canceled successfully }
+ *                 appointment:
+ *                   $ref: '#/components/schemas/Appointment'
+ *       403:
+ *         description: Unauthorized to cancel this appointment.
+ *       404:
+ *         description: Appointment not found.
+ *       409:
+ *         description: Appointment already canceled.
  *       500:
- *         description: Server error while fetching time slots.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
- *     security:
- *       - bearerAuth: []
+ *         description: Server error.
  */
 
 router.patch(
@@ -372,6 +243,56 @@ router.patch(
   providerOnly,
   providerCancelAppointment
 );
+
+/**
+ * @swagger
+ * /reschedule/{appointmentId}:
+ *   patch:
+ *     summary: Reschedule an existing appointment
+ *     tags: [Appointments]
+ *     security: [ { bearerAuth: [] } ]
+ *     parameters:
+ *       - in: path
+ *         name: appointmentId
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required: [ newTimeslotId ]
+ *             properties:
+ *               newTimeslotId:
+ *                 type: string
+ *                 format: uuid
+ *     responses:
+ *       200:
+ *         description: Appointment rescheduled successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: Appointment rescheduled successfully }
+ *                 newTimeslot:
+ *                   type: object
+ *                   properties:
+ *                     id: { type: string }
+ *                     day: { type: string }
+ *                     startTime: { type: string }
+ *                     endTime: { type: string }
+ *       403:
+ *         description: Unauthorized.
+ *       409:
+ *         description: New timeslot already booked.
+ *       500:
+ *         description: Server error.
+ */
+
 
 router.patch(
   "/reschedule/:appointmentId",
