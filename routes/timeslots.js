@@ -10,24 +10,16 @@ const router = express.Router()
  * @swagger
  * tags:
  *   name: Time Slots
- *   description: Managing time slots for service providers
+ *   description: Endpoints for providers to manage their available time slots
  */
 
 /**
  * @swagger
- * /providers/{id}/create-timeslots:
+ * /timeslots/create:
  *   post:
- *     summary: Provider creates a new available time slot
+ *     summary: Create a time slot
  *     tags: [Time Slots]
- *     description: Allows an authenticated provider to create a new available time slot for bookings.
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Provider's unique ID
- *         schema:
- *           type: string
- *           format: uuid
+ *     description: Allows a provider to create a new available time slot.
  *     requestBody:
  *       required: true
  *       content:
@@ -42,82 +34,50 @@ const router = express.Router()
  *               day:
  *                 type: string
  *                 format: date
- *                 example: "2025-04-28"
+ *                 example: "2025-05-28"
  *               startTime:
  *                 type: string
  *                 format: time
- *                 example: "12:00:00"
+ *                 example: "10:00:00"
  *               endTime:
  *                 type: string
  *                 format: time
- *                 example: "12:30:00"
+ *                 example: "10:30:00"
  *     responses:
  *       201:
- *         description: Time slot created successfully.
+ *         description: Time slot created
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   example: Time slot created
+ *                 message: { type: string, example: Time slot created }
  *                 slot:
- *                   type: object
- *                   properties:
- *                     id: { type: string, format: uuid }
- *                     provider_id: { type: string, format: uuid }
- *                     day: { type: string, format: date }
- *                     start_time: { type: string, format: time }
- *                     end_time: { type: string, format: time }
- *                     is_booked: { type: boolean }
- *                     created_at: { type: string, format: date-time }
- *                     updated_at: { type: string, format: date-time }
+ *                   $ref: '#/components/schemas/TimeSlot'
  *       400:
- *         description: Validation error (e.g., missing or invalid fields).
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
- *       409:
- *         description: Time slot already exists for the given date and time.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Validation error
  *       401:
- *         description: Unauthorized - only providers can create time slots.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Unauthorized
+ *       409:
+ *         description: Slot conflict
  *       500:
- *         description: Server error while creating the time slot.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Server error
  *     security:
  *       - bearerAuth: []
  */
-
 
 router.post('/create', authMiddleware, providerOnly, createTimeSlotValidator, createTimeSlot)
 
 /**
  * @swagger
- * /providers/{id}/view-timeslots:
+ * /timeslots/view:
  *   get:
- *     summary: Provider views their available time slots
+ *     summary: View provider's time slots
  *     tags: [Time Slots]
- *     description: Allows an authenticated provider to view all their created time slots.
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Provider's unique ID
- *         schema:
- *           type: string
- *           format: uuid
+ *     description: Returns all time slots created by the authenticated provider.
  *     responses:
  *       200:
- *         description: List of time slots retrieved successfully.
+ *         description: Time slots retrieved
  *         content:
  *           application/json:
  *             schema:
@@ -126,115 +86,48 @@ router.post('/create', authMiddleware, providerOnly, createTimeSlotValidator, cr
  *                 slots:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       day:
- *                         type: string
- *                         format: date
- *                         example: "2025-04-28"
- *                       start_time:
- *                         type: string
- *                         format: time
- *                         example: "12:00:00"
- *                       end_time:
- *                         type: string
- *                         format: time
- *                         example: "12:30:00"
- *                       is_booked:
- *                         type: boolean
- *                         example: false
- *                       created_at:
- *                         type: string
- *                         format: date-time
- *                       updated_at:
- *                         type: string
- *                         format: date-time
- *       400:
- *         description: Invalid provider ID.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *                     $ref: '#/components/schemas/TimeSlot'
  *       401:
- *         description: Unauthorized - only providers can view their time slots.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Unauthorized
  *       500:
- *         description: Server error while fetching time slots.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Server error
  *     security:
  *       - bearerAuth: []
  */
 
-
 router.get('/view', authMiddleware, providerOnly, viewTimeSlot)
+
 
 /**
  * @swagger
- * /providers/{providerId}/delete-timeslot/{slotId}:
+ * /timeslots/delete/{slotId}:
  *   delete:
- *     summary: Provider deletes a specific time slot
+ *     summary: Delete a time slot
  *     tags: [Time Slots]
- *     description: Allows an authenticated provider to delete one of their created time slots.
  *     parameters:
- *       - in: path
- *         name: providerId
- *         required: true
- *         description: Provider's unique ID
- *         schema:
- *           type: string
- *           format: uuid
  *       - in: path
  *         name: slotId
  *         required: true
- *         description: Time slot's unique ID to be deleted
  *         schema:
  *           type: string
  *           format: uuid
  *     responses:
  *       200:
- *         description: Time slot deleted successfully.
+ *         description: Time slot deleted
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 message:
- *                   type: string
- *                   example: Slot deleted
- *                 slot:
- *                   type: object
- *                   properties:
- *                     id: { type: string, format: uuid }
- *                     provider_id: { type: string, format: uuid }
- *                     day: { type: string, format: date }
- *                     start_time: { type: string, format: time }
- *                     end_time: { type: string, format: time }
- *                     is_booked: { type: boolean }
- *                     created_at: { type: string, format: date-time }
- *                     updated_at: { type: string, format: date-time }
- *       400:
- *         description: Invalid slot or provider ID.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *                 message: { type: string, example: Time slot deleted successfully }
  *       401:
- *         description: Unauthorized access - provider mismatch.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
  *       404:
- *         description: Time slot not found.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Not found
  *       500:
- *         description: Server error while deleting the time slot.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Server error
  *     security:
  *       - bearerAuth: []
  */
@@ -242,25 +135,17 @@ router.get('/view', authMiddleware, providerOnly, viewTimeSlot)
 
 router.delete('/delete/:slotId', authMiddleware, providerOnly, deleteTimeSlot)
 
+
 /**
  * @swagger
- * /providers/{providerId}/update-timeslot/{slotId}:
+ * /timeslots/update/{slotId}:
  *   put:
- *     summary: Provider updates a specific time slot
+ *     summary: Update a time slot
  *     tags: [Time Slots]
- *     description: Allows an authenticated provider to update an existing time slot (change day, start time, or end time).
  *     parameters:
- *       - in: path
- *         name: providerId
- *         required: true
- *         description: Provider's unique ID
- *         schema:
- *           type: string
- *           format: uuid
  *       - in: path
  *         name: slotId
  *         required: true
- *         description: Time slot's unique ID to be updated
  *         schema:
  *           type: string
  *           format: uuid
@@ -278,170 +163,65 @@ router.delete('/delete/:slotId', authMiddleware, providerOnly, deleteTimeSlot)
  *               day:
  *                 type: string
  *                 format: date
- *                 example: "2025-04-28"
+ *                 example: "2025-06-01"
  *               startTime:
  *                 type: string
  *                 format: time
- *                 example: "14:00:00"
+ *                 example: "11:00:00"
  *               endTime:
  *                 type: string
  *                 format: time
- *                 example: "14:30:00"
+ *                 example: "11:30:00"
  *     responses:
  *       200:
- *         description: Time slot updated successfully.
+ *         description: Time slot updated
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 id: { type: string, format: uuid }
- *                 provider_id: { type: string, format: uuid }
- *                 day: { type: string, format: date }
- *                 start_time: { type: string, format: time }
- *                 end_time: { type: string, format: time }
- *                 is_booked: { type: boolean }
- *                 created_at: { type: string, format: date-time }
- *                 updated_at: { type: string, format: date-time }
+ *               $ref: '#/components/schemas/TimeSlot'
  *       400:
- *         description: Validation error or missing fields.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Validation error
  *       401:
- *         description: Unauthorized - only providers can update time slots.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Unauthorized
  *       403:
- *         description: You do not have permission to update this slot.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Forbidden
  *       404:
- *         description: Time slot not found.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Not found
  *       500:
- *         description: Server error while updating time slot.
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Server error
  *     security:
  *       - bearerAuth: []
  */
-
 
 router.put('/update/:slotId', authMiddleware, providerOnly, updateTimeSlotValidator, updateTimeSlot)
 
+
 /**
  * @swagger
- * /search/providers/{id}/available-slots:
+ * /timeslots/available-slots:
  *   get:
- *     summary: Get available time slots for a provider
+ *     summary: Get available time slots
  *     tags: [Time Slots]
- *     description: Retrieves all available (unbooked) time slots for a specific provider.
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: Provider's unique ID
- *         schema:
- *           type: string
- *           format: uuid
- *       - in: query
- *         name: date
- *         description: Filter slots by specific date (YYYY-MM-DD format)
- *         schema:
- *           type: string
- *           format: date
- *           example: "2025-05-01"
- *       - in: query
- *         name: startDate
- *         description: Start date for date range filter (inclusive)
- *         schema:
- *           type: string
- *           format: date
- *           example: "2025-05-01"
- *       - in: query
- *         name: endDate
- *         description: End date for date range filter (inclusive)
- *         schema:
- *           type: string
- *           format: date
- *           example: "2025-05-07"
+ *     description: Returns a list of all available (unbooked) time slots for the provider.
  *     responses:
  *       200:
- *         description: List of available time slots retrieved successfully
+ *         description: Available slots retrieved
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 availableSlots:
+ *                 slots:
  *                   type: array
  *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                         format: uuid
- *                         example: "d1168cd1-497e-47d0-8028-88d558df0541"
- *                       provider_id:
- *                         type: string
- *                         format: uuid
- *                         example: "e1022995-d7f7-4ebc-98fd-cad361260475"
- *                       day:
- *                         type: string
- *                         format: date
- *                         example: "2025-05-01"
- *                       start_time:
- *                         type: string
- *                         format: time
- *                         example: "09:00:00"
- *                       end_time:
- *                         type: string
- *                         format: time
- *                         example: "10:00:00"
- *                       is_booked:
- *                         type: boolean
- *                         example: false
- *                       created_at:
- *                         type: string
- *                         format: date-time
- *                       updated_at:
- *                         type: string
- *                         format: date-time
- *       400:
- *         description: Invalid date format or invalid query parameters
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *                     $ref: '#/components/schemas/TimeSlot'
  *       401:
- *         description: Unauthorized - valid authentication token required
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
- *       403:
- *         description: Forbidden - only providers can access this endpoint
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
- *       404:
- *         description: Provider not found
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Unauthorized
  *       500:
- *         description: Server error while retrieving time slots
- *         content:
- *           application/json:
- *             schema: { $ref: '#/components/schemas/Error' }
+ *         description: Server error
  *     security:
  *       - bearerAuth: []
  */
-
 router.get('/available-slots', authMiddleware, providerOnly, getAvailableSlots)
 
 export default router

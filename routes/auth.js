@@ -267,8 +267,6 @@ router.post("/resend-verification", resendVerificationEmailHandler);
  */
 
 
-
-
 router.post(
     '/logout',
     authMiddleware,
