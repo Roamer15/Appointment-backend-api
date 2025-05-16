@@ -3,14 +3,13 @@ import assert from 'node:assert/strict';
 import request from 'supertest';
 import app from '../app.js';
 import { query } from '../config/db.js';
-import logger from '../utils/logger.js';
 
 let clientToken;
 let providerUserId, providerId;
 
 describe('GET /profile/providers - Provider Search', () => {
   before(async () => {
-    // Create provider user
+    // Creation of provider user
     const email = `search${Date.now()}@test.com`;
     const regRes = await request(app).post('/auth/register')
       .field('firstName', 'Search')
@@ -30,7 +29,7 @@ describe('GET /profile/providers - Provider Search', () => {
 
     providerId = providerRes.body.providerId;
 
-    // Create a client to perform the search
+    // Creation of a client to perform the search
     const clientEmail = `client${Date.now()}@test.com`;
     const clientRes = await request(app).post('/auth/register')
       .field('firstName', 'Client')
@@ -40,7 +39,7 @@ describe('GET /profile/providers - Provider Search', () => {
       .field('role', 'client');
 
     const clientUserId = clientRes.body.user.id;
-    console.log(clientRes)
+
     await query(`UPDATE users SET is_verified = true WHERE id = $1`, [clientUserId]);
 
     const loginRes = await request(app).post('/auth/login').send({
@@ -49,7 +48,6 @@ describe('GET /profile/providers - Provider Search', () => {
     });
 
     clientToken = loginRes.body.token;
-    logger.info(`Clietn token: ${clientToken}`)
   });
 
   test('should return all providers when no filters are applied', async () => {
