@@ -1,10 +1,10 @@
 import { query } from "../config/db.js";
-import logger from "../utils/logger.js";
 import bcrypt from "bcryptjs";
 import cloudinary from "../utils/cloudinary.js";
 import streamifier from "streamifier";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import logger from "../utils/logger.js";
 
 const HASH_SALT = 10;
 
@@ -337,7 +337,7 @@ export async function resendVerificationEmailHandler(req, res, next) {
   try {
     // Fetch user by email
     const userResult = await query(
-      `SELECT id, username, is_verified FROM users WHERE email = $1`,
+      `SELECT id, first_name, last_name, is_verified FROM users WHERE email = $1`,
       [email]
     );
 

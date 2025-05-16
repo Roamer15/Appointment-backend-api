@@ -5,6 +5,7 @@ import winstonLogger from './utils/logger.js'
 import morgan from 'morgan'
 import swaggerUi from "swagger-ui-express"
 import swaggerSpec from './swaggerConfig.js'
+import logger from './utils/logger.js'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
