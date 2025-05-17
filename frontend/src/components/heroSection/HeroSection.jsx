@@ -1,6 +1,8 @@
 import styles from './HeroSection.module.css';
+import { useNavigate } from 'react-router';
 
 export default function HeroSection() {
+  const navigate = useNavigate()
   return (
     <section className={styles.heroSection}>
       <div className={styles.container}>
@@ -11,8 +13,8 @@ export default function HeroSection() {
           Connecting you with top-rated providers in your community
         </p>
         <div className={styles.buttonGroup}>
-          <button className={styles.primaryButton}>Find a Provider</button>
-          <button className={styles.secondaryButton}>Join as Provider</button>
+          <button className={styles.primaryButton} onClick={() => navigate('/register')}>Find a Provider</button>
+          <button className={styles.secondaryButton} onClick={() => navigate('/login')}>Join as Provider</button>
         </div>
       </div>
     </section>
