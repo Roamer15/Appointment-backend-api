@@ -14,7 +14,7 @@ export default function HeroSection() {
         </p>
         <div className={styles.buttonGroup}>
           <button className={styles.primaryButton} onClick={() => navigate('/register')}>Find a Provider</button>
-          <button className={styles.secondaryButton} onClick={() => navigate('/login')}>Join as Provider</button>
+          <button className={styles.secondaryButton} onClick={() => navigate('/register')}>Join as Provider</button>
         </div>
       </div>
     </section>

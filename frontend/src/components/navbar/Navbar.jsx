@@ -1,8 +1,11 @@
 import { useState } from "react";
 import styles from "./Navbar.module.css";
+import { useNavigate } from "react-router";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate()
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.container}>
@@ -11,17 +14,17 @@ export default function Navbar() {
             <span className={styles.brandText}>NexMeet</span>
           </div>
           <div className={styles.links}>
-            <a href="#">Home</a>
-            <a href="#">How It Works</a>
+            <a href="/">Home</a>
+            <a href="#section">How It Works</a>
             <a href="#">Categories</a>
             <a href="#">About</a>
             <a href="#">Contact</a>
           </div>
           <div className={styles.signUp}>
-            <a href="#" className={styles.register}>
+            <a href="/register" className={styles.register}>
               Sign Up
             </a>
-            <button className={styles.login}>Login</button>
+            <button className={styles.login} onClick={() => navigate('/login')}>Login</button>
           </div>
           <button
             className={styles.mobileMenuButton}
@@ -39,8 +42,8 @@ export default function Navbar() {
             <a href="#">About</a>
             <a href="#">Contact</a>
             <div className={styles.mobileMenuAction}>
-              <a href="#">Log In</a>
-              <a href="#">Sign Up</a>
+              <a href="/login">Log In</a>
+              <a href="/register">Sign Up</a>
             </div>
           </div>
         )}

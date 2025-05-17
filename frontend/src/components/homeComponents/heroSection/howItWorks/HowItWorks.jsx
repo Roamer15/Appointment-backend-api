@@ -22,7 +22,7 @@ export default function HowItWorks() {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <h2 className={styles.heading}>How NexMeeet Works</h2>
+        <h2 className={styles.heading}>How NexMeet Works</h2>
         <div className={styles.steps}>
           {steps.map((step, idx) => (
             <div className={styles.step} key={idx}>
