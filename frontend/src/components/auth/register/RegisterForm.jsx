@@ -3,6 +3,7 @@ import styles from './RegisterForm.module.css'
 export default function RegisterForm({ formik, preview, handleImageChange, error }) {
     return(
         <div className={styles.wrapper}>
+            
       <div className={styles.header}>
         <svg className={styles.icon} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}

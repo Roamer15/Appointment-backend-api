@@ -3,7 +3,7 @@ import styles from './LoginForm.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
-export default function LoginForm ({handleChange, handleSubmit, formData, setShowModal, showModal}){
+export default function LoginForm ({handleChange, handleSubmit, formik, setShowModal, showModal}){
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -34,7 +34,7 @@ export default function LoginForm ({handleChange, handleSubmit, formData, setSho
                 id="email"
                 name="email"
                 required
-                value={formData.email}
+                value={formik.values.email}
                 onChange={handleChange}
                 className={styles.input}
                 placeholder="john@example.com"
@@ -42,6 +42,7 @@ export default function LoginForm ({handleChange, handleSubmit, formData, setSho
               <div className={styles.inputIcon}>
                 <FontAwesomeIcon icon={faEnvelope} />
               </div>
+              {formik.touched.email && formik.errors.email && <div className={styles.error}>{formik.errors.email}</div>}
             </div>
           </div>
           
@@ -53,7 +54,7 @@ export default function LoginForm ({handleChange, handleSubmit, formData, setSho
                 id="password"
                 name="password"
                 required
-                value={formData.password}
+                value={formik.values.password}
                 onChange={handleChange}
                 className={styles.input}
                 placeholder="••••••••"
