@@ -100,3 +100,30 @@
     transform: scale(1.05);
   }
   
+
+/* 
+  @media (prefers-color-scheme: dark) {
+  .section {
+    background-color: #202936;
+  }
+  
+  .icon {
+    color: #fbbf24;
+  }
+
+  .stepTitle {
+    color: #d97706;
+  }
+
+  .heading {
+    color: #d97706;
+  }
+
+  .iconBox{
+    background-color: #d97706;
+  }
+
+  .card {
+    background-color: #fef3c7;
+  }
+} */

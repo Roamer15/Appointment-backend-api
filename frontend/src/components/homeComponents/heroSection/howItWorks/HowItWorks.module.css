@@ -63,3 +63,20 @@
     color: #4b5563; /* gray-700 */
   }
   
+  /* @media (prefers-color-scheme: dark) {
+  .section {
+    background-color: #1e293b;
+  }
+  
+  .icon {
+    color: #fbbf24;
+  }
+
+  .stepTitle {
+    color: #d97706;
+  }
+
+  .heading {
+    color: #d97706;
+  }
+} */

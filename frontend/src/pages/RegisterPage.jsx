@@ -4,11 +4,14 @@ import { useFormik } from 'formik';
 import { validationSchema } from '../schema/validationSchema';
 import api from '../services/api';
 import imageCompression from 'browser-image-compression';
+import { useNavigate } from 'react-router';
 
 export default function RegisterPage() {
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
   const [error, setError] = useState('');
+
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues: {
@@ -33,11 +36,14 @@ export default function RegisterPage() {
         formData.append('role', values.role);
         if (file) formData.append('profilePic', file);
 
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}:`, value);
+          }
         const res = await api.register(formData)
 
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.message);
-        alert('Account created successfully!');
+        if (!res.ok) throw new Error(res.message);
+        console.log('Account created successfully!');
+        navigate("/email-verification", { state: { email: formData.email } });
         formik.resetForm();
         setPreview(null);
         setFile(null);
@@ -52,9 +58,9 @@ export default function RegisterPage() {
     if (!file) return;
   
     // Check file type
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
     if (!validTypes.includes(file.type)) {
-      alert('Only JPEG, PNG or GIF allowed');
+      alert('Only JPEG, PNG, JPG or GIF allowed');
       return;
     }
   

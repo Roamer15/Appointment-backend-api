@@ -126,6 +126,7 @@ export async function registerProviderDetails(req, res, next) {
       return next(err)
     }
 
+
     const user = userResult.rows[0];
     if (user.role !== "provider") {
       const err = new Error("User is not registered as provider")

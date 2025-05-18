@@ -6,6 +6,7 @@ import morgan from 'morgan'
 import swaggerUi from "swagger-ui-express"
 import swaggerSpec from './swaggerConfig.js'
 import logger from './utils/logger.js'
+import cors from 'cors'
 
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
@@ -21,6 +22,19 @@ import appointmentRouter from './routes/appointment.js'
 import profileRouter from './routes/account.js'
 
 const app = express();
+
+const allowedOrigins = [
+  'http://localhost:5173'
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  preflightContinue: false
+}));
+
 
 const morganFormat = process.env.NODE_ENV === "production" ? "dev" : 'combined'
 app.use(morgan(morganFormat, { stream: winstonLogger.stream }));

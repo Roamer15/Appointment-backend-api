@@ -86,7 +86,7 @@ export default function RegisterForm({ formik, preview, handleImageChange, error
         <button type="submit" className={styles.submit}>Create Account</button>
 
         <p className={styles.footerText}>
-          Already have an account? <a href="#">Sign in</a>
+          Already have an account? <a href="/login">Sign in</a>
         </p>
       </form>
     </div>
