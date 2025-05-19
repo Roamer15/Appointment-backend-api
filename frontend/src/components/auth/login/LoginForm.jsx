@@ -2,9 +2,11 @@ import { useState } from 'react';
 import styles from './LoginForm.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router';
 
-export default function LoginForm ({handleChange, handleSubmit, formik, setShowModal, showModal}){
+export default function LoginForm ({ formik, setShowModal, showModal, error}){
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -25,7 +27,14 @@ export default function LoginForm ({handleChange, handleSubmit, formik, setShowM
         </div>
         
         {/* Form */}
-        <form onSubmit={handleSubmit} className={styles.form}>
+        <form 
+          onSubmit={(e) => {
+            console.log('Form submit triggered')
+            e.preventDefault();
+            formik.handleSubmit(e);
+          }} 
+          className={styles.form}
+        >
           <div className={styles.formGroup}>
             <label htmlFor="email" className={styles.label}>Email Address</label>
             <div className={styles.inputContainer}>
@@ -35,14 +44,17 @@ export default function LoginForm ({handleChange, handleSubmit, formik, setShowM
                 name="email"
                 required
                 value={formik.values.email}
-                onChange={handleChange}
                 className={styles.input}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 placeholder="john@example.com"
               />
               <div className={styles.inputIcon}>
                 <FontAwesomeIcon icon={faEnvelope} />
               </div>
-              {formik.touched.email && formik.errors.email && <div className={styles.error}>{formik.errors.email}</div>}
+              {formik.touched.email && formik.errors.email && (
+                <div className={styles.error}>{formik.errors.email}</div>
+              )}
             </div>
           </div>
           
@@ -55,38 +67,33 @@ export default function LoginForm ({handleChange, handleSubmit, formik, setShowM
                 name="password"
                 required
                 value={formik.values.password}
-                onChange={handleChange}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 className={styles.input}
                 placeholder="••••••••"
               />
-              <div className={styles.passwordToggle} onClick={togglePasswordVisibility}>
+              <div 
+                className={styles.passwordToggle} 
+                onClick={togglePasswordVisibility}
+                role="button"
+                tabIndex={0}
+              >
                 <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
               </div>
             </div>
+            {formik.touched.password && formik.errors.password && (
+              <div className={styles.error}>{formik.errors.password}</div>
+            )}
           </div>
-          
-          {/* <div className={styles.rememberForgot}>
-            <div className={styles.rememberMe}>
-              <input
-                type="checkbox"
-                id="remember-me"
-                name="rememberMe"
-                checked={formData.rememberMe}
-                onChange={handleChange}
-                className={styles.checkbox}
-              />
-              <label htmlFor="remember-me" className={styles.rememberLabel}>
-                Remember me
-              </label>
-            </div>
-            
-            <div className={styles.forgotPassword}>
-              <a href="#" className={styles.forgotLink}>Forgot password?</a>
-            </div>
-          </div> */}
-          
-          <button type="submit" className={styles.submitButton}>
-            Sign In
+
+          {error && <div className={styles.error}>{error}</div>}
+
+          <button 
+            type="submit" 
+            className={styles.submitButton}
+            disabled={formik.isSubmitting}
+          >
+            {formik.isSubmitting ? 'Signing In...' : 'Sign In'}
           </button>
           
           <div className={styles.signupLink}>
@@ -107,12 +114,19 @@ export default function LoginForm ({handleChange, handleSubmit, formik, setShowM
             </div>
             <h3 className={styles.modalTitle}>Welcome back!</h3>
             <p className={styles.modalText}>You've successfully logged in to NexMeet.</p>
-            <button onClick={() => setShowModal(false)} className={styles.modalButton}>
+            <button 
+              onClick={() => {
+                setShowModal(false);
+                navigate('/dashboard');
+              }} 
+              className={styles.modalButton}
+            >
               Continue to Dashboard
             </button>
           </div>
         </div>
       )}
     </div>
+ 
   );
 };

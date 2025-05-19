@@ -18,7 +18,7 @@ async function fetchAPI(endpoint, method = 'GET', body = null) {
       headers['Content-Type'] = 'application/json';
       config.body = JSON.stringify(body);
     } else if (body instanceof FormData) {
-      config.body = body; // Let browser set content-type
+      config.body = body;
     }
   
     try {
@@ -41,4 +41,6 @@ export default {
   register: (data) => fetchAPI('/auth/register', 'POST', data),
   login: (data) => fetchAPI('/auth/login', 'POST', data),
   resendVerificationEmail: (data) => fetchAPI('/verify-email', 'POST', data),
+  completeProviderProfile: (data) => fetchAPI('/auth/register/provider', 'POST', data),
+
 };

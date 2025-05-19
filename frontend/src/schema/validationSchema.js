@@ -12,3 +12,7 @@ export const validationSchema = Yup.object().shape({
     role: Yup.string().oneOf(['client', 'provider']).required('Role is required'),
     terms: Yup.boolean().oneOf([true], 'You must accept the terms'),
   });
+
+export const loginValidationSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Email is required'),
+})
