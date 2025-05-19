@@ -1,6 +1,5 @@
 import { useLocation } from "react-router";
-import TopBar from "../components/dashboard/topbar/TopBar";
-import SideBar from "../components/dashboard/sidebar/SIdeBar";
+import ProviderLayout from "../components/dashboard/detailLayout/ProviderLayout";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -10,8 +9,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <TopBar userData={userData} />
-      <SideBar />
+      <ProviderLayout userData={userData}/>
     </>
   );
 }
