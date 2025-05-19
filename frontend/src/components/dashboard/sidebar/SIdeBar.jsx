@@ -1,18 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faCalendarCheck,
-  faTachometerAlt,
   faUserClock,
   faCalendarDay,
   faChartLine,
   faCog,
-  faUserMd
+  faDashboard
 } from '@fortawesome/free-solid-svg-icons';
 import styles from './SideBar.module.css';
 
-export default function SideBar() {
+export default function SideBar({userData, collapsed}) {
   return (
-    <div className={styles.sidebar}>
+    <div className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
       {/* Header Section */}
       <div className={styles.header}>
         <div className={styles.logoIcon}>
@@ -26,7 +25,7 @@ export default function SideBar() {
         <nav className={styles.nav}>
           <div className={styles.navLinks}>
             <a href="#" className={`${styles.navLink} ${styles.activeLink}`}>
-              <FontAwesomeIcon icon={faTachometerAlt} className={styles.navIcon} />
+              <FontAwesomeIcon icon={faDashboard} className={styles.navIcon} />
               <span className={styles.navText}>Dashboard</span>
             </a>
             <a href="#" className={styles.navLink}>
@@ -53,11 +52,11 @@ export default function SideBar() {
       <div className={styles.footer}>
         <div className={styles.profile}>
           <div className={styles.profileIcon}>
-            <FontAwesomeIcon icon={faUserMd} className={styles.profileIconImage} />
+            <img src={userData.profileImageUrl} className={styles.profileIconImage} />
           </div>
           <div className={styles.profileInfo}>
-            <span className={styles.profileName}>Dr. Sarah Johnson</span>
-            <span className={styles.profileRole}>Provider</span>
+            <span className={styles.profileName}>{userData.firstName}{" "}{userData.lastName}</span>
+            <span className={styles.profileRole}>{userData.role}</span>
           </div>
         </div>
       </div>

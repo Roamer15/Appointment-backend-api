@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./TopBar.module.css";
 
-export default function TopBar({ userData }) {
+export default function TopBar({ userData, toggleSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
 
   const toggleNotifications = () => {
@@ -21,7 +21,7 @@ export default function TopBar({ userData }) {
     <header className={styles.header}>
       <div className={styles.container}>
         <div className={styles.leftSection}>
-          <button id="sidebar-toggle" className={styles.menuButton}>
+          <button id="sidebar-toggle" className={styles.menuButton} onClick={toggleSidebar}>
             <FontAwesomeIcon icon={faBars} className={styles.menuIcon} />
           </button>
           <h1 className={styles.title}>Dashboard</h1>

@@ -26,7 +26,10 @@ export default function App() {
               element={<EmailVerificationPage />}
             />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="/timeslots" element={<TimeSlot />} />
+              <Route path="/appointments" element={<Appointments />} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </UserData>
