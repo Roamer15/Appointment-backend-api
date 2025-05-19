@@ -28,8 +28,18 @@ export default function LoginPage() {
         if (!data || !data.token) throw new Error("Invalid login response");
 
         localStorage.setItem("token", data.token);
+        sessionStorage.setItem(
+          "user",
+          JSON.stringify({
+            firstName: data.user.firstName,
+            lastName: data.user.lastName,
+            profileImageUrl: data.user.profileImageUrl
+          })
+        );
         toast.success("Login successful");
-        navigate("/dashboard");
+        navigate("/dashboard", {state: {
+          user: data.user
+        }});
         console.log("Login successfull!");
         formik.resetForm();
       } catch (err) {
