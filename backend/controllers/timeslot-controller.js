@@ -198,7 +198,7 @@ export async function viewTimeSlot(req, res) {
   const providerId = req.user.providerId;
 
   try {
-    const getTimeSlotsQuery = `SELECT day, start_time, end_time, is_booked, created_at, updated_at
+    const getTimeSlotsQuery = `SELECT id, day, start_time, end_time, is_booked, created_at, updated_at
                                FROM time_slots
                                WHERE provider_id = $1
                                ORDER BY day, start_time

@@ -139,7 +139,7 @@ router.delete('/delete/:slotId', authMiddleware, providerOnly, deleteTimeSlot)
 /**
  * @swagger
  * /timeslots/update/{slotId}:
- *   put:
+ *   patch:
  *     summary: Update a time slot
  *     tags: [Time Slots]
  *     parameters:
@@ -193,7 +193,7 @@ router.delete('/delete/:slotId', authMiddleware, providerOnly, deleteTimeSlot)
  *       - bearerAuth: []
  */
 
-router.put('/update/:slotId', authMiddleware, providerOnly, updateTimeSlotValidator, updateTimeSlot)
+router.patch('/update/:slotId', authMiddleware, providerOnly, updateTimeSlotValidator, updateTimeSlot)
 
 
 /**

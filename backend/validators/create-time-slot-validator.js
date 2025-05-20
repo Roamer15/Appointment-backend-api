@@ -53,7 +53,9 @@ export function createTimeSlotValidator(req, res, next) {
     return res.status(400).json({ message: error.details[0].message });
   }
   next();
-}const updateSlotSchema = Joi.object({
+}
+
+const updateSlotSchema = Joi.object({
   day: Joi.date().iso().min('now').optional().messages({
     'date.base': `"day" must be a valid ISO date`,
     'date.min': 'The date must be today or a future date.'

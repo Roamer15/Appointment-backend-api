@@ -43,4 +43,16 @@ export default {
   resendVerificationEmail: (data) => fetchAPI('/verify-email', 'POST', data),
   completeProviderProfile: (data) => fetchAPI('/auth/register/provider', 'POST', data),
 
+  //Timeslots
+  // Create slot
+ createTimeSlot: (slotData) => fetchAPI('/timeslots/create', 'POST',slotData),
+
+// Get all provider time slots
+ getProviderSlots: () => fetchAPI('/timeslots/view'),
+
+// Delete slot
+ deleteTimeSlot: (slotId) => fetchAPI(`/timeslots/delete/${slotId}`, 'DELETE'),
+
+ updateTimeSlot: (slotData, slotId) => fetchAPI(`/timeslots/update/${slotId}`, 'PATCH', slotData)
+
 };

@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { NavLink, useNavigate } from 'react-router';
 import { 
   faCalendarCheck,
   faUserClock,
@@ -10,6 +11,7 @@ import {
 import styles from './SideBar.module.css';
 
 export default function SideBar({userData, collapsed}) {
+    const navigate = useNavigate()
   return (
     <div className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
       {/* Header Section */}
@@ -17,33 +19,33 @@ export default function SideBar({userData, collapsed}) {
         <div className={styles.logoIcon}>
           <FontAwesomeIcon icon={faCalendarCheck} className={styles.logoIconImage} />
         </div>
-        <span className={styles.logoText}>NexMeet</span>
+        <span className={styles.logoText} onClick={() => navigate('/')}>NexMeet</span>
       </div>
       
       {/* Navigation Links */}
       <div className={styles.navContainer}>
         <nav className={styles.nav}>
           <div className={styles.navLinks}>
-            <a href="#" className={`${styles.navLink} ${styles.activeLink}`}>
+            <NavLink to="/dashboard" className={`${styles.navLink} ${styles.activeLink}`}>
               <FontAwesomeIcon icon={faDashboard} className={styles.navIcon} />
               <span className={styles.navText}>Dashboard</span>
-            </a>
-            <a href="#" className={styles.navLink}>
+            </NavLink>
+            <NavLink to="/dashboard/timeslots" className={styles.navLink}>
               <FontAwesomeIcon icon={faUserClock} className={styles.navIcon} />
               <span className={styles.navText}>Time Slots</span>
-            </a>
-            <a href="#" className={styles.navLink}>
+            </NavLink>
+            <NavLink to="/dashboard/appointments" className={styles.navLink}>
               <FontAwesomeIcon icon={faCalendarDay} className={styles.navIcon} />
               <span className={styles.navText}>Appointments</span>
-            </a>
-            <a href="#" className={styles.navLink}>
+            </NavLink>
+            <NavLink to="/dashboard/analytics" className={styles.navLink}>
               <FontAwesomeIcon icon={faChartLine} className={styles.navIcon} />
               <span className={styles.navText}>Analytics</span>
-            </a>
-            <a href="#" className={styles.navLink}>
+            </NavLink>
+            <NavLink to="/dashboard/settings" className={styles.navLink}>
               <FontAwesomeIcon icon={faCog} className={styles.navIcon} />
               <span className={styles.navText}>Settings</span>
-            </a>
+            </NavLink>
           </div>
         </nav>
       </div>

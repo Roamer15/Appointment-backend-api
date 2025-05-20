@@ -7,6 +7,8 @@ import EmailVerificationPage from "./pages/EmailVerificationPage";
 import LoginPage from "./pages/LoginPage";
 import ProviderDetailsPage from "./pages/ProviderDetailsPage";
 import Dashboard from "./pages/Dashboard";
+import TimeSlot from "./pages/TimeSlotPage";
+import Appointments from "./pages/AppointmentsPage";
 import { UserData } from "./context/userContext";
 
 export default function App() {
@@ -27,8 +29,8 @@ export default function App() {
             />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />}>
-              <Route path="/timeslots" element={<TimeSlot />} />
-              <Route path="/appointments" element={<Appointments />} />
+              <Route path="timeslots" element={<TimeSlot />} />
+              <Route path="appointments" element={<Appointments />} />
             </Route>
           </Routes>
         </BrowserRouter>
