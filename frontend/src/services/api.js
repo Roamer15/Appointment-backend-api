@@ -53,6 +53,9 @@ export default {
 // Delete slot
  deleteTimeSlot: (slotId) => fetchAPI(`/timeslots/delete/${slotId}`, 'DELETE'),
 
- updateTimeSlot: (slotData, slotId) => fetchAPI(`/timeslots/update/${slotId}`, 'PATCH', slotData)
+ updateTimeSlot: (slotData, slotId) => fetchAPI(`/timeslots/update/${slotId}`, 'PATCH', slotData),
+
+ // View provider appointments
+ getProviderAppointments: () => fetchAPI(`/appointment/provider/view`)
 
 };
