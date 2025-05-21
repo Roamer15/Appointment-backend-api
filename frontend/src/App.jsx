@@ -10,30 +10,33 @@ import Dashboard from "./pages/Dashboard";
 import TimeSlot from "./pages/TimeSlotPage";
 import Appointments from "./pages/AppointmentsPage";
 import { UserData } from "./context/userContext";
+import { NotificationProvider } from "./context/NotificationContext";
 
 export default function App() {
   return (
     <>
       <UserData>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/register-provider"
-              element={<ProviderDetailsPage />}
-            />
-            <Route
-              path="/email-verification"
-              element={<EmailVerificationPage />}
-            />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/dashboard" element={<Dashboard />}>
-              <Route path="timeslots" element={<TimeSlot />} />
-              <Route path="appointments" element={<Appointments />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <NotificationProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route
+                path="/register-provider"
+                element={<ProviderDetailsPage />}
+              />
+              <Route
+                path="/email-verification"
+                element={<EmailVerificationPage />}
+              />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/dashboard" element={<Dashboard />}>
+                <Route path="timeslots" element={<TimeSlot />} />
+                <Route path="appointments" element={<Appointments />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </NotificationProvider>
       </UserData>
 
       <ToastContainer

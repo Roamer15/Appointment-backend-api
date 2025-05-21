@@ -1,3 +1,4 @@
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 async function fetchAPI(endpoint, method = 'GET', body = null) {
@@ -56,6 +57,8 @@ export default {
  updateTimeSlot: (slotData, slotId) => fetchAPI(`/timeslots/update/${slotId}`, 'PATCH', slotData),
 
  // View provider appointments
- getProviderAppointments: () => fetchAPI(`/appointment/provider/view`)
+ getProviderAppointments: () => fetchAPI(`/appointment/provider/view`),
+
+ cancelAppointmentProvider: (appointmentId) => fetchAPI(`/appointment/provider/cancel/${appointmentId}`, 'PATCH')
 
 };

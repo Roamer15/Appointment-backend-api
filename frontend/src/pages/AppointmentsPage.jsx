@@ -14,7 +14,7 @@ export default function Appointments() {
       setAppointments(response.appointments || []);
       console.log(appointments);
     } catch (error) {
-      console.error("Failed to fetch time slots:", error);
+      console.error("Failed to fetch appointments:", error);
     }
   };
 

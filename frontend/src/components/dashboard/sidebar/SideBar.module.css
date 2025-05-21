@@ -218,6 +218,10 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+.activeLink .navIcon {
+  color: #fde68a; /* amber-200 */
+  transform: scale(1.1);
+}
 /* Scrollbar styling */
 /* .navContainer::-webkit-scrollbar {
   width: 4px;

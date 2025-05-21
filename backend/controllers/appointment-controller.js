@@ -68,31 +68,26 @@ export async function providerCancelAppointment(req, res, next) {
 
     const io = req.app.get("io");
     if (io) {
-      await Promise.all([
-        emitSocketEvent(
-          io,
-          `provider_${appointment.provider_id}`,
-          "appointment_canceled",
-          {
-            message: "Appointment canceled",
-            appointmentId,
-            by: "provider",
-            timestamp: new Date().toISOString(),
-          }
-        ),
-        emitSocketEvent(
-          io,
-          `user_${appointment.user_id}`,
-          "appointment_canceled",
-          {
-            message: "Your appointment was canceled by provider",
-            appointmentId,
-            timestamp: new Date().toISOString(),
-          }
-        ),
-      ]);
-    }
-    res.json({
+  try {
+    await Promise.all([
+      emitSocketEvent(io, `provider_${appointment.provider_id}`, "appointment_canceled", {
+        message: "Appointment canceled",
+        appointmentId,
+        by: "provider",
+        timestamp: new Date().toISOString(),
+      }),
+      emitSocketEvent(io, `user_${appointment.user_id}`, "appointment_canceled", {
+        message: "Your appointment was canceled by provider",
+        appointmentId,
+        timestamp: new Date().toISOString(),
+      })
+    ]);
+  } catch (socketError) {
+    logger.error("Socket notification failed but cancellation succeeded:", socketError);
+    // Don't fail the request just because notifications failed
+  }
+}
+    res.status(200).json({
       message: "Appointment canceled successfully",
       appointment: canceledResult.rows[0],
     });

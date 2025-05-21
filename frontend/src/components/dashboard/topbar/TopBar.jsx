@@ -5,18 +5,27 @@ import {
   faBell,
   faCalendarPlus,
   faCalendarTimes,
-  faExclamationCircle,
+  faExchangeAlt,
+  faInfoCircle,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./TopBar.module.css";
+import { useNotifications } from '../../../context/NotificationContext';
+
 
 export default function TopBar({ userData, toggleSidebar }) {
+
+  const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const toggleNotifications = () => {
-    setShowNotifications(!showNotifications);
+  const getNotificationIcon = (type) => {
+    switch(type) {
+      case 'new': return faCalendarPlus;
+      case 'canceled': return faCalendarTimes;
+      case 'rescheduled': return faExchangeAlt;
+      default: return faInfoCircle;
+    }
   };
-
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -29,88 +38,74 @@ export default function TopBar({ userData, toggleSidebar }) {
 
         <div className={styles.rightSection}>
           <div className={styles.notificationWrapper}>
-            <button
-              id="notification-btn"
-              className={styles.notificationButton}
-              onClick={toggleNotifications}
-            >
-              <FontAwesomeIcon
-                icon={faBell}
-                className={styles.notificationIcon}
-              />
-              <span className={styles.notificationBadge}>3</span>
-            </button>
-
-            {showNotifications && (
-              <div className={styles.notificationDropdown}>
-                <div className={styles.dropdownHeader}>
-                  <h3>Notifications (3)</h3>
-                </div>
-                <div className={styles.notificationList}>
-                  <a href="#" className={styles.notificationItem}>
-                    <div className={styles.notificationContent}>
-                      <div className={styles.notificationIconWrapper}>
-                        <FontAwesomeIcon
-                          icon={faCalendarPlus}
-                          className={styles.notificationTypeIcon}
-                        />
-                      </div>
-                      <div className={styles.notificationText}>
-                        <p className={styles.notificationTitle}>
-                          New appointment booked
-                        </p>
-                        <p className={styles.notificationTime}>
-                          John Doe - Today at 2:30 PM
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" className={styles.notificationItem}>
-                    <div className={styles.notificationContent}>
-                      <div className={styles.notificationIconWrapper}>
-                        <FontAwesomeIcon
-                          icon={faCalendarTimes}
-                          className={styles.notificationTypeIcon}
-                        />
-                      </div>
-                      <div className={styles.notificationText}>
-                        <p className={styles.notificationTitle}>
-                          Appointment canceled
-                        </p>
-                        <p className={styles.notificationTime}>
-                          Jane Smith - Tomorrow at 11:00 AM
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                  <a href="#" className={styles.notificationItem}>
-                    <div className={styles.notificationContent}>
-                      <div className={styles.notificationIconWrapper}>
-                        <FontAwesomeIcon
-                          icon={faExclamationCircle}
-                          className={styles.notificationTypeIcon}
-                        />
-                      </div>
-                      <div className={styles.notificationText}>
-                        <p className={styles.notificationTitle}>
-                          Time slot reminder
-                        </p>
-                        <p className={styles.notificationTime}>
-                          You have 5 open slots tomorrow
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div className={styles.dropdownFooter}>
-                  <a href="#" className={styles.viewAllLink}>
-                    View all notifications
-                  </a>
-                </div>
-              </div>
+          <button
+            id="notification-btn"
+            className={styles.notificationButton}
+            onClick={() => {
+              setShowNotifications(!showNotifications);
+              if (showNotifications) markAllAsRead();
+            }}
+          >
+            <FontAwesomeIcon icon={faBell} className={styles.notificationIcon} />
+            {unreadCount > 0 && (
+              <span className={styles.notificationBadge}>
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
             )}
-          </div>
+          </button>
 
+          {showNotifications && (
+            <div className={styles.notificationDropdown}>
+              <div className={styles.dropdownHeader}>
+                <h3>Notifications ({notifications.length})</h3>
+                <button 
+                  onClick={markAllAsRead}
+                  className={styles.markAllRead}
+                >
+                  Mark all as read
+                </button>
+              </div>
+              <div className={styles.notificationList}>
+                {notifications.length === 0 ? (
+                  <p className={styles.empty}>No notifications</p>
+                ) : (
+                  notifications.map(notification => (
+                    <div 
+                      key={notification.id} 
+                      className={`${styles.notificationItem} ${notification.read ? '' : styles.unread}`}
+                      onClick={() => markAsRead(notification.id)}
+                    >
+                      <div className={styles.notificationContent}>
+                        <div className={styles.notificationIconWrapper}>
+                          <FontAwesomeIcon 
+                            icon={getNotificationIcon(notification.type)} 
+                            className={styles.notificationTypeIcon} 
+                          />
+                        </div>
+                        <div className={styles.notificationText}>
+                          <p className={styles.notificationTitle}>
+                            {notification.title}
+                          </p>
+                          <p className={styles.notificationMessage}>
+                            {notification.message}
+                          </p>
+                          <p className={styles.notificationTime}>
+                            {notification.time}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+              <div className={styles.dropdownFooter}>
+                <a href="#" className={styles.viewAllLink}>
+                  View all notifications
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
           <div className={styles.profileWrapper}>
             <button className={styles.profileButton}>
               <div className={styles.profileAvatar}>
