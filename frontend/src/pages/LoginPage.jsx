@@ -33,13 +33,24 @@ export default function LoginPage() {
           JSON.stringify({
             firstName: data.user.firstName,
             lastName: data.user.lastName,
-            profileImageUrl: data.user.profileImageUrl
+            profileImageUrl: data.user.profileImageUrl,
           })
         );
         toast.success("Login successful");
-        navigate("/dashboard", {state: {
-          user: data.user
-        }});
+        if (data.user.role === "provider") {
+          navigate("/dashboard", {
+            state: {
+              user: data.user,
+            },
+          });
+        } else {
+          navigate("/client", {
+            state: {
+              user: data.user,
+            },
+          });
+        }
+
         console.log("Login successfull!");
         formik.resetForm();
       } catch (err) {

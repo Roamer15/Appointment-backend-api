@@ -15,7 +15,8 @@ function formatTimestamps(slot, zone = "Africa/Douala") {
 }
 
 export async function getAvailableSlots(req, res) {
-  const providerId = req.user.providerId;
+  console.log(req.params)
+  const {providerId} = req.params;
   const { from, to } = req.query;
 
   try {

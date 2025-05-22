@@ -36,6 +36,21 @@ async function fetchAPI(endpoint, method = 'GET', body = null) {
       throw error;
     }
   }
+
+  // services/api.js
+export async function searchProviders(params) {
+  const query = new URLSearchParams(params).toString();
+
+  return fetch(`${API_BASE_URL}/search/providers?${query}`, {
+    method: "GET",
+    credentials: 'include',
+    headers: {
+      "Content-Type": "application/json",
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+}
+
   
 export default {
   // Auth
@@ -59,6 +74,10 @@ export default {
  // View provider appointments
  getProviderAppointments: () => fetchAPI(`/appointment/provider/view`),
 
- cancelAppointmentProvider: (appointmentId) => fetchAPI(`/appointment/provider/cancel/${appointmentId}`, 'PATCH')
+ cancelAppointmentProvider: (appointmentId) => fetchAPI(`/appointment/provider/cancel/${appointmentId}`, 'PATCH'),
+
+ getProviderById: (providerId) => fetchAPI(`/profile/providers/${providerId}`),
+
+ getProviderTimeSlots: (providerId) => fetchAPI(`/search/providers/${providerId}/available-slots`)
 
 };

@@ -86,7 +86,7 @@ const router = express.Router()
  */
 
 
-router.get('/providers/:id/available-slots', authMiddleware, getAvailableSlots)
+router.get('/providers/:providerId/available-slots', authMiddleware, getAvailableSlots)
 
 /**
  * @swagger
