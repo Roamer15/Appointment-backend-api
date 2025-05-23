@@ -13,7 +13,7 @@
 
 /* Appointments Section */
 .appointments {
-  background-color: #fffbeb;
+  background-color: #fff;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(251, 191, 36, 0.1);
@@ -82,7 +82,7 @@
 .providerCarousel {
   margin-top: 3rem;
   position: relative;
-  background-color: #fffbeb;
+  background-color: #fff;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 4px 6px rgba(251, 191, 36, 0.1);

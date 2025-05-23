@@ -14,6 +14,7 @@ import styles from "./TopBarClient.module.css";
 import { useNotifications } from '../../../context/NotificationContext';
 import SearchResults from "../../searchResults/SearchResults";
 import NotificationItem from "../notificationItem/NotificationItem";
+import { useNavigate } from "react-router";
 
 const notificationIcons = {
   new: faCalendarPlus,
@@ -25,6 +26,7 @@ const notificationIcons = {
 export default function TopBarClient({ userData, handleChange, query, providers }) {
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
   const [showNotifications, setShowNotifications] = useState(false);
+  const navigate = useNavigate()
 
   const toggleNotifications = () => {
     setShowNotifications(prev => {
@@ -41,7 +43,7 @@ export default function TopBarClient({ userData, handleChange, query, providers 
           <button className={styles.menuButton} aria-label="Toggle menu">
             <FontAwesomeIcon icon={faHandshake} />
           </button>
-          <h1 className={styles.logo}>NexMeet</h1>
+          <h1 className={styles.logo} onClick={() => navigate('/')}>NexMeet</h1>
         </div>
 
         {/* Search Section */}

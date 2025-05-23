@@ -133,9 +133,6 @@ export default function ViewAppointments() {
                 <span className={`${styles.status} ${styles[appointment.status]}`}>
                   {appointment.status}
                 </span>
-                <span className={styles.location}>
-                  {appointment.location || "Virtual"}
-                </span>
               </div>
 
               <div className={styles.actions}>
@@ -148,13 +145,13 @@ export default function ViewAppointments() {
                     Cancel
                   </button>
                 )}
-                <button 
+                {appointment.status !== "canceled" && (<button 
                   className={styles.rescheduleButton}
                   onClick={() => handleRescheduleClick(appointment)}
                   disabled={isRescheduling || appointment.status !== "booked"}
                 >
                   {isRescheduling ? "Loading..." : "Reschedule"}
-                </button>
+                </button>)}
               </div>
             </div>
           ))}

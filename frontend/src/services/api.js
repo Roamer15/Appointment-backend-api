@@ -60,34 +60,20 @@ export default {
   completeProviderProfile: (data) => fetchAPI('/auth/register/provider', 'POST', data),
 
   //Timeslots
-  // Create slot
  createTimeSlot: (slotData) => fetchAPI('/timeslots/create', 'POST',slotData),
-
-// Get all provider time slots
  getProviderSlots: () => fetchAPI('/timeslots/view'),
-
-// Delete slot
  deleteTimeSlot: (slotId) => fetchAPI(`/timeslots/delete/${slotId}`, 'DELETE'),
-
  updateTimeSlot: (slotData, slotId) => fetchAPI(`/timeslots/update/${slotId}`, 'PATCH', slotData),
 
- // View provider appointments
+ //appointments
  getProviderAppointments: () => fetchAPI(`/appointment/provider/view`),
-
  cancelAppointmentProvider: (appointmentId) => fetchAPI(`/appointment/provider/cancel/${appointmentId}`, 'PATCH'),
-
  getProviderById: (providerId) => fetchAPI(`/profile/providers/${providerId}`),
-
  getProviderTimeSlots: (providerId) => fetchAPI(`/search/providers/${providerId}/available-slots`),
-
  bookAppointment: (idData) => fetchAPI(`/appointment/booking`, 'POST', idData),
-
  getClientAppointments: () => fetchAPI(`/appointment/view`),
-
  getProviders: () => fetchAPI(`/search/providers`),
-
  cancelAppointment: (appointmentId) => fetchAPI(`/appointment/cancel/${appointmentId}`, 'PATCH'),
-
  rescheduleAppointment: (appointmentId, data) => fetchAPI(`/appointment/reschedule/${appointmentId}`, 'PATCH', data)
 
 };
