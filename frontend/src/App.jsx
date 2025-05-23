@@ -14,6 +14,7 @@ import { NotificationProvider } from "./context/NotificationContext";
 import ClientDashboard from "./pages/ClientDashboard";
 import ProviderProfile from "./components/providerProfile/ProviderProfile";
 import ClientHome from "./components/clientHome/ClientHome";
+import ViewAppointment from "./components/viewAppointments/ViewAppointments";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
               <Route path="/client" element={<ClientDashboard />}>
               <Route index element={<ClientHome />}/>
                 <Route path="provider/:id" element={<ProviderProfile />} />
+                <Route path="appointments" element={<ViewAppointment />}/>
               </Route>
             </Routes>
           </BrowserRouter>

@@ -77,6 +77,7 @@ export default function ClientHome() {
           ) : (
             <div className={styles.empty}>No appointments for today</div>
           )}
+          <a href="/client/appointments">View all appointments</a>
         </div>
 
         {/* Providers Carousel */}

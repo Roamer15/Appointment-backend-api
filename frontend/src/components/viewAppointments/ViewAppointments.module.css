@@ -1,0 +1,324 @@
+/* ViewAppointments.module.css */
+
+.wrapper {
+  background-color: #fff7ed;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.header h1 {
+  color: #92400e;
+  font-size: 2.25rem;
+  margin: 0;
+  font-weight: 700;
+}
+
+.backButton {
+  background-color: #fef3c7;
+  color: #b45309;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px #f59e0b1a;
+}
+
+.backButton:hover {
+  background-color: #f59e0b;
+  color: white;
+  transform: translateX(-5px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.2);
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 12px #fbbf241a;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px #fbbf2426;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px dashed #fed7aa;
+}
+
+.providerImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid #fef3c7;
+  box-shadow: 0 4px 8px #f59e0b1a;
+}
+
+.providerImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.providerInfo {
+  flex: 1;
+}
+
+.providerInfo h2 {
+  color: #78350f;
+  font-size: 1rem;
+  margin: 0 0 0.25rem 0;
+  font-weight: 700;
+}
+
+.specialty {
+  background-color: #fef3c7;
+  color: #b45309;
+  padding: 0.35rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.timeline {
+  margin: 0.75rem 0;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #f59e0b, #fef3c7);
+}
+
+.timelineItem {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.timelineDot {
+  position: absolute;
+  left: -1.75rem;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #f59e0b;
+  border: 3px solid #fef3c7;
+}
+
+.timelineContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.date {
+  color: #92400e;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.timeRange {
+  color: #78350f;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.metaInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.75rem 0;
+}
+
+.status {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.status.confirmed {
+  color: #16a34a;
+  background-color: #dcfce7;
+}
+
+.status.cancelled {
+  color: #dc2626;
+  background-color: #fee2e2;
+}
+
+.status.completed {
+  color: #2563eb;
+  background-color: #dbeafe;
+}
+
+.location {
+  color: #78350f;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.location i {
+  color: #b45309;
+}
+
+.notesSection {
+  background-color: #fffbeb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.notesSection h3 {
+  color: #92400e;
+  font-size: 1.1rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.notesSection p {
+  color: #78350f;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.cancelButton {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.cancelButton:hover {
+  background-color: #fca5a5;
+}
+
+.rescheduleButton {
+  background-color: #fef3c7;
+  color: #b45309;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.rescheduleButton:hover {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.loading, .error, .notFound {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #d97706;
+  font-size: 1.5rem;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+.notFound {
+  color: #78350f;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .wrapper {
+    padding: 1.5rem;
+  }
+  
+  .cardsContainer {
+    grid-template-columns: 1fr;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .backButton {
+    align-self: flex-start;
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .providerImage {
+    margin: 0 auto;
+  }
+  
+  .actions {
+    flex-direction: column;
+  }
+  
+  .cancelButton, .rescheduleButton {
+    width: 100%;
+  }
+}
