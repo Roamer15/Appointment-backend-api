@@ -105,6 +105,7 @@ export async function providerCancelAppointment(req, res, next) {
 export async function cancelAppointment(req, res, next) {
   const clientId = req.user.id;
   const { appointmentId } = req.params;
+  console.log(clientId, appointmentId)
 
   try {
     // 1. Fetch the appointment
@@ -116,6 +117,9 @@ export async function cancelAppointment(req, res, next) {
     const appointmentResult = await query(findAppointmentQuery, [
       appointmentId,
     ]);
+
+      console.log(clientId, appointmentId)
+
 
     if (appointmentResult.rows.length === 0) {
       logger.warn(`Cancel failed: Appointment ${appointmentId} not found`);

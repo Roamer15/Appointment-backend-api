@@ -84,6 +84,8 @@ export default {
 
  getClientAppointments: () => fetchAPI(`/appointment/view`),
 
- getProviders: () => fetchAPI(`/search/providers`)
+ getProviders: () => fetchAPI(`/search/providers`),
+
+ cancelAppointment: (appointmentId) => fetchAPI(`/appointment/cancel/${appointmentId}`, 'PATCH')
 
 };
