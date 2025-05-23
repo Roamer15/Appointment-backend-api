@@ -78,6 +78,12 @@ export default {
 
  getProviderById: (providerId) => fetchAPI(`/profile/providers/${providerId}`),
 
- getProviderTimeSlots: (providerId) => fetchAPI(`/search/providers/${providerId}/available-slots`)
+ getProviderTimeSlots: (providerId) => fetchAPI(`/search/providers/${providerId}/available-slots`),
+
+ bookAppointment: (idData) => fetchAPI(`/appointment/booking`, 'POST', idData),
+
+ getClientAppointments: () => fetchAPI(`/appointment/view`),
+
+ getProviders: () => fetchAPI(`/search/providers`)
 
 };

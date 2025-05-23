@@ -13,6 +13,7 @@ import { UserData } from "./context/userContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import ClientDashboard from "./pages/ClientDashboard";
 import ProviderProfile from "./components/providerProfile/ProviderProfile";
+import ClientHome from "./components/clientHome/ClientHome";
 
 export default function App() {
   return (
@@ -32,11 +33,12 @@ export default function App() {
                 element={<EmailVerificationPage />}
               />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/dashboard/*" element={<Dashboard />}>
+              <Route path="/dashboard" element={<Dashboard />}>
                 <Route path="timeslots" element={<TimeSlot />} />
                 <Route path="appointments" element={<Appointments />} />
               </Route>
-              <Route path="/client/*" element={<ClientDashboard />}>
+              <Route path="/client" element={<ClientDashboard />}>
+              <Route index element={<ClientHome />}/>
                 <Route path="provider/:id" element={<ProviderProfile />} />
               </Route>
             </Routes>

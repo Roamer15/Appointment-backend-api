@@ -182,7 +182,7 @@ export async function getProviderPublicProfile(req, res) {
 
     const result = await query(
       `SELECT 
-          u.first_name, u.last_name, u.profile_image_url,
+          u.first_name, u.last_name, u.profile_image_url, u.email,
           p.specialty, p.bio, p.rating
          FROM providers p
          JOIN users u ON p.user_id = u.id
@@ -204,6 +204,7 @@ export async function getProviderPublicProfile(req, res) {
       specialty: provider.specialty,
       bio: provider.bio,
       rating: provider.rating,
+      email: provider.email,
     });
   } catch (error) {
     logger.error("Public provider fetch error:", error);

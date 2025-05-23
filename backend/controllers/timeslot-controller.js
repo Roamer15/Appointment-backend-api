@@ -23,7 +23,7 @@ export async function getAvailableSlots(req, res) {
     // Case 1: No date filter - return all available slots
     if (!from && !to) {
       const result = await query(
-        `SELECT day, start_time, end_time 
+        `SELECT id, day, start_time, end_time 
          FROM time_slots
          WHERE provider_id = $1 AND is_booked = FALSE
          ORDER BY day, start_time`,
@@ -61,7 +61,7 @@ export async function getAvailableSlots(req, res) {
     }
 
     const result = await query(
-      `SELECT day, start_time, end_time 
+      `SELECT id, day, start_time, end_time 
        FROM time_slots
        WHERE provider_id = $1 
          AND is_booked = FALSE

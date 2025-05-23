@@ -1,4 +1,4 @@
-import ProviderLayout from "../components/dashboard/detailLayout/ProviderLayout"
+import ClientLayout from "../components/dashboard/detailLayout/ClientLayout";
 import { useLocation } from "react-router";
 export default function ClientDashboard() {
 
@@ -8,7 +8,7 @@ export default function ClientDashboard() {
       console.log(userData);
     return (
         <>
-        <ProviderLayout userData={userData}/>
+        <ClientLayout userData={userData}/>
         </>
         
     )

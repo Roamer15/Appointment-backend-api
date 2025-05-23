@@ -264,6 +264,7 @@ export async function bookAppointment(req, res, next) {
   try {
     await client.query('BEGIN'); // Start transaction
 
+    console.log(timeslotId)
     // 1. Lock the timeslot row (now in transaction)
     const timeSlotQuery = `SELECT * FROM time_slots WHERE id = $1 FOR UPDATE`;
     const timeSlotResult = await client.query(timeSlotQuery, [timeslotId]);

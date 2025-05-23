@@ -1,7 +1,7 @@
 import styles from "./ClientUI.module.css";
 import TopBarClient from "../dashboard/topBarClient/TopBarClient";
 import { Outlet } from "react-router";
-
+import Footer from "../footer/Footer";
 export default function ClientUI({
   userData,
   handleChange,
@@ -10,6 +10,7 @@ export default function ClientUI({
   providers,
 }) {
   return (
+  <>
     <div className={styles.layoutClient}>
       <TopBarClient
         userData={userData}
@@ -20,5 +21,8 @@ export default function ClientUI({
       />
       <Outlet key="client" />
     </div>
+    <Footer></Footer>
+  </>
+  
   );
 }

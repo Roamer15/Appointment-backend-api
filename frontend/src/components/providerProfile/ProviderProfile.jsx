@@ -2,12 +2,16 @@ import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import api from "../../services/api";
 import styles from './ProviderProfile.module.css';
+import { toast } from "react-toastify";
+// import { formatTime } from "../../utils/timeFormatter";
 
 export default function ProviderProfile() {
   const { id } = useParams();
   const [provider, setProvider] = useState(null);
   const [slots, setSlots] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);  
+  const [isBooking, setIsBooking] = useState(false);
+
 
   useEffect(() => {
     const fetchProvider = async () => {
@@ -19,6 +23,7 @@ export default function ProviderProfile() {
         ]);
         setProvider(res);
         setSlots(resSlot.availableSlots || []);
+        console.log(res)
         console.log(resSlot)
       } catch (err) {
         console.error("Failed to load provider:", err);
@@ -28,6 +33,20 @@ export default function ProviderProfile() {
     };
     fetchProvider();
   }, [id]);
+
+const handleBooking = async (id) => {
+  setIsBooking(true);
+  try {
+    const res = await api.bookAppointment({ timeslotId: id });
+    console.log('Booked!', res);
+    toast.success(res.message)
+    // Update state or redirect
+  } catch (error) {
+    console.error('Error:', error);
+  } finally {
+    setIsBooking(false);
+  }
+};
 
   if (isLoading) return <p className={styles.loading}>Loading provider details...</p>;
   if (!provider) return <p className={styles.loading}>Provider not found</p>;
@@ -55,10 +74,14 @@ export default function ProviderProfile() {
       <p className={styles.noSlots}>No available time slots at the moment.</p>
     ) : (
       <ul className={styles.slotsList}>
-        {slots.map(slot => (
-          <li key={slot.id} className={styles.slotItem}>
-            <span className={styles.slotDate}>{slot.day}</span>
-            <span className={styles.slotTime}>{slot.start_time} - {slot.end_time}</span>
+        {slots.map((slot, index) => (
+          <li key={index + 1} className={styles.slotItem}>
+            <div className={styles.slotDetail}>
+              <span className={styles.slotDate}>{new Date(slot.day).toDateString()}</span>
+            <span className={styles.slotTime}> {new Date(`1970-01-01T${slot.start_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {" "}
+      {new Date(`1970-01-01T${slot.end_time}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+            </div>
+            <button className={styles.book} onClick={() => handleBooking(slot.id)}> {isBooking ? 'Booking...' : 'Book Now'}</button>
           </li>
         ))}
       </ul>
