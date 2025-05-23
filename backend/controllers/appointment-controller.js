@@ -239,7 +239,8 @@ export async function viewMyAppointments(req, res, next) {
       SELECT a.id AS appointment_id, a.status, a.created_at,
              t.day, t.start_time, t.end_time,
              u.first_name AS provider_first_name,
-             u.last_name AS provider_last_name
+             u.last_name AS provider_last_name,
+             p.id AS provider_id
       FROM appointments a
       JOIN time_slots t ON a.timeslot_id = t.id
       JOIN providers p ON a.provider_id = p.id

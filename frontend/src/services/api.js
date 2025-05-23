@@ -86,6 +86,8 @@ export default {
 
  getProviders: () => fetchAPI(`/search/providers`),
 
- cancelAppointment: (appointmentId) => fetchAPI(`/appointment/cancel/${appointmentId}`, 'PATCH')
+ cancelAppointment: (appointmentId) => fetchAPI(`/appointment/cancel/${appointmentId}`, 'PATCH'),
+
+ rescheduleAppointment: (appointmentId, data) => fetchAPI(`/appointment/reschedule/${appointmentId}`, 'PATCH', data)
 
 };

@@ -15,6 +15,7 @@ import ClientDashboard from "./pages/ClientDashboard";
 import ProviderProfile from "./components/providerProfile/ProviderProfile";
 import ClientHome from "./components/clientHome/ClientHome";
 import ViewAppointment from "./components/viewAppointments/ViewAppointments";
+import RescheduleAppointment from "./components/reschedule/RescheduleAppointment";
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
               <Route index element={<ClientHome />}/>
                 <Route path="provider/:id" element={<ProviderProfile />} />
                 <Route path="appointments" element={<ViewAppointment />}/>
+                <Route path="reschedule/:id" element={<RescheduleAppointment />}/>
               </Route>
             </Routes>
           </BrowserRouter>
