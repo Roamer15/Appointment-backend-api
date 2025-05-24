@@ -16,6 +16,7 @@ import ProviderProfile from "./components/providerProfile/ProviderProfile";
 import ClientHome from "./components/clientHome/ClientHome";
 import ViewAppointment from "./components/viewAppointments/ViewAppointments";
 import RescheduleAppointment from "./components/reschedule/RescheduleAppointment";
+import ProviderHome from "./components/providerHome/ProviderHome";
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
               />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/dashboard" element={<Dashboard />}>
+                <Route index element={<ProviderHome />}/>
                 <Route path="timeslots" element={<TimeSlot />} />
                 <Route path="appointments" element={<Appointments />} />
               </Route>
