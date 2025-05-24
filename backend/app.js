@@ -25,7 +25,7 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://nexmeet-seven.vercel.app/'
+  'https://nexmeet-seven.vercel.app'
 ];
 
 app.use(cors({
@@ -37,7 +37,7 @@ app.use(cors({
 }));
 
 
-const morganFormat = process.env.NODE_ENV === "production" ? "dev" : 'combined'
+const morganFormat = process.env.NODE_ENV === "production" ? "combined" : "dev"
 app.use(morgan(morganFormat, { stream: winstonLogger.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
