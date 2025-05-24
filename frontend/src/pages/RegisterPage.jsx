@@ -47,7 +47,6 @@ export default function RegisterPage() {
         if (res.error) throw new Error(res.error);
         toast.success("Account created succcesfully");
         console.log(values.role);
-        console.log(res);
         if (values.role === "provider") {
           navigate("/register-provider", {
             state: {

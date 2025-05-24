@@ -14,7 +14,6 @@ export default function TimeSlot() {
       const response = await api.getProviderSlots(); // adjust to your actual API method
       console.log(response)
       setTimeSlots(response.slots || []);
-      console.log(timeSlots)
     } catch (error) {
       console.error('Failed to fetch time slots:', error);
     }

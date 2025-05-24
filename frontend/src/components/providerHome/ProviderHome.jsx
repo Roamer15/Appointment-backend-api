@@ -33,7 +33,6 @@ export default function ProviderHome() {
         }
         setStats(statsRes.stats);
 
-        console.log(statsRes);
       } catch (error) {
         console.error("Failed to fetch data:", error.message);
       } finally {

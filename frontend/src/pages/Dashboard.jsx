@@ -5,8 +5,6 @@ export default function Dashboard() {
   const location = useLocation();
   const userData =
     location.state?.user || JSON.parse(sessionStorage.getItem("user"));
-  console.log(userData);
-
   return (
     <>
       <ProviderLayout userData={userData}/>

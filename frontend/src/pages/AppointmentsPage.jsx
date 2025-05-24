@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
 import styles from "../components/timeslots/TimeSlotPage.module.css";
 import AppointmentCard from "../components/appointments/AppointmentCard";
-import api from "../services/api"; // your service layer
+import api from "../services/api";
 
 export default function Appointments() {
   const [appointments, setAppointments] = useState([]);
 
-  // Fetch time slots from the backend
   const fetchAppointments = async () => {
     try {
-      const response = await api.getProviderAppointments(); // adjust to your actual API method
-      console.log(response);
+      const response = await api.getProviderAppointments();
       setAppointments(response.appointments || []);
-      console.log(appointments);
     } catch (error) {
       console.error("Failed to fetch appointments:", error);
     }
