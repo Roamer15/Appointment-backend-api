@@ -2,40 +2,51 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 async function fetchAPI(endpoint, method = 'GET', body = null) {
-    const url = `${API_BASE_URL}${endpoint}`;
-    const token = localStorage.getItem('token');
-  
-    const headers = {};
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
-  
-    const config = {
-      method,
-      headers,
-    };
-  
-    if (body && !(body instanceof FormData)) {
-      headers['Content-Type'] = 'application/json';
-      config.body = JSON.stringify(body);
-    } else if (body instanceof FormData) {
-      config.body = body;
-    }
-  
-    try {
-      const response = await fetch(url, config);
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.message || 'Request failed');
-      }
-  
-      return data;
-    } catch (error) {
-      console.error('API Error:', error);
-      throw error;
-    }
+  const url = `${API_BASE_URL}${endpoint}`;
+  const token = localStorage.getItem('token');
+
+  const headers = {};
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
   }
+
+  const config = {
+    method,
+    headers,
+    credentials: 'include', // for cookie auth if used
+  };
+
+  if (body && !(body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+    config.body = JSON.stringify(body);
+  } else if (body instanceof FormData) {
+    config.body = body;
+  }
+
+  try {
+    const response = await fetch(url, config);
+
+    // Check for token expiration
+    if (response.status === 401 || response.status === 403) {
+      localStorage.removeItem('token');
+      // Optional: use toast
+      // import { toast } from 'react-toastify'; toast.error("Session expired. Please log in again.");
+      window.location.href = '/login'; // Redirect to login
+      return;
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Request failed');
+    }
+
+    return data;
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
+}
 
   // services/api.js
 export async function searchProviders(params) {

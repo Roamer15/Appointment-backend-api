@@ -178,14 +178,14 @@ async function sendVerificationEmail(toEmail, firstName, verificationUrl) {
   });
 
   const mailOptions = {
-    from: `"BookNest" <${process.env.EMAIL_USER}>`,
+    from: `"NexMeet" <${process.env.EMAIL_USER}>`,
     to: toEmail,
     subject: "Verify Your Email Address",
     html: `
      <div style="font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif; max-width: 640px; margin: auto; padding: 0; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); border: 1px solid #e8e8e8;">
   <!-- Header with gradient -->
-  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px 20px; text-align: center;">
-    <h1 style="margin: 0; color: white; font-size: 28px; font-weight: 600;">Welcome to BookNest!</h1>
+  <div style="background: linear-gradient(135deg, #f39a48 0%, #b9872a 100%); padding: 30px 20px; text-align: center;">
+    <h1 style="margin: 0; color: white; font-size: 28px; font-weight: 600;">Welcome to NexMeet!</h1>
     <div style="color: rgba(255,255,255,0.8); font-size: 16px; margin-top: 8px;">Your premium content hub awaits</div>
   </div>
   
@@ -193,13 +193,13 @@ async function sendVerificationEmail(toEmail, firstName, verificationUrl) {
   <div style="padding: 32px 40px;">
     <h2 style="color: #2d3748; margin-top: 0; font-size: 22px; font-weight: 600;">Hi ${firstName},</h2>
     
-    <p style="font-size: 16px; line-height: 1.6; color: #4a5568; margin-bottom: 24px;">
-      Thank you for joining <span style="font-weight: 600; color: #5a67d8;">BookNest</span>! We're thrilled to have you on board. To complete your registration and unlock all features, please verify your email address:
+    <p style="font-size: 16px; line-height: 1.6; color:rgb(248, 154, 46); margin-bottom: 24px;">
+      Thank you for joining <span style="font-weight: 600; color:rgb(216, 157, 90);">NexMeet</span>! We're thrilled to have you on board. To complete your registration and unlock all features, please verify your email address:
     </p>
     
     <!-- CTA Button with hover effect -->
     <div style="text-align: center; margin: 32px 0 40px;">
-      <a href="${verificationUrl}" style="background-color: #5a67d8; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; display: inline-block; font-size: 16px; font-weight: 600; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(90, 103, 216, 0.3); transition: all 0.3s ease;">
+      <a href="${verificationUrl}" style="background-color: #d89d5a; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; display: inline-block; font-size: 16px; font-weight: 600; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(90, 103, 216, 0.3); transition: all 0.3s ease;">
         Verify My Email Address
       </a>
     </div>
@@ -212,7 +212,7 @@ async function sendVerificationEmail(toEmail, firstName, verificationUrl) {
     </div>
     
     <p style="font-size: 14px; line-height: 1.5; color: #718096; margin-bottom: 0;">
-      If you didn't request this account, no further action is required. For any questions, contact our <a href="mailto:support@booknest.com" style="color: #5a67d8; text-decoration: underline;">support team</a>.
+      If you didn't request this account, no further action is required. For any questions, contact our <a href="mailto:support@nexmeet.com" style="color: #5a67d8; text-decoration: underline;">support team</a>.
     </p>
   </div>
   

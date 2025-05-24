@@ -30,7 +30,7 @@ export default function ClientHome() {
         setAppointments(todaysAppointments);
         setProviders(providersRes.providers);
       } catch (error) {
-        console.error("Failed to fetch data:", error);
+        console.error("Failed to fetch data:", error.message);
       } finally {
         setIsLoading(false);
       }

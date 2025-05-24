@@ -15,9 +15,8 @@ export default function ClientLayout({userData}) {
           const response = await searchProviders({ q: searchTerm });
           const data = await response.json();
           setProviders(data.providers || []);
-          console.log(providers)
         } catch (error) {
-          console.error("Search failed:", error);
+          console.error("Search failed:", error.message);
         }
       } else {
         setProviders([]);

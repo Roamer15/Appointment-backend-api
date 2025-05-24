@@ -77,14 +77,13 @@ export default function UpdateSlotModal({onClose, onSlotUpdated, slotId}) {
       payload.endTime = `${formData.endTime}:00`;
     }
 
-    const res = await api.updateTimeSlot(payload, slotId);
-    console.log(res)
+    await api.updateTimeSlot(payload, slotId);
     toast.success('Time slot updated successfully!');
     onSlotUpdated();
     onClose();
   } catch (err) {
     toast.error(err.response?.data?.message || 'Failed to update time slot');
-    console.error('Update error:', err);
+    console.error('Update error:', err.message);
   } finally {
     setIsSubmitting(false);
   }

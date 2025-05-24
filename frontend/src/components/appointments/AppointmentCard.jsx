@@ -37,7 +37,7 @@ export default function AppointmentCard({ appointment, onRefresh }) {
         toast.success('Appointment Canceled');
         onRefresh();
       } catch (err) {
-        console.log(err)
+        console.log(err.message)
         toast.error(err.message || 'Failed to cancel appointment');
       }
     }

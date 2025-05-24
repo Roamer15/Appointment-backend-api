@@ -79,8 +79,7 @@ export default function CreateSlotModal({ onClose, onSlotCreated }) {
         endTime: `${formData.endTime}:00`
       };
 
-      const res = await api.createTimeSlot(slotData);
-      console.log(res)
+      await api.createTimeSlot(slotData);
       toast.success('Time slot created successfully!');
       onSlotCreated();
       onClose();
