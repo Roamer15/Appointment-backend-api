@@ -1,5 +1,3 @@
-// cloudinary.js (you can create a utils/config file)
-
 import { v2 as cloudinary } from 'cloudinary';
 
 cloudinary.config({

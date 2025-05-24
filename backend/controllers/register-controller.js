@@ -12,7 +12,7 @@ const HASH_SALT = 10;
 export async function registrationHandler(req, res, next) {
   const { firstName, lastName, email, password, role } = req.body;
   let profileImageUrl =
-    "https://png.pngtree.com/thumb_back/fh260/background/20211107/pngtree-abstract-crystal-background-low-poly-textured-triangle-shapes-in-random-pattern-image_915268.png";
+    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
   try {
     const userCheckQuery = "SELECT email FROM users WHERE email = $1";
@@ -108,6 +108,7 @@ export async function registrationHandler(req, res, next) {
         name: `${newUser.first_name} ${newUser.last_name}`,
         email: newUser.email,
         role: newUser.role,
+        profilePic: newUser.profile_image_url || 'none'
       },
     });
   } catch (error) {
