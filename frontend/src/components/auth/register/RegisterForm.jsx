@@ -79,7 +79,7 @@ export default function RegisterForm({ formik, preview, handleImageChange, error
             checked={formik.values.terms}
             onChange={formik.handleChange}
           />
-          I agree to the <a href="https://www.termsfeed.com/live/29dd7331-4335-4ffa-9960-64cf50d9b5d9">Terms</a> and <a href="https://www.termsfeed.com/live/64b689f4-8f12-4322-804a-57badf31caf2">Privacy Policy</a>
+          I agree to the <a href="#">Terms</a> and <a href="https://www.termsfeed.com/live/64b689f4-8f12-4322-804a-57badf31caf2">Privacy Policy</a>
         </label>
         {formik.touched.terms && formik.errors.terms && <div className={styles.error}>{formik.errors.terms}</div>}
 
