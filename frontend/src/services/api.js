@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
@@ -29,8 +30,7 @@ async function fetchAPI(endpoint, method = 'GET', body = null) {
     // Check for token expiration
     if (response.status === 401 || response.status === 403) {
       localStorage.removeItem('token');
-      // Optional: use toast
-      // import { toast } from 'react-toastify'; toast.error("Session expired. Please log in again.");
+      toast.error("Session expired. Please log in again.");
       window.location.href = '/login'; // Redirect to login
       return;
     }

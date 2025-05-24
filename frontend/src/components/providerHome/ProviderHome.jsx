@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faCalendarAlt, 
-  faUserClock, 
-  faChartPie, 
-  faMoneyBillWave,
+import { useState, useEffect } from "react";
+import PieChart from "../PieChart";
+import { useNavigate } from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendarAlt,
+  faUserClock,
+  faChartPie,
   faComments,
-  faCalendarPlus
-} from '@fortawesome/free-solid-svg-icons';
-import styles from './ProviderHome.module.css';
-import api from '../../services/api';
-import { formatTime } from '../../utils/timeFormatter';
+  faCalendarPlus,
+} from "@fortawesome/free-solid-svg-icons";
+import styles from "./ProviderHome.module.css";
+import api from "../../services/api";
+import { formatTime } from "../../utils/timeFormatter";
 
 export default function ProviderHome() {
   const navigate = useNavigate();
@@ -22,16 +22,18 @@ export default function ProviderHome() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        //const today = new Date().toISOString().split('T')[0];
+        const today = new Date().toISOString().split("T")[0];
         const [apptsRes, statsRes] = await Promise.all([
           api.getProviderAppointments(),
-          api.getProviderStats()
+          api.getProviderStats(),
         ]);
-        
-        setAppointments(apptsRes.appointments);
+
+        if (apptsRes.appointments.day === today) {
+          setAppointments(apptsRes.appointments);
+        }
         setStats(statsRes.stats);
 
-        console.log(statsRes)
+        console.log(statsRes);
       } catch (error) {
         console.error("Failed to fetch data:", error.message);
       } finally {
@@ -42,16 +44,17 @@ export default function ProviderHome() {
     fetchData();
   }, []);
 
-  if (isLoading) return <div className={styles.loading}>Loading dashboard...</div>;
+  if (isLoading)
+    return <div className={styles.loading}>Loading dashboard...</div>;
 
   return (
     <div className={styles.dashboard}>
       {/* Header */}
       <div className={styles.header}>
         <h1>Provider Dashboard</h1>
-        <button 
+        <button
           className={styles.primaryButton}
-          onClick={() => navigate('/schedule/new')}
+          onClick={() => navigate("/dashboard/timeslots")}
         >
           <FontAwesomeIcon icon={faCalendarPlus} /> Create Availability
         </button>
@@ -59,33 +62,26 @@ export default function ProviderHome() {
 
       {/* Stats Cards */}
       <div className={styles.statsGrid}>
-        <StatCard 
+        <StatCard
           icon={faCalendarAlt}
           title="Today's Appointments"
           value={stats?.todayCount || 0}
           change={stats?.todayChange || 0}
           color="amber"
         />
-        <StatCard 
+        <StatCard
           icon={faUserClock}
           title="Average Duration"
           value={`${stats?.avgDuration || 0} mins`}
           change={stats?.durationChange || 0}
           color="blue"
         />
-        <StatCard 
+        <StatCard
           icon={faChartPie}
-          title="Completion Rate"
+          title="Succesful Booking Rate"
           value={`${stats?.completionRate || 0}%`}
           change={stats?.completionChange || 0}
           color="green"
-        />
-        <StatCard 
-          icon={faMoneyBillWave}
-          title="Today's Earnings"
-          value={`$${stats?.todayEarnings || 0}`}
-          change={stats?.earningsChange || 0}
-          color="purple"
         />
       </div>
 
@@ -99,25 +95,27 @@ export default function ProviderHome() {
             </h2>
             <span className={styles.badge}>{appointments.length}</span>
           </div>
-          
+
           <div className={styles.appointmentsList}>
             {appointments.length > 0 ? (
-              appointments.map(appt => (
-                <AppointmentCard 
+              appointments.map((appt) => (
+                <AppointmentCard
                   key={appt.id}
-                  time={`${formatTime(appt.start_time)} - ${formatTime(appt.end_time)}`}
+                  time={`${formatTime(appt.start_time)} - ${formatTime(
+                    appt.end_time
+                  )}`}
                   patient={`${appt.patient_first_name} ${appt.patient_last_name}`}
                   service={appt.service_type}
                   status={appt.status}
-                  onClick={() => navigate(`/appointments/${appt.id}`)}
+                  onClick={() => navigate(`dashboard/appointments`)}
                 />
               ))
             ) : (
               <div className={styles.emptyState}>
                 <p>No appointments scheduled for today</p>
-                <button 
+                <button
                   className={styles.secondaryButton}
-                  onClick={() => navigate('/schedule')}
+                  onClick={() => navigate("/dashboard/timeslots")}
                 >
                   Set Availability
                 </button>
@@ -129,31 +127,51 @@ export default function ProviderHome() {
         {/* Analytics */}
         <div className={`${styles.card} ${styles.analyticsCard}`}>
           <div className={styles.cardHeader}>
-            <h2><FontAwesomeIcon icon={faChartPie} /> Weekly Summary</h2>
+            <h2>
+              <FontAwesomeIcon icon={faChartPie} /> Weekly Summary
+            </h2>
           </div>
           <div className={styles.chartContainer}>
             {/* Placeholder for chart - implement with your preferred library */}
             <div className={styles.pieChart}>
-              <PieChart 
+              <PieChart
                 data={[
-                  { name: 'Completed', value: stats?.completedThisWeek || 0, color: '#10B981' },
-                  { name: 'Cancelled', value: stats?.cancelledThisWeek || 0, color: '#EF4444' },
-                  { name: 'Rescheduled', value: stats?.rescheduledThisWeek || 0, color: '#F59E0B' }
+                  {
+                    name: "Completed",
+                    value: stats?.bookedThisWeek || 0,
+                    color: "#10B981",
+                  },
+                  {
+                    name: "Cancelled",
+                    value: stats?.
+canceledThisWeek || 0,
+                    color: "#EF4444",
+                  },
+                  {
+                    name: "Rescheduled",
+                    value: stats?.rescheduledThisWeek || 0,
+                    color: "#F59E0B",
+                  },
                 ]}
               />
             </div>
             <div className={styles.chartLegend}>
-              {['Completed', 'Cancelled', 'Rescheduled'].map(item => (
+              {["Booked", "Canceled", "Rescheduled"].map((item) => (
                 <div key={item} className={styles.legendItem}>
-                  <span 
-                    className={styles.legendColor} 
-                    style={{ 
-                      backgroundColor: 
-                        item === 'Completed' ? '#10B981' :
-                        item === 'Cancelled' ? '#EF4444' : '#F59E0B'
-                    }} 
+                  <span
+                    className={styles.legendColor}
+                    style={{
+                      backgroundColor:
+                        item === "Booked"
+                          ? "#10B981"
+                          : item === "Canceled"
+                          ? "#EF4444"
+                          : "#F59E0B",
+                    }}
                   />
-                  <span>{item}: {stats?.[`${item.toLowerCase()}ThisWeek`] || 0}</span>
+                  <span>
+                    {item}: {stats?.[`${item.toLowerCase()}ThisWeek`] || 0}
+                  </span>
                 </div>
               ))}
             </div>
@@ -163,39 +181,41 @@ export default function ProviderHome() {
         {/* Quick Actions */}
         <div className={`${styles.card} ${styles.quickActionsCard}`}>
           <div className={styles.cardHeader}>
-            <h2><FontAwesomeIcon icon={faComments} /> Quick Actions</h2>
+            <h2>
+              <FontAwesomeIcon icon={faComments} /> Quick Actions
+            </h2>
           </div>
           <div className={styles.actionsGrid}>
-            <button 
+            <button
               className={styles.actionButton}
-              onClick={() => navigate('/messages')}
+              onClick={() => navigate("/messages")}
             >
               <div className={styles.actionIcon}>
                 <FontAwesomeIcon icon={faComments} />
               </div>
               Respond to Messages
             </button>
-            <button 
+            <button
               className={styles.actionButton}
-              onClick={() => navigate('/schedule')}
+              onClick={() => navigate("/schedule")}
             >
               <div className={styles.actionIcon}>
                 <FontAwesomeIcon icon={faCalendarAlt} />
               </div>
               Manage Availability
             </button>
-            <button 
+            <button
               className={styles.actionButton}
-              onClick={() => navigate('/profile')}
+              onClick={() => navigate("/profile")}
             >
               <div className={styles.actionIcon}>
                 <FontAwesomeIcon icon={faUserClock} />
               </div>
               Update Profile
             </button>
-            <button 
+            <button
               className={styles.actionButton}
-              onClick={() => navigate('/stats')}
+              onClick={() => navigate("/stats")}
             >
               <div className={styles.actionIcon}>
                 <FontAwesomeIcon icon={faChartPie} />
@@ -220,8 +240,12 @@ function StatCard({ icon, title, value, change, color }) {
         <h3>{title}</h3>
         <p className={styles.statValue}>{value}</p>
         {change !== 0 && (
-          <p className={`${styles.statChange} ${change > 0 ? styles.positive : styles.negative}`}>
-            {change > 0 ? '↑' : '↓'} {Math.abs(change)}% from yesterday
+          <p
+            className={`${styles.statChange} ${
+              change > 0 ? styles.positive : styles.negative
+            }`}
+          >
+            {change > 0 ? "↑" : "↓"} {Math.abs(change)}% from yesterday
           </p>
         )}
       </div>
@@ -231,7 +255,10 @@ function StatCard({ icon, title, value, change, color }) {
 
 function AppointmentCard({ time, patient, service, status, onClick }) {
   return (
-    <div className={`${styles.appointmentCard} ${styles[status]}`} onClick={onClick}>
+    <div
+      className={`${styles.appointmentCard} ${styles[status]}`}
+      onClick={onClick}
+    >
       <div className={styles.appointmentTime}>{time}</div>
       <div className={styles.appointmentDetails}>
         <h4>{patient}</h4>
@@ -241,28 +268,6 @@ function AppointmentCard({ time, patient, service, status, onClick }) {
         <span className={`${styles.statusBadge} ${styles[status]}`}>
           {status}
         </span>
-      </div>
-    </div>
-  );
-}
-
-// Placeholder for chart component - replace with actual implementation
-function PieChart({ data }) {
-  return (
-    <div className={styles.pieChartVisual}>
-      {/* Implement with Chart.js, D3.js, or other library */}
-      <div className={styles.chartPlaceholder}>
-        {data.map((item, index) => (
-          <div 
-            key={index}
-            className={styles.pieSegment}
-            style={{
-              backgroundColor: item.color,
-              transform: `rotate(${index * 120}deg)`,
-              clipPath: `polygon(50% 50%, 50% 0%, ${index * 33 + 100}% 0%)`
-            }}
-          />
-        ))}
       </div>
     </div>
   );
