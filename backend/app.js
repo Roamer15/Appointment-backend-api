@@ -24,7 +24,8 @@ import profileRouter from './routes/account.js'
 const app = express();
 
 const allowedOrigins = [
-  'http://localhost:5173'
+  'http://localhost:5173',
+  'https://nexmeet-seven.vercel.app/'
 ];
 
 app.use(cors({
