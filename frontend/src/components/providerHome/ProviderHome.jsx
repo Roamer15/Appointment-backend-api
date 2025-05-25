@@ -27,8 +27,9 @@ export default function ProviderHome() {
           api.getProviderAppointments(),
           api.getProviderStats(),
         ]);
-
-        if (apptsRes.appointments.day === today) {
+        console.log(today)
+        console.log(apptsRes)
+        if (new Date(apptsRes.appointments.day).toISOString().split("T")[0] === today) {
           setAppointments(apptsRes.appointments);
         }
         setStats(statsRes.stats);
@@ -96,6 +97,7 @@ export default function ProviderHome() {
           </div>
 
           <div className={styles.appointmentsList}>
+            {console.log(appointments)}
             {appointments.length > 0 ? (
               appointments.map((appt) => (
                 <AppointmentCard
@@ -103,7 +105,7 @@ export default function ProviderHome() {
                   time={`${formatTime(appt.start_time)} - ${formatTime(
                     appt.end_time
                   )}`}
-                  patient={`${appt.patient_first_name} ${appt.patient_last_name}`}
+                  patient={`${appt.client_first_name} ${appt.client_last_name}`}
                   service={appt.service_type}
                   status={appt.status}
                   onClick={() => navigate(`dashboard/appointments`)}
