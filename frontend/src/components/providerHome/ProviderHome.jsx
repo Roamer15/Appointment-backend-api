@@ -198,7 +198,7 @@ export default function ProviderHome() {
             </button>
             <button
               className={styles.actionButton}
-              onClick={() => navigate("/schedule")}
+              onClick={() => navigate("/dashboard/timeslots")}
             >
               <div className={styles.actionIcon}>
                 <FontAwesomeIcon icon={faCalendarAlt} />
@@ -207,7 +207,7 @@ export default function ProviderHome() {
             </button>
             <button
               className={styles.actionButton}
-              onClick={() => navigate("/profile")}
+              onClick={() => navigate("/dashboard/profile")}
             >
               <div className={styles.actionIcon}>
                 <FontAwesomeIcon icon={faUserClock} />
