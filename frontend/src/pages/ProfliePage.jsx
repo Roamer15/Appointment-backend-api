@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import ProfileCard from "../components/profile/ProfileCard";
 
 export default function Profile() {
-    const [profile, setProfile] = useState(null)
+    const [profile, setProfile] = useState([])
 
     async function fetchProfileData() {
         try {
@@ -15,6 +15,7 @@ export default function Profile() {
         }
         catch(error) {
             console.error(`Failed to fetch profile details`, error.message)
+            toast.error('Failed to fetch profile details')
         }   
     }
 
