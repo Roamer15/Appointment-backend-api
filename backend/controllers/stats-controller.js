@@ -1,4 +1,5 @@
 import { pool } from "../config/db.js";
+import logger from "../utils/logger.js";
 
 export async function ProviderStats(req, res, next) {
  const providerId = req.user.providerId;
@@ -7,6 +8,7 @@ export async function ProviderStats(req, res, next) {
     const client = await pool.connect();
     
     const today = new Date().toISOString().split('T')[0];
+    logger.info(today)
     const oneWeekAgo = new Date();
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     const oneWeekAgoStr = oneWeekAgo.toISOString().split('T')[0];
@@ -16,7 +18,7 @@ export async function ProviderStats(req, res, next) {
       `SELECT COUNT(*) 
        FROM appointments a
        JOIN time_slots ts ON a.timeslot_id = ts.id
-       WHERE a.provider_id = $1 AND ts.day = $2`,
+       WHERE a.provider_id = $1 AND ts.day = $2 AND status = 'booked'`,
       
       `SELECT COUNT(*) 
        FROM appointments a
@@ -62,8 +64,6 @@ export async function ProviderStats(req, res, next) {
       client.query(queries[3], [providerId, oneWeekAgoStr, today]),
       client.query(queries[4], [providerId, oneWeekAgoStr, today])
     ]);
-
-    // ... rest of your function remains the same ...
 
     // Calculate changes
     const todayCount = parseInt(todayCountRes.rows[0].count);

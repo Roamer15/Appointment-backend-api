@@ -20,22 +20,24 @@ export default function ProviderHome() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+     const fetchData = async () => {
       try {
         const today = new Date().toISOString().split("T")[0];
         const [apptsRes, statsRes] = await Promise.all([
           api.getProviderAppointments(),
           api.getProviderStats(),
         ]);
-        console.log(today)
-        console.log(apptsRes)
-        if (new Date(apptsRes.appointments.day).toISOString().split("T")[0] === today) {
-          setAppointments(apptsRes.appointments);
-        }
-        setStats(statsRes.stats);
 
+      const todaysAppointments = apptsRes.appointments.filter(appt => {
+        const apptDate = new Date(appt.day).toLocaleDateString('en-CA');
+        return apptDate === today && appt.status === 'booked';
+      });
+ 
+      // Update state once
+      setAppointments(todaysAppointments);
+      setStats(statsRes.stats);
       } catch (error) {
-        console.error("Failed to fetch data:", error.message);
+        console.error("Failed to fetch data:", error);
       } finally {
         setIsLoading(false);
       }
@@ -97,7 +99,6 @@ export default function ProviderHome() {
           </div>
 
           <div className={styles.appointmentsList}>
-            {console.log(appointments)}
             {appointments.length > 0 ? (
               appointments.map((appt) => (
                 <AppointmentCard
@@ -144,8 +145,7 @@ export default function ProviderHome() {
                   },
                   {
                     name: "Cancelled",
-                    value: stats?.
-canceledThisWeek || 0,
+                    value: stats?.canceledThisWeek || 0,
                     color: "#EF4444",
                   },
                   {

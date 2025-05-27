@@ -17,6 +17,7 @@ import ClientHome from "./components/clientHome/ClientHome";
 import ViewAppointment from "./components/viewAppointments/ViewAppointments";
 import RescheduleAppointment from "./components/reschedule/RescheduleAppointment";
 import ProviderHome from "./components/providerHome/ProviderHome";
+import Profile from "./pages/ProfliePage";
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
                 <Route index element={<ProviderHome />}/>
                 <Route path="timeslots" element={<TimeSlot />} />
                 <Route path="appointments" element={<Appointments />} />
+                <Route path="profile" element={<Profile />}/>
               </Route>
               <Route path="/client" element={<ClientDashboard />}>
               <Route index element={<ClientHome />}/>

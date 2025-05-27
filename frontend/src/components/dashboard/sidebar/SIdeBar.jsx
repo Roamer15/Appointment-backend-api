@@ -68,7 +68,7 @@ export default function SideBar({ userData, collapsed }) {
               <span className={styles.navText}>Analytics</span>
             </NavLink>
             <NavLink 
-              to="/dashboard/settings" 
+              to="/dashboard/profile" 
               end
               className={({ isActive }) => 
                 `${styles.navLink} ${isActive ? styles.activeLink : ''}`

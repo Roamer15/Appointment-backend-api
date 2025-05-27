@@ -9,7 +9,7 @@ export default function EmailVerificationNotice({ email, error, resendMessage, h
           A verification link has been sent to <strong>{email}</strong>.
         </p>
         <p className={styles.subtext}>
-          Please check your inbox and click the link to activate your account.
+          Please check your inbox as well as your spam/ junk folder and click the link to activate your account.
         </p>
         <button onClick={handleResend} disabled={loading} className={styles.resendButton}>
           {loading ? "Resending..." : "Didn’t receive it? Resend Email"}

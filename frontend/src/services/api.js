@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
@@ -28,12 +28,12 @@ async function fetchAPI(endpoint, method = 'GET', body = null) {
     const response = await fetch(url, config);
 
     // Check for token expiration
-    if (response.status === 401 || response.status === 403) {
-      localStorage.removeItem('token');
-      toast.error("Session expired. Please log in again.");
-      window.location.href = '/login'; // Redirect to login
-      return;
-    }
+    // if (response.status === 401 || response.status === 403) {
+    //   localStorage.removeItem('token');
+    //   toast.error("Session expired. Please log in again.");
+    //   window.location.href = '/login'; // Redirect to login
+    //   return;
+    // }
 
     const data = await response.json();
 
@@ -88,6 +88,9 @@ export default {
  rescheduleAppointment: (appointmentId, data) => fetchAPI(`/appointment/reschedule/${appointmentId}`, 'PATCH', data),
 
  //stats
- getProviderStats: () => fetchAPI(`/stats/`)
+ getProviderStats: () => fetchAPI(`/stats/`),
+
+ //profile-settings
+ getProfileData: () => fetchAPI(`/profile`),
 
 };

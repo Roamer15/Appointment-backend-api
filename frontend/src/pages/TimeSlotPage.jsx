@@ -11,9 +11,8 @@ export default function TimeSlot() {
   // Fetch time slots from the backend
   const fetchTimeSlots = async () => {
     try {
-      const response = await api.getProviderSlots(); // adjust to your actual API method
-      console.log(response)
-      setTimeSlots(response.slots || []);
+      const response = await api.getProviderSlots();
+      setTimeSlots(response.slots);
     } catch (error) {
       console.error('Failed to fetch time slots:', error);
     }

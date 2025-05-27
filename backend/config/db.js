@@ -26,7 +26,7 @@ const pool = new Pool({
   database: DB_NAME,
   password: DB_PASSWORD,
   port: parseInt(DB_PORT, 10),
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 5000,
 });
 
 logger.info(`Database has been configured for ${DB_NAME} database`);
