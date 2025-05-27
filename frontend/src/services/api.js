@@ -92,5 +92,6 @@ export default {
 
  //profile-settings
  getProfileData: () => fetchAPI(`/profile`),
+ updateProfile: (profileData) => fetchAPI(`/profile/update`, 'PATCH', profileData)
 
 };

@@ -1,11 +1,11 @@
 import styles from "./ProfileCard.module.css";
 
-export default function ProfileCard({ profileData }) {
+export default function ProfileCard({ profileData, onUpdateClick }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
         <h2 className={styles.title}>Profile Information</h2>
-        <button className={styles.updateButton}>
+        <button className={styles.updateButton} onClick={onUpdateClick}>
           Update Profile
         </button>
       </div>
