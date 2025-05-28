@@ -20,7 +20,7 @@ export default function ProviderHome() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-     const fetchData = async () => {
+    const fetchData = async () => {
       try {
         const today = new Date().toISOString().split("T")[0];
         const [apptsRes, statsRes] = await Promise.all([
@@ -28,14 +28,14 @@ export default function ProviderHome() {
           api.getProviderStats(),
         ]);
 
-      const todaysAppointments = apptsRes.appointments.filter(appt => {
-        const apptDate = new Date(appt.day).toLocaleDateString('en-CA');
-        return apptDate === today && appt.status === 'booked';
-      });
- 
-      // Update state once
-      setAppointments(todaysAppointments);
-      setStats(statsRes.stats);
+        const todaysAppointments = apptsRes.appointments.filter((appt) => {
+          const apptDate = new Date(appt.day).toLocaleDateString("en-CA");
+          return apptDate === today && appt.status === "booked";
+        });
+
+        // Update state once
+        setAppointments(todaysAppointments);
+        setStats(statsRes.stats);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
