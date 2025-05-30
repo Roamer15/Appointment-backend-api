@@ -69,6 +69,7 @@ export default {
   login: (data) => fetchAPI('/auth/login', 'POST', data),
   resendVerificationEmail: (data) => fetchAPI('/verify-email', 'POST', data),
   completeProviderProfile: (data) => fetchAPI('/auth/register/provider', 'POST', data),
+  logout: () => fetchAPI('/auth/logout', 'POST'),
 
   //Timeslots
  createTimeSlot: (slotData) => fetchAPI('/timeslots/create', 'POST',slotData),

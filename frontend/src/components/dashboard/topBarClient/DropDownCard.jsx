@@ -1,8 +1,8 @@
 import styles from "./TopBarClient.module.css";
 
-export default function DropDownCard(user) {
+export default function DropDownCard(user, onLogout) {
     const userData = user.user;
-    console.log(user)
+    console.log(onLogout)
   return (
     <div className={styles.card}>
       <div className={styles.cardTop}>
@@ -20,7 +20,7 @@ export default function DropDownCard(user) {
         <a href="#">Account</a>
       </div>
       <div className={styles.cardBottom}>
-        <button className={styles.logout}>
+        <button className={styles.logout} onClick={user.onLogout}>
             Logout
         </button>
       </div>

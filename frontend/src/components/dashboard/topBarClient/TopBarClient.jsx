@@ -16,6 +16,7 @@ import SearchResults from "../../searchResults/SearchResults";
 import NotificationItem from "../notificationItem/NotificationItem";
 import { useNavigate } from "react-router";
 import DropDownCard from "./DropDownCard";
+// import api from "../../../services/api";
 
 const notificationIcons = {
   new: faCalendarPlus,
@@ -36,6 +37,19 @@ export default function TopBarClient({ userData, handleChange, query, providers 
       return !prev;
     });
   };
+
+  const handleLogOut = async() => {
+    try {
+    //   console.log("button clicked")
+    //   const res = await api.logout()
+    // console.log(res)
+    setDropDown(false)
+    navigate('/')
+  } catch(error) {
+    console.error("Error: ", error.message)
+  }
+    
+  }
 
   return (
     <header className={styles.header}>
@@ -137,7 +151,7 @@ export default function TopBarClient({ userData, handleChange, query, providers 
             <FontAwesomeIcon icon={faChevronDown} className={styles.dropdownIcon} />
           </button>
           {dropDown && (
-            <DropDownCard user={userData}/>
+            <DropDownCard user={userData} onLogout={handleLogOut}/>
           )}
         </div>
       </div>

@@ -276,15 +276,15 @@
 /* Dropdown Card Container */
 .card {
   position: absolute;
-  right: 20px;
-  top: 60px;
+  right: 120px;
+  top: 65px;
   width: 280px;
-  background: white;
+  background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px #00000026;
   z-index: 100;
   overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
+  /* font-family: 'Segoe UI', sans-serif; */
 }
 
 /* Top Section - User Info */
@@ -332,7 +332,7 @@
 
 .cardMiddle a:hover {
   background: #f8f8f8;
-  color: #4a6fa5;
+  color: #fcc276;
   padding-left: 20px;
 }
 

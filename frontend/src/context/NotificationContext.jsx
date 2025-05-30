@@ -40,8 +40,8 @@ export const NotificationProvider = ({ children }) => {
     reconnectionDelay: 1000,
     auth: {
       token,
-      userId: getUserIdFromToken(token), // Add this
-      providerId: getProviderIdFromToken(token) // Add this
+      userId: getUserIdFromToken(token),
+      providerId: getProviderIdFromToken(token)
     }
   });
 
