@@ -239,7 +239,7 @@ export async function viewProviderAppointments(req, res, next) {
       JOIN time_slots t ON a.timeslot_id = t.id
       JOIN users u ON a.user_id = u.id
       WHERE a.provider_id = $1
-      ORDER BY t.day, t.start_time
+      ORDER BY t.day DESC, t.start_time DESC
     `;
 
     const appointmentsResult = await query(providerAppointmentsQuery, [
@@ -278,7 +278,7 @@ export async function viewMyAppointments(req, res, next) {
       JOIN providers p ON a.provider_id = p.id
       JOIN users u ON p.user_id = u.id
       WHERE a.user_id = $1
-      ORDER BY t.day, t.start_time
+      ORDER BY ASC
     `;
 
     const appointmentsResult = await query(myAppointmentsQuery, [clientId]);
@@ -345,6 +345,20 @@ export async function bookAppointment(req, res, next) {
       timeslotId,
     ]);
 
+    //side quest to get provider's user id
+    const providerUserIdQuery = `SELECT user_id FROM providers
+                                 WHERE id = $1`
+    const providerUserIdResult = await query(providerUserIdQuery, [slot.provider_id])
+
+    if (providerUserIdResult.rows.length === 0) {
+      await client.query("ROLLBACK");
+      const err = new Error("Provider not found");
+      err.status = 404;
+      return next(err);
+    }
+
+    const providerUserId = providerUserIdResult.rows[0].user_id
+
     await client.query("COMMIT"); // All changes succeed or none do
 
     // 4. Notify (outside transaction)
@@ -352,7 +366,7 @@ export async function bookAppointment(req, res, next) {
     await notifyUser({
       io,
       rolePrefix: "provider",
-      userId: slot.provider_id,
+      userId: providerUserId,
       type: "new_appointment",
       message: "A new appointment was booked.",
       data: { appointmentId: appointmentResult.rows[0].id, clientId: req.user.id },

@@ -17,7 +17,7 @@ export default function Navbar() {
             <a href="/">Home</a>
             <a href="#section">How It Works</a>
             <a href="#">Categories</a>
-            <a href="#">About</a>
+            <a href="/about">About</a>
             <a href="#">Contact</a>
           </div>
           <div className={styles.signUp}>

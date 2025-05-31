@@ -18,6 +18,7 @@ import ViewAppointment from "./components/viewAppointments/ViewAppointments";
 import RescheduleAppointment from "./components/reschedule/RescheduleAppointment";
 import ProviderHome from "./components/providerHome/ProviderHome";
 import Profile from "./pages/ProfliePage";
+import AboutPage from "./pages/AboutPage";
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/about" element={<AboutPage />}/>
               <Route path="/register" element={<RegisterPage />} />
               <Route
                 path="/register-provider"

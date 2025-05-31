@@ -21,6 +21,7 @@ import searchRouter from './routes/search.js'
 import appointmentRouter from './routes/appointment.js'
 import profileRouter from './routes/account.js'
 import providerStatsRouter from './routes/stats.js'
+import notificationsRouter from './routes/notifications.js'
 
 const app = express();
 
@@ -52,6 +53,7 @@ app.use('/search', searchRouter)
 app.use('/appointment', appointmentRouter)
 app.use('/profile', profileRouter)
 app.use('/stats', providerStatsRouter)
+app.use('/notifications', notificationsRouter)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
 
