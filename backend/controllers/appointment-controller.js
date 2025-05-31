@@ -1,7 +1,14 @@
 import { query, pool } from "../config/db.js";
 import logger from "../utils/logger.js";
 import { emitSocketEvent } from "../utils/socket.js";
+import notifyUser from "../utils/notifyUser.js";
 
+/**
+ * Provider cancels an appointment.
+ * - Checks appointment existence and ownership.
+ * - Updates appointment status and frees the time slot.
+ * - Notifies both provider and user via Socket.IO.
+ */
 export async function providerCancelAppointment(req, res, next) {
   const { appointmentId } = req.params;
   const providerId = req.user.providerId;
@@ -13,15 +20,13 @@ export async function providerCancelAppointment(req, res, next) {
       FROM appointments
       WHERE id = $1
     `;
-    const appointmentResult = await query(findAppointmentQuery, [
-      appointmentId,
-    ]);
+    const appointmentResult = await query(findAppointmentQuery, [appointmentId]);
 
     if (appointmentResult.rows.length === 0) {
       logger.warn(`Cancel failed: Appointment ${appointmentId} not found`);
-      const err = new Error("Appointment not found")
-      err.status = 404
-      return next(err)
+      const err = new Error("Appointment not found");
+      err.status = 404;
+      return next(err);
     }
 
     const appointment = appointmentResult.rows[0];
@@ -31,18 +36,18 @@ export async function providerCancelAppointment(req, res, next) {
       logger.warn(
         `Unauthorized cancel attempt: Provider ${providerId} tried to cancel appointment ${appointmentId}`
       );
-        const err = new Error("You are not allowed to cancel this appointment")
-        err.status = 403
-        return next(err)
+      const err = new Error("You are not allowed to cancel this appointment");
+      err.status = 403;
+      return next(err);
     }
 
     if (appointment.status === "canceled") {
       logger.warn(
         `Cancel failed: Appointment ${appointmentId} already canceled`
       );
-        const err = new Error("Appointment has already been canceled")
-        err.status = 409
-        return next(err)
+      const err = new Error("Appointment has already been canceled");
+      err.status = 409;
+      return next(err);
     }
 
     // 3. Cancel the appointment
@@ -66,27 +71,41 @@ export async function providerCancelAppointment(req, res, next) {
       `Appointment ${appointmentId} canceled successfully by provider ${providerId}`
     );
 
+    // 5. Notify both provider and user via Socket.IO
     const io = req.app.get("io");
     if (io) {
-  try {
-    await Promise.all([
-      emitSocketEvent(io, `provider_${appointment.provider_id}`, "appointment_canceled", {
-        message: "Appointment canceled",
-        appointmentId,
-        by: "provider",
-        timestamp: new Date().toISOString(),
-      }),
-      emitSocketEvent(io, `user_${appointment.user_id}`, "appointment_canceled", {
-        message: "Your appointment was canceled by provider",
-        appointmentId,
-        timestamp: new Date().toISOString(),
-      })
-    ]);
-  } catch (socketError) {
-    logger.error("Socket notification failed but cancellation succeeded:", socketError);
-    // Don't fail the request just because notifications failed
-  }
-}
+      try {
+        await Promise.all([
+          emitSocketEvent(
+            io,
+            `provider_${appointment.provider_id}`,
+            "appointment_canceled",
+            {
+              message: "Appointment canceled",
+              appointmentId,
+              by: "provider",
+              timestamp: new Date().toISOString(),
+            }
+          ),
+          emitSocketEvent(
+            io,
+            `user_${appointment.user_id}`,
+            "appointment_canceled",
+            {
+              message: "Your appointment was canceled by provider",
+              appointmentId,
+              timestamp: new Date().toISOString(),
+            }
+          ),
+        ]);
+      } catch (socketError) {
+        logger.error(
+          "Socket notification failed but cancellation succeeded:",
+          socketError
+        );
+        // Don't fail the request just because notifications failed
+      }
+    }
     res.status(200).json({
       message: "Appointment canceled successfully",
       appointment: canceledResult.rows[0],
@@ -102,10 +121,17 @@ export async function providerCancelAppointment(req, res, next) {
   }
 }
 
+/**
+ * Client cancels their own appointment.
+ * - Checks appointment existence and ownership.
+ * - Updates appointment status and frees the time slot.
+ * - Notifies both provider and user via Socket.IO.
+ */
+
 export async function cancelAppointment(req, res, next) {
   const clientId = req.user.id;
   const { appointmentId } = req.params;
-  console.log(clientId, appointmentId)
+  console.log(clientId, appointmentId);
 
   try {
     // 1. Fetch the appointment
@@ -114,18 +140,15 @@ export async function cancelAppointment(req, res, next) {
         FROM appointments
         WHERE id = $1
       `;
-    const appointmentResult = await query(findAppointmentQuery, [
-      appointmentId,
-    ]);
+    const appointmentResult = await query(findAppointmentQuery, [appointmentId]);
 
-      console.log(clientId, appointmentId)
-
+    console.log(clientId, appointmentId);
 
     if (appointmentResult.rows.length === 0) {
       logger.warn(`Cancel failed: Appointment ${appointmentId} not found`);
-      const err = new Error("Appointment not found")
-      err.status = 404
-      return next(err)
+      const err = new Error("Appointment not found");
+      err.status = 404;
+      return next(err);
     }
 
     const appointment = appointmentResult.rows[0];
@@ -133,18 +156,18 @@ export async function cancelAppointment(req, res, next) {
     // 2. Check if user is authorized
     if (appointment.user_id !== clientId) {
       logger.warn(`Cancel failed: Unauthorized user ${clientId}`);
-      const err = new Error("You are not allowed to cancel this appointment")
-      err.status = 401
-      return next(err)
+      const err = new Error("You are not allowed to cancel this appointment");
+      err.status = 401;
+      return next(err);
     }
 
     if (appointment.status === "canceled") {
       logger.warn(
         `Cancel failed: Appointment ${appointmentId} already canceled`
       );
-        const err = new Error("Appointment has already been canceled")
-      err.status = 409
-      return next(err)
+      const err = new Error("Appointment has already been canceled");
+      err.status = 409;
+      return next(err);
     }
 
     // 3. Cancel the appointment
@@ -166,7 +189,8 @@ export async function cancelAppointment(req, res, next) {
 
     logger.info(`Appointment ${appointmentId} canceled by user ${clientId}`);
 
-    const io = req.app.get('io');
+    // 5. Notify both provider and user via Socket.IO
+    const io = req.app.get("io");
     if (io) {
       await Promise.all([
         emitSocketEvent(
@@ -179,7 +203,7 @@ export async function cancelAppointment(req, res, next) {
             timestamp: new Date().toISOString(),
           }
         ),
-        emitSocketEvent(io, `user_${userId}`, "appointment_canceled", {
+        emitSocketEvent(io, `user_${clientId}`, "appointment_canceled", {
           message: "You canceled an appointment",
           appointmentId,
           timestamp: new Date().toISOString(),
@@ -198,6 +222,10 @@ export async function cancelAppointment(req, res, next) {
   }
 }
 
+/**
+ * Provider views all their appointments.
+ * Returns a list of appointments with client info and timeslot details.
+ */
 export async function viewProviderAppointments(req, res, next) {
   const providerId = req.user.providerId;
 
@@ -217,7 +245,7 @@ export async function viewProviderAppointments(req, res, next) {
     const appointmentsResult = await query(providerAppointmentsQuery, [
       providerId,
     ]);
-    logger.info("Appointments successfully fetched")
+    logger.info("Appointments successfully fetched");
     res.json({ appointments: appointmentsResult.rows });
   } catch (error) {
     logger.error(
@@ -231,6 +259,10 @@ export async function viewProviderAppointments(req, res, next) {
   }
 }
 
+/**
+ * Client views all their appointments.
+ * Returns a list of appointments with provider info and timeslot details.
+ */
 export async function viewMyAppointments(req, res, next) {
   const clientId = req.user.id;
 
@@ -261,32 +293,37 @@ export async function viewMyAppointments(req, res, next) {
   }
 }
 
+/**
+ * Client books an appointment for a specific timeslot.
+ * - Locks the timeslot row to prevent double booking.
+ * - Creates the appointment and marks the timeslot as booked.
+ * - Notifies the provider via Socket.IO.
+ */
 export async function bookAppointment(req, res, next) {
   const clientId = req.user.id;
   const { timeslotId } = req.body;
   const client = await pool.connect(); // Get a dedicated connection
 
   try {
-    await client.query('BEGIN'); // Start transaction
+    await client.query("BEGIN"); // Start transaction
 
-    console.log(timeslotId)
     // 1. Lock the timeslot row (now in transaction)
     const timeSlotQuery = `SELECT * FROM time_slots WHERE id = $1 FOR UPDATE`;
     const timeSlotResult = await client.query(timeSlotQuery, [timeslotId]);
 
     if (timeSlotResult.rows.length === 0) {
-      await client.query('ROLLBACK');
-      const err = new Error("Time slot not found")
-      err.status = 404
-      return next(err)
+      await client.query("ROLLBACK");
+      const err = new Error("Time slot not found");
+      err.status = 404;
+      return next(err);
     }
 
     const slot = timeSlotResult.rows[0];
     if (slot.is_booked === true) {
-      await client.query('ROLLBACK');
-      const err = new Error("Time slot already booked")
-      err.status = 409
-      return next(err)
+      await client.query("ROLLBACK");
+      const err = new Error("Time slot already booked");
+      err.status = 409;
+      return next(err);
     }
 
     // 2. Create appointment (in same transaction)
@@ -300,47 +337,49 @@ export async function bookAppointment(req, res, next) {
       slot.provider_id,
       timeslotId,
       slot.day,
-      "booked"
+      "booked",
     ]);
 
     // 3. Update timeslot status (in same transaction)
-    await client.query(
-      `UPDATE time_slots SET is_booked = TRUE WHERE id = $1`,
-      [timeslotId]
-    );
+    await client.query(`UPDATE time_slots SET is_booked = TRUE WHERE id = $1`, [
+      timeslotId,
+    ]);
 
-    await client.query('COMMIT'); // All changes succeed or none do
+    await client.query("COMMIT"); // All changes succeed or none do
 
     // 4. Notify (outside transaction)
-    const io = req.app.get('io');
-    if (io) {
-      try {
-        await emitSocketEvent(io, `provider_${slot.provider_id}`, "new_appointment", {
-        });
-      } catch (socketError) {
-        logger.error("Notification failed but booking succeeded:", socketError);
-      }
-    }
+    const io = req.app.get("io");
+    await notifyUser({
+      io,
+      rolePrefix: "provider",
+      userId: slot.provider_id,
+      type: "new_appointment",
+      message: "A new appointment was booked.",
+      data: { appointmentId: appointmentResult.rows[0].id, clientId: req.user.id },
+    });
 
     return res.status(201).json({
       message: "Appointment booked successfully",
       appointment: appointmentResult.rows[0],
     });
-
   } catch (error) {
-    await client.query('ROLLBACK');
+    await client.query("ROLLBACK");
     logger.error("Booking transaction failed:", error);
-    res.status(500).json({ 
+    res.status(500).json({
       message: "Booking failed",
-      error: error.message 
+      error: error.message,
     });
   } finally {
     client.release(); // Always release connection
   }
 }
 
-
-// controllers/appointment-controller.js
+/**
+ * Client reschedules an appointment to a new timeslot.
+ * - Checks appointment and timeslot validity.
+ * - Updates appointment and timeslot statuses.
+ * - Notifies both provider and user via Socket.IO.
+ */
 export async function rescheduleAppointment(req, res) {
   const { appointmentId } = req.params;
   const { newTimeslotId } = req.body;
@@ -348,7 +387,7 @@ export async function rescheduleAppointment(req, res) {
   const client = await pool.connect();
 
   try {
-    await client.query('BEGIN');
+    await client.query("BEGIN");
 
     // 1. Verify existing appointment
     const appointmentRes = await client.query(
@@ -359,29 +398,29 @@ export async function rescheduleAppointment(req, res) {
     );
 
     if (appointmentRes.rows.length === 0) {
-      await client.query('ROLLBACK');
-      const err = new Error("Appointment not found")
-      err.status = 404
-      return next(err)
+      await client.query("ROLLBACK");
+      const err = new Error("Appointment not found");
+      err.status = 404;
+      return next(err);
     }
 
     const appointment = appointmentRes.rows[0];
 
     // 2. Authorization check
     if (appointment.user_id !== userId) {
-      await client.query('ROLLBACK');
-      logger.error("Unauthorized: You can't reschedule this appointment")
-      const err = new Error("Not authorized to reschedule this appointment")
-      err.status = 403
-      return next(err)
+      await client.query("ROLLBACK");
+      logger.error("Unauthorized: You can't reschedule this appointment");
+      const err = new Error("Not authorized to reschedule this appointment");
+      err.status = 403;
+      return next(err);
     }
 
     // 3. Validate current status
-    if (appointment.status === 'canceled') {
-      await client.query('ROLLBACK');
-      const err = new Error("Cannot rescedule a canceled appointment")
-      err.status = 400
-      return next(err)
+    if (appointment.status === "canceled") {
+      await client.query("ROLLBACK");
+      const err = new Error("Cannot reschedule a canceled appointment");
+      err.status = 400;
+      return next(err);
     }
 
     // 4. Verify new timeslot
@@ -393,27 +432,27 @@ export async function rescheduleAppointment(req, res) {
     );
 
     if (newSlotRes.rows.length === 0) {
-      await client.query('ROLLBACK');
-      const err = new Error("New timeslot not found")
-      err.status = 404
-      return next(err)
+      await client.query("ROLLBACK");
+      const err = new Error("New timeslot not found");
+      err.status = 404;
+      return next(err);
     }
 
     const newSlot = newSlotRes.rows[0];
 
     // 5. Validate new timeslot
     if (newSlot.is_booked) {
-      await client.query('ROLLBACK');
-      const err = new Error("New timeslot is already booked")
-      err.status = 409
-      return next(err)
+      await client.query("ROLLBACK");
+      const err = new Error("New timeslot is already booked");
+      err.status = 409;
+      return next(err);
     }
 
     if (newSlot.provider_id !== appointment.provider_id) {
-      await client.query('ROLLBACK');
-      const err = new Error("Cannot reschedule to a different provider")
-      err.status = 400
-      return next(err)
+      await client.query("ROLLBACK");
+      const err = new Error("Cannot reschedule to a different provider");
+      err.status = 400;
+      return next(err);
     }
 
     // 6. Perform the reschedule
@@ -425,55 +464,57 @@ export async function rescheduleAppointment(req, res) {
     );
 
     // 7. Update timeslot statuses
-    await client.query(
-      `UPDATE time_slots SET is_booked = TRUE WHERE id = $1`,
-      [newTimeslotId]
-    );
-    
+    await client.query(`UPDATE time_slots SET is_booked = TRUE WHERE id = $1`, [
+      newTimeslotId,
+    ]);
+
     await client.query(
       `UPDATE time_slots SET is_booked = FALSE WHERE id = $1`,
       [appointment.timeslot_id]
     );
 
-    await client.query('COMMIT');
+    await client.query("COMMIT");
 
     // 8. Notify via Socket.IO
-    const io = req.app.get('io');
+    const io = req.app.get("io");
     if (io) {
-      io.to(`provider_${appointment.provider_id}`).emit('appointment_rescheduled', {
-        appointmentId,
-        oldTimeslotId: appointment.timeslot_id,
-        newTimeslotId,
-        updatedAt: new Date().toISOString()
-      });
-      
-      io.to(`user_${userId}`).emit('appointment_rescheduled', {
+      io.to(`provider_${appointment.provider_id}`).emit(
+        "appointment_rescheduled",
+        {
+          appointmentId,
+          oldTimeslotId: appointment.timeslot_id,
+          newTimeslotId,
+          updatedAt: new Date().toISOString(),
+        }
+      );
+
+      io.to(`user_${userId}`).emit("appointment_rescheduled", {
         appointmentId,
         newTime: newSlot.start_time,
         newDate: newSlot.day,
-        updatedAt: new Date().toISOString()
+        updatedAt: new Date().toISOString(),
       });
     }
 
-    res.status(200).json({ 
+    res.status(200).json({
       message: "Appointment rescheduled successfully",
       newTimeslot: {
         id: newTimeslotId,
         day: newSlot.day,
         startTime: newSlot.start_time,
-        endTime: newSlot.end_time
-      }
+        endTime: newSlot.end_time,
+      },
     });
   } catch (error) {
-    await client.query('ROLLBACK');
+    await client.query("ROLLBACK");
     logger.error(`Reschedule failed: ${error.message}`, {
       appointmentId,
       userId,
-      error
+      error,
     });
-    res.status(500).json({ 
+    res.status(500).json({
       message: "Failed to reschedule appointment",
-      error: error.message 
+      error: error.message,
     });
   } finally {
     client.release();
