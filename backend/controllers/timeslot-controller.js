@@ -2,6 +2,13 @@ import logger from "../utils/logger.js";
 import { query } from "../config/db.js";
 import { DateTime } from "luxon";
 
+/**
+ * Formats the created_at and updated_at timestamps of a slot to a readable string in the specified timezone.
+ * @param {Object} slot - The slot object from the database.
+ * @param {string} zone - The timezone to use for formatting.
+ * @returns {Object} The slot object with formatted timestamps.
+ */
+
 function formatTimestamps(slot, zone = "Africa/Douala") {
   return {
     ...slot,
@@ -14,9 +21,13 @@ function formatTimestamps(slot, zone = "Africa/Douala") {
   };
 }
 
+/**
+ * Get all available (not booked) time slots for a provider.
+ * Supports optional date range filtering via 'from' and 'to' query params.
+ */
 export async function getAvailableSlots(req, res) {
-  console.log(req.params)
-  const {providerId} = req.params;
+  console.log(req.params);
+  const { providerId } = req.params;
   const { from, to } = req.query;
 
   try {
@@ -29,7 +40,7 @@ export async function getAvailableSlots(req, res) {
          ORDER BY day, start_time`,
         [providerId]
       );
-      
+
       logger.info(`Fetched ALL available slots for provider ${providerId}`);
       return res.json({ availableSlots: result.rows });
     }
@@ -37,27 +48,26 @@ export async function getAvailableSlots(req, res) {
     // Case 2: Date range filter
     // Validate both dates are provided
     if (!from || !to) {
-      return res.status(400).json({ 
-        message: "Both 'from' and 'to' dates are required for filtering" 
+      return res.status(400).json({
+        message: "Both 'from' and 'to' dates are required for filtering",
       });
     }
 
     // Validate date formats
     const fromDate = new Date(from);
     const toDate = new Date(to);
-    
+
     if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
-      const err = new Error("Invalid date format")
-      err.status = 400
-      return next(err)
+      const err = new Error("Invalid date format");
+      err.status = 400;
+      return next(err);
     }
 
     // Validate logical date range
     if (fromDate > toDate) {
-     
-      const err = new Error("'from' date must be before 'to' date")
-      err.status = 400
-      return next(err)
+      const err = new Error("'from' date must be before 'to' date");
+      err.status = 400;
+      return next(err);
     }
 
     const result = await query(
@@ -70,30 +80,40 @@ export async function getAvailableSlots(req, res) {
       [providerId, from, to]
     );
 
-    logger.info(`Fetched slots for provider ${providerId} between ${from} and ${to}`);
+    logger.info(
+      `Fetched slots for provider ${providerId} between ${from} and ${to}`
+    );
     res.json({ availableSlots: result.rows });
-
   } catch (error) {
     logger.error(`Error fetching slots for provider ${providerId}:`, error);
-    res.status(500).json({ 
-      message: "Failed to retrieve available slots" 
+    res.status(500).json({
+      message: "Failed to retrieve available slots",
     });
   }
 }
+
+/**
+ * Update a time slot's day, start time, or end time.
+ * Only the provider who owns the slot can update it.
+ * If a field is not provided, the existing value is kept.
+ */
 export async function updateTimeSlot(req, res) {
   const { slotId } = req.params;
   const providerId = req.user.providerId;
-  
+
   try {
     // First get the existing slot data
 
-    const {day, startTime, endTime} = req.body
+    const { day, startTime, endTime } = req.body;
     const getExistingSlotQuery = `
       SELECT id, provider_id, day, start_time, end_time, is_booked
       FROM time_slots
       WHERE id = $1 AND provider_id = $2
     `;
-    const existingSlotResult = await query(getExistingSlotQuery, [slotId, providerId]);
+    const existingSlotResult = await query(getExistingSlotQuery, [
+      slotId,
+      providerId,
+    ]);
 
     if (existingSlotResult.rows.length === 0) {
       logger.warn(
@@ -102,19 +122,24 @@ export async function updateTimeSlot(req, res) {
       const checkSlotExistenceQuery = "SELECT id FROM time_slots WHERE id = $1";
       const checkResult = await query(checkSlotExistenceQuery, [slotId]);
       if (checkResult.rows.length === 0) {
-        const err = new Error("Time slot does not exist")
-      err.status = 404
-      return next(err)
+        const err = new Error("Time slot does not exist");
+        err.status = 404;
+        return next(err);
       } else {
-        
-          const err = new Error("You do not have permission to update this time slot")
-      err.status = 403
-      return next(err)
+        const err = new Error(
+          "You do not have permission to update this time slot"
+        );
+        err.status = 403;
+        return next(err);
       }
     }
 
     const existingSlot = existingSlotResult.rows[0];
-    const { day: existingDay, start_time: existingStartTime, end_time: existingEndTime } = existingSlot;
+    const {
+      day: existingDay,
+      start_time: existingStartTime,
+      end_time: existingEndTime,
+    } = existingSlot;
 
     // Use new values if provided, otherwise keep existing ones
     const updatedDay = day || existingDay;
@@ -136,7 +161,7 @@ export async function updateTimeSlot(req, res) {
         created_at, 
         updated_at
     `;
-    
+
     const updateSlotResult = await query(updateSlotQuery, [
       updatedDay,
       updatedStartTime,
@@ -147,7 +172,9 @@ export async function updateTimeSlot(req, res) {
 
     const updatedSlot = formatTimestamps(updateSlotResult.rows[0]);
 
-    logger.info(`Slot ${slotId} updated successfully by provider ${providerId}`);
+    logger.info(
+      `Slot ${slotId} updated successfully by provider ${providerId}`
+    );
     return res.json({
       message: "Time slot updated successfully",
       updatedSlot: updatedSlot,
@@ -162,9 +189,14 @@ export async function updateTimeSlot(req, res) {
     });
   }
 }
+
+/**
+ * Delete a time slot.
+ * Only the provider who owns the slot can delete it.
+ */
 export async function deleteTimeSlot(req, res) {
   const { slotId } = req.params;
-  const providerId = req.user.providerId
+  const providerId = req.user.providerId;
 
   try {
     const deleteSlotQuery = `DELETE
@@ -176,9 +208,9 @@ export async function deleteTimeSlot(req, res) {
 
     if (deleteSlotResult.rows.length === 0) {
       logger.warn("Slot does not exist");
-      const err = new Error("Time slot not found or not owned by provider")
-      err.status = 401
-      return next(err)
+      const err = new Error("Time slot not found or not owned by provider");
+      err.status = 401;
+      return next(err);
     }
 
     const deletedSlot = formatTimestamps(deleteSlotResult.rows[0]);
@@ -195,6 +227,11 @@ export async function deleteTimeSlot(req, res) {
       .json({ message: "Failed to fetch time slots", error: error.message });
   }
 }
+
+/**
+ * View all time slots for the logged-in provider.
+ * Returns all slots (booked and unbooked) for the provider.
+ */
 export async function viewTimeSlot(req, res) {
   const providerId = req.user.providerId;
 
@@ -208,9 +245,9 @@ export async function viewTimeSlot(req, res) {
     const getTimeSlotsResult = await query(getTimeSlotsQuery, [providerId]);
     if (getTimeSlotsResult.rows.length === 0) {
       logger.warn(`No timeslots available for ${providerId}`);
-      const err = new Error("No time slots available yet")
-      err.status = 404
-      return next(err)
+      const err = new Error("No time slots available yet");
+      err.status = 404;
+      return next(err);
     }
 
     const formattedSlots = getTimeSlotsResult.rows.map((slot) =>
@@ -230,6 +267,11 @@ export async function viewTimeSlot(req, res) {
   }
 }
 
+
+/**
+ * Create a new time slot for the logged-in provider.
+ * Prevents duplicate slots for the same day and time.
+ */
 export async function createTimeSlot(req, res) {
   const { day, startTime, endTime } = req.body;
   const providerId = req.user.providerId;
@@ -249,9 +291,9 @@ export async function createTimeSlot(req, res) {
 
     if (existing.rows.length > 0) {
       logger.warn(`Duplicate time slot attempt by provider ${providerId}`);
-      const err = new Error("Time slot already exists")
-      err.status = 409
-      return next(err)
+      const err = new Error("Time slot already exists");
+      err.status = 409;
+      return next(err);
     }
 
     const insertQuery = `

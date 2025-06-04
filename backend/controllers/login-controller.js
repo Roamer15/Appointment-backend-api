@@ -3,13 +3,27 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import logger from "../utils/logger.js";
 
+/**
+ * Handles user login.
+ * - Checks if the user exists and is verified.
+ * - Validates the password.
+ * - For providers, fetches the provider profile ID.
+ * - Generates a JWT token with user info.
+ * - Returns user details and token on success.
+ * 
+ * @param {Object} req - Express request object (expects email and password in body)
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ */
 export async function loginHandler(req, res, next) {
   const { email, password } = req.body;
   try {
+    // Find user by email
     const findUserQuery =
       "SELECT id, email, first_name, last_name, password, role, is_verified, profile_image_url FROM users WHERE email = $1";
     const userResult = await query(findUserQuery, [email]);
 
+    // If user not found, return error
     if (userResult.rows.length === 0) {
       logger.warn(
         `Login Attempt failed: Account with email ${email} doesn't exist`
@@ -21,6 +35,7 @@ export async function loginHandler(req, res, next) {
 
     const user = userResult.rows[0];
 
+    // Block login if email is not verified
     if (!user.is_verified) {
       logger.warn(`Login blocked: Unverified email - ${email}`);
       const err = new Error("Please verify your email before logging in.")
@@ -28,6 +43,7 @@ export async function loginHandler(req, res, next) {
       return next(err)
     }
 
+    // Compare password with hashed password in DB
     const is_passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!is_passwordMatch) {
@@ -37,6 +53,7 @@ export async function loginHandler(req, res, next) {
       return next(err)
     }
     
+    // Prepare JWT payload
     const payload = {
       user: {
         id: user.id,
@@ -45,6 +62,7 @@ export async function loginHandler(req, res, next) {
       },
     };
 
+    // If user is a provider, fetch provider profile ID and add to payload
     if (user.role === 'provider') {
       const providerResult = await query(
         `SELECT id FROM providers WHERE user_id = $1`,
@@ -52,14 +70,15 @@ export async function loginHandler(req, res, next) {
       );
     
       if (providerResult.rows.length === 0) {
-      const err = new Error("Provider profile not found")
-      err.status = 400
-      return next(err)
+        const err = new Error("Provider profile not found")
+        err.status = 400
+        return next(err)
       }
     
       payload.providerId = providerResult.rows[0].id;
     }
 
+    // Generate JWT token
     jwt.sign(
       payload,
       process.env.JWT_SECRET,

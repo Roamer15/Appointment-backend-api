@@ -5,12 +5,16 @@ import cloudinary from "../utils/cloudinary.js";
 import streamifier from "streamifier";
 
 const HASH_SALT = 10;
-// Get combined user profile (works for both clients and providers)
-export async function getMyProfile(req, res) {
+
+/**
+ * Get the profile of the currently logged-in user (client or provider).
+ * Returns combined user and provider details if applicable.
+ */
+export async function getMyProfile(req, res, next) {
   try {
     const userId = req.user.id;
 
-    // Single query to get all profile data
+    // Single query to get all profile data (joins provider details if user is a provider)
     const result = await query(
       `SELECT 
         u.id, u.first_name, u.last_name, u.email, u.role, 
@@ -56,7 +60,13 @@ export async function getMyProfile(req, res) {
   }
 }
 
-export async function updateMyProfile(req, res) {
+/**
+ * Update the profile of the currently logged-in user.
+ * - Handles password update (hashes new password).
+ * - Handles profile image upload (Cloudinary).
+ * - Updates user fields and, if provider, provider-specific fields.
+ */
+export async function updateMyProfile(req, res, next) {
   const userId = req.user.id;
   const updates = req.body;
   const client = await pool.connect();
@@ -69,6 +79,7 @@ export async function updateMyProfile(req, res) {
       updates.password = await bcrypt.hash(updates.password, HASH_SALT);
     }
 
+    // Handle profile image upload if file is provided
     if (req.file) {
       const streamUpload = (buffer) => {
         return new Promise((resolve, reject) => {
@@ -86,7 +97,6 @@ export async function updateMyProfile(req, res) {
       try {
         const uploadResult = await streamUpload(req.file.buffer);
         logger.info("Image has been uploaded successfully");
-
         updates.profileImageUrl = uploadResult.secure_url;
       } catch (uploadErr) {
         logger.error(
@@ -96,14 +106,14 @@ export async function updateMyProfile(req, res) {
       }
     }
 
-    // Convert field names to database format
+    // Map frontend field names to database column names
     const dbFieldMap = {
       firstName: "first_name",
       lastName: "last_name",
       profileImageUrl: "profile_image_url",
     };
 
-    // Build dynamic update query
+    // Build dynamic update query for users table
     const setClause = Object.keys(updates)
       .filter((key) => key in dbFieldMap || ["email", "password"].includes(key))
       .map((key, i) => {
@@ -118,6 +128,7 @@ export async function updateMyProfile(req, res) {
       )
       .map(([, value]) => value);
 
+    // Update users table if there are fields to update
     if (values.length > 0) {
       await client.query(
         `UPDATE users SET ${setClause}, updated_at = NOW() 
@@ -126,7 +137,7 @@ export async function updateMyProfile(req, res) {
       );
     }
 
-    // Handle provider-specific updates
+    // Handle provider-specific updates (specialty, bio)
     if (req.user.role === "provider" && (updates.specialty || updates.bio)) {
       const providerUpdates = {};
       if (updates.specialty) providerUpdates.specialty = updates.specialty;
@@ -144,12 +155,15 @@ export async function updateMyProfile(req, res) {
     }
 
     await client.query("COMMIT");
+
+    // Fetch updated user info
     const updatedUser = await client.query(
       `SELECT id, first_name, last_name, email, profile_image_url FROM users WHERE id = $1`,
       [userId]
     );
 
     let providerDetails = null;
+    // Fetch updated provider details if user is a provider
     if (req.user.role === "provider") {
       const providerResult = await client.query(
         `SELECT specialty, bio, rating 
@@ -175,8 +189,11 @@ export async function updateMyProfile(req, res) {
   }
 }
 
-// Get public provider profile
-export async function getProviderPublicProfile(req, res) {
+/**
+ * Get the public profile of a provider by provider ID.
+ * Returns basic provider info and public details.
+ */
+export async function getProviderPublicProfile(req, res, next) {
   try {
     const { providerId } = req.params;
 

@@ -1,15 +1,17 @@
 import LoginForm from "../components/auth/login/LoginForm";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useFormik } from "formik";
 import api from "../services/api";
 import { useNavigate } from "react-router";
 import { loginValidationSchema } from "../schema/validationSchema";
 import { toast } from "react-toastify";
+import { UserDataContext } from "../context/userContext";
 
 export default function LoginPage() {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const {setUser} = useContext(UserDataContext)
 
   const formik = useFormik({
     initialValues: {
@@ -37,12 +39,9 @@ export default function LoginPage() {
           })
         );
         toast.success("Login successful");
+        setUser(data.user)
         if (data.user.role === "provider") {
-          navigate("/dashboard", {
-            state: {
-              user: data.user,
-            },
-          });
+          navigate("/dashboard");
         } else {
           navigate("/client", {
             state: {

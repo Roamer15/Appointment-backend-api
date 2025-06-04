@@ -34,9 +34,9 @@ export async function ProviderStats(req, res, next) {
       
       // Fixed query - moved the division inside AVG()
       `SELECT AVG(EXTRACT(EPOCH FROM (ts.end_time - ts.start_time))/60) as avg_duration
- FROM appointments a
- JOIN time_slots ts ON a.timeslot_id = ts.id
- WHERE a.provider_id = $1 AND a.status = 'booked' AND ts.day BETWEEN $2 AND $3`,
+       FROM appointments a
+       JOIN time_slots ts ON a.timeslot_id = ts.id
+       WHERE a.provider_id = $1 AND a.status = 'booked' AND ts.day BETWEEN $2 AND $3`,
       
       `SELECT a.status, COUNT(*) as count
        FROM appointments a
@@ -78,7 +78,7 @@ export async function ProviderStats(req, res, next) {
     const totalWeekly = (weeklyStats.booked || 0) + (weeklyStats.canceled || 0);
     const completionRate =
       totalWeekly > 0
-        ? Math.round(((weeklyStats.booked || 0) / totalWeekly) * 100)
+        ? Math.round((weeklyStats.booked / totalWeekly) * 100)
         : 0;
 
     // Format response

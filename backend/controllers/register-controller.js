@@ -8,13 +8,23 @@ import logger from "../utils/logger.js";
 
 const HASH_SALT = 10;
 
-
+/**
+ * Handles user registration (client or provider).
+ * - Checks for duplicate email.
+ * - Handles optional profile image upload.
+ * - Hashes password.
+ * - Inserts user into database.
+ * - For providers: returns next step for provider details.
+ * - For clients: sends verification email.
+ */
 export async function registrationHandler(req, res, next) {
   const { firstName, lastName, email, password, role } = req.body;
   let profileImageUrl =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
   try {
+
+    // Check if email already exists
     const userCheckQuery = "SELECT email FROM users WHERE email = $1";
     const userCheckResult = await query(userCheckQuery, [email]);
 
@@ -25,6 +35,8 @@ export async function registrationHandler(req, res, next) {
       return next(err)
     }
 
+
+    // Handle profile image upload if provided
     if (req.file) {
       const streamUpload = (buffer) => {
         return new Promise((resolve, reject) => {
@@ -47,14 +59,17 @@ export async function registrationHandler(req, res, next) {
       }
     }
 
+    //Hash the password
     const passwordHash = await bcrypt.hash(password, HASH_SALT);
 
+    //validate role
     if (!["client", "provider"].includes(role)) {
       const err = new Error('Invalid role. Must be "client" or "provider".')
       err.status = 400
       return next(err)
     }
 
+    //Insert user into database
     const insertUserSql = `
       INSERT INTO users (first_name, last_name, email, password, role, profile_image_url)
       VALUES ($1, $2, $3, $4, $5, $6)
@@ -72,7 +87,7 @@ export async function registrationHandler(req, res, next) {
     const newUser = userResult.rows[0];
     logger.info(`User registered: ${newUser.id} as ${newUser.role}`);
 
-    // If provider, stop here and wait for phase 2
+    // If provider, return next step for provider details
     if (role === "provider") {
       return res.status(201).json({
         message: "Basic user profile created. Continue with provider details.",
@@ -81,7 +96,7 @@ export async function registrationHandler(req, res, next) {
       });
     }
 
-    // Client user: proceed to verification
+    // For client: generate verification token and send email
     const verificationToken = jwt.sign(
       { userId: newUser.id, email: newUser.email },
       process.env.JWT_SECRET,
@@ -116,10 +131,17 @@ export async function registrationHandler(req, res, next) {
     next(error);
   }
 }
+
+/**
+ * Handles the second step of provider registration.
+ * - Adds specialty and bio for the provider.
+ * - Sends verification email.
+ */
 export async function registerProviderDetails(req, res, next) {
   const { userId, specialty, bio } = req.body;
 
   try {
+    // Check if usere exists and is a provider
     const userResult = await query(`SELECT * FROM users WHERE id = $1`, [userId]);
     if (!userResult.rows.length) {
       const err = new Error("User not found")
@@ -135,12 +157,13 @@ export async function registerProviderDetails(req, res, next) {
       return next(err)
     }
 
+    // Insert provider details
     await query(
       `INSERT INTO providers (user_id, specialty, bio) VALUES ($1, $2, $3)`,
       [userId, specialty || null, bio || null]
     );
 
-    // Email verification now
+    // Generate and save verification token
     const verificationToken = jwt.sign(
       { userId, email: user.email },
       process.env.JWT_SECRET,
@@ -169,6 +192,13 @@ export async function registerProviderDetails(req, res, next) {
   }
 }
 
+
+/**
+ * Sends a verification email to the user.
+ * @param {string} toEmail - Recipient's email address.
+ * @param {string} firstName - Recipient's first name.
+ * @param {string} verificationUrl - Verification link.
+ */
 async function sendVerificationEmail(toEmail, firstName, verificationUrl) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -237,6 +267,12 @@ async function sendVerificationEmail(toEmail, firstName, verificationUrl) {
   await transporter.sendMail(mailOptions);
 }
 
+/**
+ * Handles email verification when user clicks the verification link.
+ * - Verifies the JWT token.
+ * - Marks user as verified in the database.
+ * - Returns a confirmation HTML page.
+ */
 export async function verifyEmailHandler(req, res, next) {
   const { token } = req.query;
 
@@ -244,6 +280,7 @@ export async function verifyEmailHandler(req, res, next) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.userId;
 
+    //Check if user exists and is not already verified
     const userResult = await query(
       `SELECT is_verified FROM users WHERE id = $1`,
       [userId]
@@ -260,6 +297,8 @@ export async function verifyEmailHandler(req, res, next) {
       return next(err)
     }
 
+
+    // Return user as verified    
     await query(
       `UPDATE users SET is_verified = true, verification_token = NULL WHERE id = $1`,
       [userId]
@@ -267,6 +306,7 @@ export async function verifyEmailHandler(req, res, next) {
 
     logger.info(`User ${userId} email verified successfully`);
 
+    // Return of a simple html confirmation page
     res.status(200).send(`
       <!DOCTYPE html>
       <html lang="en">
@@ -329,6 +369,12 @@ export async function verifyEmailHandler(req, res, next) {
   }
 }
 
+
+/**
+ * Handles resending the verification email.
+ * - Checks if user exists and is not already verified.
+ * - Generates a new verification token and sends the email.
+ */
 export async function resendVerificationEmailHandler(req, res, next) {
   const { email } = req.body;
 

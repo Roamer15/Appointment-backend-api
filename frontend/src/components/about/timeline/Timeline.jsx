@@ -6,7 +6,7 @@ export default function Timeline() {
     {
       icon: <FaSeedling className={styles.icon} />,
       title: "Company Founded",
-      date: "March 2022",
+      date: "May 2025",
       description: "NexMeet was officially incorporated with a mission to simplify appointment booking."
     },
     // Add other timeline items...
