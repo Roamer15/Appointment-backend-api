@@ -19,6 +19,7 @@ export default function ClientHome() {
         
         // Fetch appointments
         const appointmentsRes = await api.getClientAppointments();
+        console.log(appointmentsRes)
         const today = new Date().toISOString().split('T')[0];
         const todaysAppointments = appointmentsRes.appointments.filter(
           appointment => appointment.day === today

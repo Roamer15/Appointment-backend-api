@@ -1,7 +1,8 @@
 // context/NotificationContext.js
-import { createContext, useContext, useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
-import {jwtDecode} from 'jwt-decode'
+import { createContext, useContext, useState, useEffect } from "react";
+import { io } from "socket.io-client";
+import { jwtDecode } from "jwt-decode";
+import api from "../services/api";
 
 const NotificationContext = createContext();
 
@@ -29,50 +30,63 @@ export const NotificationProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-  const token = localStorage.getItem('token');
-  if (!token) return;
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    const fetchNotifications = async () => {
+      try {
+        const notificationsRes = await api.getUnreadNotifications();
+        console.log(notificationsRes.unreadNotifications);
+        setNotifications(notificationsRes.unreadNotifications || []);
+        setUnreadCount((notificationsRes.unreadNotifications || []).length);
+        console.log(unreadCount)
+      } catch (error) {
+        console.error("Failed to fetch notifications:", error);
+      }
+    };
 
-  const newSocket = io('http://localhost:5001', {
-    path: '/socket.io',
-    withCredentials: true,
-    transports: ['websocket'],
-    reconnectionAttempts: 5,
-    reconnectionDelay: 1000,
-    auth: {
-      token,
-      userId: getUserIdFromToken(token),
-      providerId: getProviderIdFromToken(token)
-    }
-  });
+    fetchNotifications();
 
-  // Debugging listeners
-  newSocket.on('connect', () => {
-    console.log('Socket connected:', newSocket.id);
-  });
+    const newSocket = io("http://localhost:5001", {
+      path: "/socket.io",
+      withCredentials: true,
+      transports: ["websocket"],
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
+      auth: {
+        token,
+        userId: getUserIdFromToken(token),
+        providerId: getProviderIdFromToken(token),
+      },
+    });
 
-  newSocket.on('connect_error', (err) => {
-    console.error('Connection error:', err.message);
-  });
+    // Debugging listeners
+    newSocket.on("connect", () => {
+      console.log("Socket connected:", newSocket.id);
+    });
 
-  setSocket(newSocket);
+    newSocket.on("connect_error", (err) => {
+      console.error("Connection error:", err.message);
+    });
 
-  return () => {
-    newSocket.off('connect');
-    newSocket.off('connect_error');
-    newSocket.disconnect();
-  };
-}, []);
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.off("connect");
+      newSocket.off("connect_error");
+      newSocket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (!socket) return;
 
     // Listen for appointment events
-    socket.on('new_appointment', (data) => {
-        console.log(data)
+    socket.on("new_appointment", (data) => {
+      console.log(data);
       const notification = {
         id: Date.now(),
-        type: 'new',
-        title: 'New Appointment',
+        type: "new",
+        title: "New Appointment",
         message: data.message,
         time: new Date().toLocaleTimeString(),
         read: false,
@@ -80,13 +94,14 @@ export const NotificationProvider = ({ children }) => {
       addNotification(notification);
     });
 
-    socket.on('appointment_canceled', (data) => {
+    socket.on("appointment_canceled", (data) => {
       const notification = {
         id: Date.now(),
-        type: 'canceled',
-        title: data.by === 'provider' 
-          ? 'Appointment Canceled' 
-          : 'Appointment Canceled by Client',
+        type: "canceled",
+        title:
+          data.by === "provider"
+            ? "Appointment Canceled"
+            : "Appointment Canceled by Client",
         message: data.message,
         time: new Date().toLocaleTimeString(),
         read: false,
@@ -94,14 +109,15 @@ export const NotificationProvider = ({ children }) => {
       addNotification(notification);
     });
 
-    socket.on('appointment_rescheduled', (data) => {
+    socket.on("appointment_rescheduled", (data) => {
       const notification = {
         id: Date.now(),
-        type: 'rescheduled',
-        title: data.by === 'provider' 
-          ? 'Appointment rescheduled' 
-          : 'Appointment rescheduled by Client',
-        message: 'An appointment has been rescheduled',
+        type: "rescheduled",
+        title:
+          data.by === "provider"
+            ? "Appointment rescheduled"
+            : "Appointment rescheduled by Client",
+        message: "An appointment has been rescheduled",
         time: new Date().toLocaleTimeString(),
         read: false,
       };
@@ -109,28 +125,39 @@ export const NotificationProvider = ({ children }) => {
     });
 
     return () => {
-      socket.off('new_appointment');
-      socket.off('appointment_canceled');
-      socket.off('appointment_rescheduled');
+      socket.off("new_appointment");
+      socket.off("appointment_canceled");
+      socket.off("appointment_rescheduled");
     };
   }, [socket]);
 
   const addNotification = (notification) => {
-    setNotifications(prev => [notification, ...prev]);
-    setUnreadCount(prev => prev + 1);
-    
+    setNotifications((prev) => [notification, ...prev]);
+    setUnreadCount((prev) => prev + 1);
   };
 
-  const markAsRead = (id) => {
-    setNotifications(prev =>
-      prev.map(n => (n.id === id ? { ...n, read: true } : n))
+  const markAsRead = async (id) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, is_read: true, read: true } : n))
     );
-    setUnreadCount(prev => Math.max(0, prev - 1));
+    setUnreadCount((prev) => Math.max(0, prev - 1));
+    try {
+      const res = await api.updateNotificationToRead(id);
+      console.log(res);
+    } catch (error) {
+      console.error("Failed to mark notification as read:", error);
+    }
   };
 
-  const markAllAsRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+  const markAllAsRead = async () => {
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     setUnreadCount(0);
+    try {
+      const res = await api.markAllAsRead();
+      console.log(res);
+    } catch (error) {
+      console.error("Failed to mark all notifications as read", error);
+    }
   };
 
   return (

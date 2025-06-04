@@ -1,11 +1,11 @@
 import { pool } from "../config/db.js"
 
-export default async function notifyUser({ io, rolePrefix, userId, type, message, data = {} }) {
+export default async function notifyUser({ io, rolePrefix, userId, title, type, message, data = {} }) {
      // Save to DB
   await pool.query(
-    `INSERT INTO notifications (user_id, type, message, data)
-     VALUES ($1, $2, $3, $4)`,
-    [userId, type, message, JSON.stringify(data)]
+    `INSERT INTO notifications (user_id, title, type, message, data)
+     VALUES ($1, $2, $3, $4, $5)`,
+    [userId, title, type, message, JSON.stringify(data)]
   );
 
   // Emit to the correct room like 'provider_123'

@@ -78,7 +78,7 @@ export async function ProviderStats(req, res, next) {
     const totalWeekly = (weeklyStats.booked || 0) + (weeklyStats.canceled || 0);
     const completionRate =
       totalWeekly > 0
-        ? Math.round((weeklyStats.booked / totalWeekly) * 100)
+        ? Math.round((weeklyStats.booked / totalWeekly) * 1000)
         : 0;
 
     // Format response

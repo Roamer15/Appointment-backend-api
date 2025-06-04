@@ -20,7 +20,9 @@ export async function providerCancelAppointment(req, res, next) {
       FROM appointments
       WHERE id = $1
     `;
-    const appointmentResult = await query(findAppointmentQuery, [appointmentId]);
+    const appointmentResult = await query(findAppointmentQuery, [
+      appointmentId,
+    ]);
 
     if (appointmentResult.rows.length === 0) {
       logger.warn(`Cancel failed: Appointment ${appointmentId} not found`);
@@ -73,39 +75,61 @@ export async function providerCancelAppointment(req, res, next) {
 
     // 5. Notify both provider and user via Socket.IO
     const io = req.app.get("io");
-    if (io) {
-      try {
-        await Promise.all([
-          emitSocketEvent(
-            io,
-            `provider_${appointment.provider_id}`,
-            "appointment_canceled",
-            {
-              message: "Appointment canceled",
-              appointmentId,
-              by: "provider",
-              timestamp: new Date().toISOString(),
-            }
-          ),
-          emitSocketEvent(
-            io,
-            `user_${appointment.user_id}`,
-            "appointment_canceled",
-            {
-              message: "Your appointment was canceled by provider",
-              appointmentId,
-              timestamp: new Date().toISOString(),
-            }
-          ),
-        ]);
-      } catch (socketError) {
-        logger.error(
-          "Socket notification failed but cancellation succeeded:",
-          socketError
-        );
-        // Don't fail the request just because notifications failed
-      }
+        // Get user_id (client) for notification
+    const getClientIdQuery = `SELECT user_id FROM appointments WHERE id = $1`;
+    const getClientIdResult = await query(getClientIdQuery, [appointmentId]);
+    const clientId =
+      getClientIdResult.rows.length > 0
+        ? getClientIdResult.rows[0].user_id
+        : null;
+
+    // Get provider name for notification
+    const providerNameQuery = `SELECT u.first_name, u.last_name FROM users u JOIN providers p ON u.id = p.user_id WHERE p.id = $1`;
+    const providerNameResult = await query(providerNameQuery, [providerId]);
+    let providerFullName = "The provider";
+    if (providerNameResult.rows.length > 0) {
+      const { first_name, last_name } = providerNameResult.rows[0];
+      providerFullName = `${first_name} ${last_name}`;
     }
+
+    // Get client name for notification (for provider notification)
+    const clientNameQuery = `SELECT first_name, last_name FROM users WHERE id = $1`;
+    const clientNameResult = await query(clientNameQuery, [clientId]);
+    let clientFullName = "A client";
+    if (clientNameResult.rows.length > 0) {
+      const { first_name, last_name } = clientNameResult.rows[0];
+      clientFullName = `${first_name} ${last_name}`;
+    }
+
+    // Notify provider (self)
+    await notifyUser({
+      io,
+      rolePrefix: "provider",
+      userId: providerId,
+      title: `You canceled an appointment`,
+      type: "appointment_canceled",
+      message: `You canceled an appointment with ${clientFullName}.`,
+      data: {
+        appointmentId,
+        canceledBy: "provider",
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+    // Notify client
+    await notifyUser({
+      io,
+      rolePrefix: "user",
+      userId: clientId,
+      title: `Your appointment has been canceled`,
+      type: "appointment_canceled",
+      message: `Your appointment was canceled by ${providerFullName}.`,
+      data: {
+        appointmentId,
+        canceledBy: "provider",
+        timestamp: new Date().toISOString(),
+      },
+    });
     res.status(200).json({
       message: "Appointment canceled successfully",
       appointment: canceledResult.rows[0],
@@ -140,7 +164,9 @@ export async function cancelAppointment(req, res, next) {
         FROM appointments
         WHERE id = $1
       `;
-    const appointmentResult = await query(findAppointmentQuery, [appointmentId]);
+    const appointmentResult = await query(findAppointmentQuery, [
+      appointmentId,
+    ]);
 
     console.log(clientId, appointmentId);
 
@@ -191,25 +217,66 @@ export async function cancelAppointment(req, res, next) {
 
     // 5. Notify both provider and user via Socket.IO
     const io = req.app.get("io");
-    if (io) {
-      await Promise.all([
-        emitSocketEvent(
-          io,
-          `provider_${appointment.provider_id}`,
-          "appointment_canceled",
-          {
-            message: "Appointment canceled by client",
-            appointmentId,
-            timestamp: new Date().toISOString(),
-          }
-        ),
-        emitSocketEvent(io, `user_${clientId}`, "appointment_canceled", {
-          message: "You canceled an appointment",
-          appointmentId,
-          timestamp: new Date().toISOString(),
-        }),
-      ]);
+    //
+    const providerUserIdQuery = `SELECT user_id FROM providers WHERE id = $1`;
+    const providerUserIdResult = await query(providerUserIdQuery, [
+      appointment.provider_id,
+    ]);
+    const providerUserId =
+      providerUserIdResult.rows.length > 0
+        ? providerUserIdResult.rows[0].user_id
+        : null;
+
+    // Get client name for notification
+    const clientNameQuery = `SELECT first_name, last_name FROM users WHERE id = $1`;
+    const clientNameResult = await query(clientNameQuery, [clientId]);
+    let clientFullName = "A client";
+    if (clientNameResult.rows.length > 0) {
+      const { first_name, last_name } = clientNameResult.rows[0];
+      clientFullName = `${first_name} ${last_name}`;
     }
+
+    // Get provider name for notification (for user notification)
+    const providerNameQuery = `SELECT u.first_name, u.last_name FROM users u JOIN providers p ON u.id = p.user_id WHERE p.id = $1`;
+    const providerNameResult = await query(providerNameQuery, [
+      appointment.provider_id,
+    ]);
+    let providerFullName = "The provider";
+    if (providerNameResult.rows.length > 0) {
+      const { first_name, last_name } = providerNameResult.rows[0];
+      providerFullName = `${first_name} ${last_name}`;
+    }
+
+    // Notify provider
+    await notifyUser({
+      io,
+      rolePrefix: "provider",
+      userId: providerUserId,
+      title: `Appointment canceled by ${clientFullName}`,
+      type: "appointment_canceled",
+      message: `The appointment was canceled by ${clientFullName}.`,
+      data: {
+        appointmentId,
+        canceledBy: "client",
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+    // Notify client
+    await notifyUser({
+      io,
+      rolePrefix: "user",
+      userId: clientId,
+      title: `You canceled your appointment with ${providerFullName}`,
+      type: "appointment_canceled",
+      message: `You canceled your appointment with ${providerFullName}.`,
+      data: {
+        appointmentId,
+        canceledBy: "client",
+        timestamp: new Date().toISOString(),
+      },
+    });
+
     res.status(200).json({
       message: "Appointment canceled successfully",
       updatedAppointment: canceledResult.rows[0],
@@ -278,7 +345,7 @@ export async function viewMyAppointments(req, res, next) {
       JOIN providers p ON a.provider_id = p.id
       JOIN users u ON p.user_id = u.id
       WHERE a.user_id = $1
-      ORDER BY ASC
+      ORDER BY t.day DESC, t.start_time DESC
     `;
 
     const appointmentsResult = await query(myAppointmentsQuery, [clientId]);
@@ -347,8 +414,10 @@ export async function bookAppointment(req, res, next) {
 
     //side quest to get provider's user id
     const providerUserIdQuery = `SELECT user_id FROM providers
-                                 WHERE id = $1`
-    const providerUserIdResult = await query(providerUserIdQuery, [slot.provider_id])
+                                 WHERE id = $1`;
+    const providerUserIdResult = await query(providerUserIdQuery, [
+      slot.provider_id,
+    ]);
 
     if (providerUserIdResult.rows.length === 0) {
       await client.query("ROLLBACK");
@@ -357,8 +426,16 @@ export async function bookAppointment(req, res, next) {
       return next(err);
     }
 
-    const providerUserId = providerUserIdResult.rows[0].user_id
+    const providerUserId = providerUserIdResult.rows[0].user_id;
 
+    // --- NEW: Get client's name for notification title ---
+    const clientNameQuery = `SELECT first_name, last_name FROM users WHERE id = $1`;
+    const clientNameResult = await query(clientNameQuery, [clientId]);
+    let clientFullName = "A client";
+    if (clientNameResult.rows.length > 0) {
+      const { first_name, last_name } = clientNameResult.rows[0];
+      clientFullName = `${first_name} ${last_name}`;
+    }
     await client.query("COMMIT"); // All changes succeed or none do
 
     // 4. Notify (outside transaction)
@@ -367,9 +444,13 @@ export async function bookAppointment(req, res, next) {
       io,
       rolePrefix: "provider",
       userId: providerUserId,
+      title: "You have a new appointment",
       type: "new_appointment",
-      message: "A new appointment was booked.",
-      data: { appointmentId: appointmentResult.rows[0].id, clientId: req.user.id },
+      message: `New appointment booked by ${clientFullName}`,
+      data: {
+        appointmentId: appointmentResult.rows[0].id,
+        clientId: req.user.id,
+      },
     });
 
     return res.status(201).json({
@@ -491,24 +572,65 @@ export async function rescheduleAppointment(req, res) {
 
     // 8. Notify via Socket.IO
     const io = req.app.get("io");
-    if (io) {
-      io.to(`provider_${appointment.provider_id}`).emit(
-        "appointment_rescheduled",
-        {
-          appointmentId,
-          oldTimeslotId: appointment.timeslot_id,
-          newTimeslotId,
-          updatedAt: new Date().toISOString(),
-        }
-      );
+    // Get provider's user_id
+    const providerUserIdQuery = `SELECT user_id FROM providers WHERE id = $1`;
+    const providerUserIdResult = await query(providerUserIdQuery, [appointment.provider_id]);
+    const providerUserId = providerUserIdResult.rows.length > 0 ? providerUserIdResult.rows[0].user_id : null;
 
-      io.to(`user_${userId}`).emit("appointment_rescheduled", {
-        appointmentId,
-        newTime: newSlot.start_time,
-        newDate: newSlot.day,
-        updatedAt: new Date().toISOString(),
-      });
+    // Get client name for notification
+    const clientNameQuery = `SELECT first_name, last_name FROM users WHERE id = $1`;
+    const clientNameResult = await query(clientNameQuery, [userId]);
+    let clientFullName = "A client";
+    if (clientNameResult.rows.length > 0) {
+      const { first_name, last_name } = clientNameResult.rows[0];
+      clientFullName = `${first_name} ${last_name}`;
     }
+
+    // Get provider name for notification (for user notification)
+    const providerNameQuery = `SELECT u.first_name, u.last_name FROM users u JOIN providers p ON u.id = p.user_id WHERE p.id = $1`;
+    const providerNameResult = await query(providerNameQuery, [appointment.provider_id]);
+    let providerFullName = "The provider";
+    if (providerNameResult.rows.length > 0) {
+      const { first_name, last_name } = providerNameResult.rows[0];
+      providerFullName = `${first_name} ${last_name}`;
+    }
+
+    // Notify provider
+    await notifyUser({
+      io,
+      rolePrefix: "provider",
+      userId: providerUserId,
+      title: `Appointment rescheduled by ${clientFullName}`,
+      type: "appointment_rescheduled",
+      message: `The appointment was rescheduled by ${clientFullName} to ${newSlot.day} at ${newSlot.start_time}.`,
+      data: {
+        appointmentId,
+        oldTimeslotId: appointment.timeslot_id,
+        newTimeslotId,
+        newDate: newSlot.day,
+        newTime: newSlot.start_time,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+
+    // Notify client
+    await notifyUser({
+      io,
+      rolePrefix: "user",
+      userId,
+      title: `You rescheduled your appointment with ${providerFullName}`,
+      type: "appointment_rescheduled",
+      message: `You rescheduled your appointment with ${providerFullName} to ${newSlot.day} at ${newSlot.start_time}.`,
+      data: {
+        appointmentId,
+        oldTimeslotId: appointment.timeslot_id,
+        newTimeslotId,
+        newDate: newSlot.day,
+        newTime: newSlot.start_time,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+
 
     res.status(200).json({
       message: "Appointment rescheduled successfully",

@@ -27,14 +27,6 @@ async function fetchAPI(endpoint, method = 'GET', body = null) {
   try {
     const response = await fetch(url, config);
 
-    // Check for token expiration
-    // if (response.status === 401 || response.status === 403) {
-    //   localStorage.removeItem('token');
-    //   toast.error("Session expired. Please log in again.");
-    //   window.location.href = '/login'; // Redirect to login
-    //   return;
-    // }
-
     const data = await response.json();
 
     if (!response.ok) {
@@ -93,6 +85,11 @@ export default {
 
  //profile-settings
  getProfileData: () => fetchAPI(`/profile`),
- updateProfile: (profileData) => fetchAPI(`/profile/update`, 'PATCH', profileData)
+ updateProfile: (profileData) => fetchAPI(`/profile/update`, 'PATCH', profileData),
+
+ //Notifications
+ getUnreadNotifications: () => fetchAPI(`/notifications/unread`),
+ updateNotificationToRead: (id) => fetchAPI(`/notifications/${id}/read`, 'PATCH'),
+ markAllAsRead: () => fetchAPI(`/notifications/mark-all-read`, 'PATCH'),
 
 };

@@ -126,6 +126,7 @@ async function initializeDbSchema() {
             CREATE TABLE IF NOT EXISTS notifications (
             id SERIAL PRIMARY KEY,
             user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            title VARCHAR(100),
             type TEXT NOT NULL,
             message TEXT,
             data JSONB,

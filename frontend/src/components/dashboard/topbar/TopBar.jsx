@@ -16,10 +16,11 @@ export default function TopBar({ userData, toggleSidebar }) {
   const { notifications, unreadCount, markAsRead, markAllAsRead } =
     useNotifications();
   const [showNotifications, setShowNotifications] = useState(false);
+  console.log(notifications);
 
   const getNotificationIcon = (type) => {
     switch (type) {
-      case "new":
+      case "new_appointment":
         return faCalendarPlus;
       case "canceled":
         return faCalendarTimes;
@@ -102,7 +103,9 @@ export default function TopBar({ userData, toggleSidebar }) {
                               {notification.message}
                             </p>
                             <p className={styles.notificationTime}>
-                              {notification.time}
+                              {new Date(
+                                notification.created_at
+                              ).toLocaleString()}
                             </p>
                           </div>
                         </div>
