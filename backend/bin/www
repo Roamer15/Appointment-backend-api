@@ -1,0 +1,249 @@
+#!/usr/bin/env node
+
+import http from 'http';
+import debugLib from 'debug';
+import app from '../app.js';
+import { Server } from 'socket.io';
+import jwt from 'jsonwebtoken'
+import logger from '../utils/logger.js';
+import { connectToDb, initializeDbSchema } from '../config/db.js';
+import { RateLimiterMemory } from 'rate-limiter-flexible';
+
+//import {seedSampleProvidersAndSlots} from '../config/sampleProviders.js'
+
+const debug = debugLib('appointment-backend-api:server');
+
+/**
+ * Get port from environment and store in Express.
+ */
+let port = normalizePort(process.env.PORT || '5001');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+const server = http.createServer(app);
+
+// /**
+//  * Listen on provided port, on all network interfaces.
+//  */
+// server.listen(port);
+// server.on('error', onError);
+// server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+
+const signals = {
+  'SIGHUP': 1,
+  'SIGINT': 2,
+  'SIGTERM': 15
+}
+
+let shuttingDown = false
+
+const shutdown = (signal, value) => {
+  if(shuttingDown) {
+    logger.info(`Already shutting down. Received ${signal} again`)
+    return
+  }
+
+  shuttingDown = true
+  logger.info(`Received ${signal}. Shutting down gracefully`)
+
+  server.close((err) => {
+    if(err) {
+      logger.error("Error closing  server", err)
+      process.exit(1)
+    }
+    else {
+      logger.info('Server closed. Exiting the process')
+      process.exit(0)
+    }
+  })
+}
+
+Object.keys(signals).forEach((signal) => {
+  process.on(signal, () => {
+    logger.info("Received", signal)
+    shutdown(signal, signals[signal])
+  })
+})
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  const bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  switch (error.code) {
+    case 'EACCES':
+      logger.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      logger.error(bind + ' is already in use');
+      logger.info("Tring the next port")
+      server.listen(port+=1, () => {
+        logger.log("Server now listening on port: ", port)
+      })
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+function onListening() {
+  const addr = server.address();
+  const bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}
+
+// Allow 10 connections per minute per IP
+const rateLimiter = new RateLimiterMemory({
+  points: 10, // Number of points
+  duration: 60, // Per 60 seconds
+});
+
+/**
+ * Socket.IO Server with enhanced configuration
+ */
+const io = new Server(server, {
+  cors: {
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
+    methods: ["GET", "POST"],
+    credentials: true
+  },
+  path: '/socket.io',
+  connectionStateRecovery: {
+    maxDisconnectionDuration: 2 * 60 * 1000, // 2 minutes
+    skipMiddlewares: true
+  },
+  allowEIO3: true, // Better compatibility
+  pingTimeout: 60000,
+  pingInterval: 25000
+});
+
+// Track active connections
+const activeConnections = new Map();
+app.set('activeConnections', activeConnections);
+
+// Socket.IO Middlewares
+io.use((socket, next) => {
+  // Rate limiting
+  rateLimiter.consume(socket.handshake.address)
+    .then(() => next())
+    .catch(() => next(new Error("Too many connection attempts")));
+});
+
+// io.use((socket, next) => {
+//   // Authentication validation
+//   const { userId, providerId } = socket.handshake.auth;
+  
+//   if (!userId && !providerId) {
+//     return next(new Error("Unauthorized: Missing credentials"));
+//   }
+  
+//   // In production, verify tokens or session here
+//   next();
+// });
+
+io.use(async (socket, next) => {
+  try {
+    const token = socket.handshake.auth.token;
+    if (!token) throw new Error('Missing token');
+    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    socket.user = decoded; // Attach full user data
+    
+    next();
+  } catch (err) {
+    logger.error('Socket auth failed:', err.message);
+    next(new Error('Authentication error'));
+  }
+});
+
+
+// Connection handling
+io.on("connection", (socket) => {
+  const { userId, providerId } = socket.handshake.auth;
+  const connectionKey = userId ? `user_${userId}` : `provider_${providerId}`;
+
+  logger.info(`New connection: ${socket.id}`, { userId, providerId });
+
+  // Store connection
+  activeConnections.set(connectionKey, socket);
+
+  // Join appropriate rooms
+  if (providerId) {
+    socket.join(`provider_${providerId}`);
+    logger.info(`Provider ${providerId} joined room`);
+  }
+  
+  if (userId) {
+    socket.join(`user_${userId}`);
+    logger.info(`User ${userId} joined room`);
+  }
+
+  socket.on("disconnect", (reason) => {
+    activeConnections.delete(connectionKey);
+    logger.info(`Disconnected: ${socket.id}`, { reason, userId, providerId });
+  });
+
+  socket.on("error", (err) => {
+    logger.error(`Socket error: ${socket.id}`, { error: err.message });
+  });
+});
+
+app.set('io', io);
+
+
+
+
+const startSever = async () => {
+  try {
+    logger.info(`Attempting to start server on port ${port}`)
+    await connectToDb()
+    await initializeDbSchema()
+    //await seedSampleProvidersAndSlots()
+    logger.info(`Starting server on port ${port}`)
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+  }
+  catch(error) {
+    logger.error('Failed during server startup process: ', error)
+    process.exit(1)
+  }
+}
+
+startSever()

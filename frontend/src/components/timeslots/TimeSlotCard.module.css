@@ -1,0 +1,71 @@
+.card {
+  border: 1px solid #fde68a;
+  background-color: #fff;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.title {
+  font-weight: 600;
+  color: #92400e;
+}
+
+.date {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.status {
+  background-color: #fef3c7;
+  color: #92400e;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.time {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #78350f;
+}
+
+.icon {
+  color: #f59e0b;
+}
+
+.actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.edit, .delete {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.edit {
+  color: #b45309;
+}
+
+.delete {
+  color: #dc2626;
+}
