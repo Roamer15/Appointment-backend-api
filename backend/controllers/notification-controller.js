@@ -50,20 +50,12 @@ export async function getUnReadNotifications(req, res, next) {
       [userId]
     );
 
-    // If no unread notifications, return 404
-    if (getunReadNotificationsQueryResult.rows.length === 0) {
-      const err = new Error("No unread notifications found.");
-      err.status = 404;
-      return next(err);
-    }
-
     // Return unread notifications as JSON
     res.json({ unreadNotifications: getunReadNotificationsQueryResult.rows });
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch unread notifications." });
   }
 }
-
 
 export async function updateReadNotifications(req, res, next) {
   const { id } = req.params;
@@ -118,7 +110,9 @@ export async function markAllNotificationsAsRead(req, res, next) {
     const result = await pool.query(updateQuery, [userId]);
 
     if (result.rowCount === 0) {
-      return res.status(200).json({ message: "No unread notifications to update." });
+      return res
+        .status(200)
+        .json({ message: "No unread notifications to update." });
     }
 
     res.status(200).json({
@@ -128,6 +122,8 @@ export async function markAllNotificationsAsRead(req, res, next) {
     });
   } catch (error) {
     console.error("Failed to mark all notifications as read:", error);
-    res.status(500).json({ message: "Failed to mark all notifications as read." });
+    res
+      .status(500)
+      .json({ message: "Failed to mark all notifications as read." });
   }
 }

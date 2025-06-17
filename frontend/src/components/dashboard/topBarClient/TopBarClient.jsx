@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBell,
@@ -16,7 +16,6 @@ import SearchResults from "../../searchResults/SearchResults";
 import NotificationItem from "../notificationItem/NotificationItem";
 import { useNavigate } from "react-router";
 import DropDownCard from "./DropDownCard";
-// import api from "../../../services/api";
 
 const notificationIcons = {
   new: faCalendarPlus,
@@ -31,18 +30,18 @@ export default function TopBarClient({ userData, handleChange, query, providers 
   const [dropDown, setDropDown] = useState(false)
   const navigate = useNavigate()
 
+   useEffect(() => {
+    if (showNotifications) {
+      markAllAsRead();
+    }
+  }, [showNotifications, markAllAsRead]);
+
   const toggleNotifications = () => {
-    setShowNotifications(prev => {
-      if (!prev) markAllAsRead();
-      return !prev;
-    });
+    setShowNotifications(prev => !prev);
   };
 
   const handleLogOut = async() => {
     try {
-    //   console.log("button clicked")
-    //   const res = await api.logout()
-    // console.log(res)
     setDropDown(false)
     navigate('/')
   } catch(error) {
@@ -131,7 +130,10 @@ export default function TopBarClient({ userData, handleChange, query, providers 
           {/* User Profile */}
           <button className={styles.profileButton} aria-label="User profile" onClick={() => {
             console.log("Button clicked")
-            setDropDown(true)}}>
+            setDropDown(() => {
+              if(dropDown) return false
+              return true
+            })}}>
             <div className={styles.avatar}>
               {userData.profileImageUrl || userData.avatar ? (
                 <img
