@@ -50,6 +50,7 @@ export default function App() {
                 <Route path="provider/:id" element={<ProviderProfile />} />
                 <Route path="appointments" element={<ViewAppointment />}/>
                 <Route path="reschedule/:id" element={<RescheduleAppointment />}/>
+                <Route path="profile" element={< Profile/>}/>
               </Route>
             </Routes>
           </BrowserRouter>

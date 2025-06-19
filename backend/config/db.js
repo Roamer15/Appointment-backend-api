@@ -72,7 +72,6 @@ async function initializeDbSchema() {
             user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             specialty VARCHAR(100),
             bio TEXT,
-            rating DECIMAL(3, 1),
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                   
@@ -134,6 +133,18 @@ async function initializeDbSchema() {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
           );
           `)
+
+    await query(`
+             CREATE TABLE IF NOT EXISTS ratings (
+             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+             appointment_id UUID NOT NULL REFERENCES appointments(id) ON DELETE CASCADE,
+             user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+             provider_id UUID NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
+             rating DECIMAL(3, 1),
+             comment TEXT,
+             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+             UNIQUE (appointment_id)
+             );`)
 
     await client.query(`
       CREATE OR REPLACE FUNCTION update_updated_at_column()

@@ -17,7 +17,7 @@ export default function DropDownCard(user, onLogout) {
       </div>
       <div className={styles.cardMiddle}>
         <a href="/client/appointments">Appointments</a>
-        <a href="#">Account</a>
+        <a href="/client/profile">Account</a>
       </div>
       <div className={styles.cardBottom}>
         <button className={styles.logout} onClick={user.onLogout}>
