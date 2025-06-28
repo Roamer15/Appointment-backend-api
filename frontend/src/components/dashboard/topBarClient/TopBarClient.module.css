@@ -284,9 +284,30 @@
   box-shadow: 0 4px 20px #00000026;
   z-index: 100;
   overflow: hidden;
-  /* font-family: 'Segoe UI', sans-serif; */
+  animation: slideDown 0.3s ease-out forwards;
 }
 
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .card {
+    right: 20px;
+    width: 90vw;
+    min-width: 220px;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    min-width: unset;
+    max-width: 98vw;
+    top: 56px;
+    border-radius: 8px;
+  }
+}
 /* Top Section - User Info */
 .cardTop {
   display: flex;
@@ -383,6 +404,10 @@
   .container {
     padding: 1rem 3rem;
   }
+
+  .cardMiddle{
+
+  } 
 }
 
 @media (max-width: 768px) {

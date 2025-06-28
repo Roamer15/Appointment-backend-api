@@ -2,15 +2,33 @@ import styles from './MissionValues.module.css';
 import { FaHeart, FaLightbulb, FaHandshake } from 'react-icons/fa';
 
 export default function MissionValues() {
-  const values = [
-    {
-      icon: <FaHeart className={styles.icon} />,
-      title: "Customer-Centric",
-      description: "We put our users first in every decision we make..."
-    },
-    // Add other values...
-  ];
-
+const values = [
+  {
+    icon: <FaHeart className={styles.icon} />,
+    title: "Customer-Centric",
+    description: "We put our users first in every decision we make, striving to exceed expectations and deliver real value."
+  },
+  {
+    icon: <FaLightbulb className={styles.icon} />,
+    title: "Innovation",
+    description: "We embrace creativity and technology to continuously improve our platform and empower our community."
+  },
+  {
+    icon: <FaHandshake className={styles.icon} />,
+    title: "Trust & Integrity",
+    description: "We build lasting relationships through honesty, transparency, and respect for all users and partners."
+  },
+  {
+    icon: <FaHeart className={styles.icon} />,
+    title: "Empathy",
+    description: "We listen, understand, and respond to the needs of our users, ensuring a supportive experience for everyone."
+  },
+  {
+    icon: <FaLightbulb className={styles.icon} />,
+    title: "Excellence",
+    description: "We are committed to delivering high-quality solutions and continuously raising our standards."
+  }
+];
   return (
     <div className={styles.container}>
       <div className={styles.header}>

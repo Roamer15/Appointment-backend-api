@@ -1,0 +1,128 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.subtitle {
+  color: #4a4e69;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.3rem;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #22223b;
+  margin-bottom: 0.5rem;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.missionCard {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0001;
+  padding: 2rem 1.5rem;
+  flex: 1 1 320px;
+  min-width: 260px;
+  max-width: 400px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.missionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #4a4e69;
+  margin-bottom: 0.5rem;
+}
+
+.missionText {
+  font-size: 1.05rem;
+  color: #6c757d;
+}
+
+.values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  flex: 2 1 500px;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.valueItem {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px #0001;
+  padding: 1.3rem 1.1rem;
+  min-width: 200px;
+  max-width: 260px;
+  flex: 1 1 200px;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  transition: transform 0.16s, box-shadow 0.16s;
+}
+
+.valueItem:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 6px 24px #0002;
+}
+
+.valueIcon {
+  font-size: 2rem;
+  color: #9a8c98;
+  margin-right: 0.7rem;
+  flex-shrink: 0;
+}
+
+.valueTitle {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #22223b;
+  margin-bottom: 0.2rem;
+}
+
+.valueText {
+  font-size: 0.98rem;
+  color: #4a4e69;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .values {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .missionCard,
+  .valueItem {
+    min-width: 90vw;
+    max-width: 98vw;
+    padding: 1.1rem 0.7rem;
+  }
+  .values {
+    flex-direction: column;
+    align-items: center;
+  }
+}
