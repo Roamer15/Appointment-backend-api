@@ -15,7 +15,7 @@ export default function Footer() {
           <div className={styles.column}>
             <h4 className={styles.heading}>Quick Links</h4>
             <ul className={styles.list}>
-              <li><a href="#">Home</a></li>
+              <li><a href="/">Home</a></li>
               <li><a href="#">About</a></li>
               <li><a href="#">Services</a></li>
               <li><a href="#">Contact</a></li>
@@ -43,7 +43,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.bottom}>
-          <p>&copy; 2025 NexMeeet. All rights reserved.</p>
+          <p>&copy; ${new Date().getFullYear()} NexMeeet. All rights reserved.</p>
         </div>
       </div>
     </footer>
