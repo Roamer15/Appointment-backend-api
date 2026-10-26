@@ -18,12 +18,10 @@ import logger from "../utils/logger.js";
 export async function loginHandler(req, res, next) {
   const { email, password } = req.body;
   try {
-    // Find user by email
     const findUserQuery =
       "SELECT id, email, first_name, last_name, password, role, is_verified, profile_image_url FROM users WHERE email = $1";
     const userResult = await query(findUserQuery, [email]);
 
-    // If user not found, return error
     if (userResult.rows.length === 0) {
       logger.warn(
         `Login Attempt failed: Account with email ${email} doesn't exist`

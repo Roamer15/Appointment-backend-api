@@ -19,6 +19,7 @@ const HASH_SALT = 10;
  */
 export async function registrationHandler(req, res, next) {
   const { firstName, lastName, email, password, role } = req.body;
+  const validRoles = ['client', 'provider']
   let profileImageUrl =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
@@ -47,7 +48,7 @@ export async function registrationHandler(req, res, next) {
               else reject(error);
             }
           );
-          streamifier.createReadStream(req.file.buffer).pipe(stream);
+          streamifier.createReadStream(buffer).pipe(stream);
         });
       };
 
@@ -63,7 +64,7 @@ export async function registrationHandler(req, res, next) {
     const passwordHash = await bcrypt.hash(password, HASH_SALT);
 
     //validate role
-    if (!["client", "provider"].includes(role)) {
+    if (!validRoles.includes(role)) {
       const err = new Error('Invalid role. Must be "client" or "provider".')
       err.status = 400
       return next(err)
@@ -251,13 +252,13 @@ async function sendVerificationEmail(toEmail, firstName, verificationUrl) {
   <div style="padding: 24px; background-color: #f8f9fa; text-align: center; border-top: 1px solid #edf2f7;">
     <p style="margin: 0 0 12px 0; font-size: 14px; color: #a0aec0;">
       Connect with us:
-      <a href="#" style="margin: 0 8px; display: inline-block;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20" alt="Instagram"></a>
-      <a href="#" style="margin: 0 8px; display: inline-block;"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" width="20" alt="Twitter"></a>
-      <a href="#" style="margin: 0 8px; display: inline-block;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="20" alt="LinkedIn"></a>
+      <a href="https://instagram.com/r.i.s.e.n_r.o.a.m.e.r" style="margin: 0 8px; display: inline-block;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" width="20" alt="Instagram"></a>
+      <a href="https://x.com/@Bel78709" style="margin: 0 8px; display: inline-block;"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" width="20" alt="Twitter"></a>
+      <a href="https://www.linkedin.com/in/belekeian" style="margin: 0 8px; display: inline-block;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" width="20" alt="LinkedIn"></a>
     </p>
     <p style="margin: 0; font-size: 12px; color: #a0aec0;">
-      &copy; ${new Date().getFullYear()} BookNest. All rights reserved.<br>
-      <span style="font-size: 11px;">123 Business Ave, Suite 500, San Francisco, CA 94107</span>
+      &copy; ${new Date().getFullYear()} NexMeet. All rights reserved.<br>
+      <span style="font-size: 11px;">Obobogo, Yaounde | Centre, Cameroon</span>
     </p>
   </div>
 </div>
