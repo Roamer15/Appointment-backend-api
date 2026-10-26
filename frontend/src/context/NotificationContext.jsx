@@ -46,7 +46,9 @@ export const NotificationProvider = ({ children }) => {
 
     fetchNotifications();
 
-    const newSocket = io("http://localhost:5001", {
+    const BACKEND_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5001"
+
+    const newSocket = io(BACKEND_URL, {
       path: "/socket.io",
       withCredentials: true,
       transports: ["websocket"],
@@ -75,7 +77,7 @@ export const NotificationProvider = ({ children }) => {
       newSocket.off("connect_error");
       newSocket.disconnect();
     };
-  }, []);
+  }, [unreadCount]);
 
   useEffect(() => {
     if (!socket) return;
