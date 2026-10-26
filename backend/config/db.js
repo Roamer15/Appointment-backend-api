@@ -42,12 +42,13 @@ pool.on("error", (err, client) => {
 
 async function initializeDbSchema() {
   const client = await pool.connect();
+  logger.info("Total number of connections", pool.totalCount)
 
   try {
     logger.info("Initializing database schema");
     await client.query("CREATE EXTENSION IF NOT EXISTS pgcrypto");
 
-    // creatioin of all the tables needed for the database
+    // creation of all the tables needed for the database
     await query(`
             CREATE TABLE IF NOT EXISTS users (
             id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
